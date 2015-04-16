@@ -6,6 +6,6 @@ if (!$conn) {
 }
 // 修改数据库名称
 mysql_select_db('mysql', $conn);
+
 mysql_query("SET devices utf8");
 
-?>
