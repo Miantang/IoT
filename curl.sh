@@ -21,7 +21,5 @@ mosquitto_pub -t mqttdevice/1 -h 192.168.1.1 -m "{\"type\":\"switch\",\"value\":
 
 curl -i --request POST  --data "{\"type\":\"switch\",\"value\":7}"  http://192.168.1.1:8080/index.php/mqttdevices/1
 
-push test
-=======
 curl -i --request POST  --data "{\"type\":\"step\",\"switch\":7,\"controller\":1}"  http://192.168.1.1:8080/index.php/devices/7
->>>>>>> c063c647689058b92e0fef726eca16de70611bec
+
