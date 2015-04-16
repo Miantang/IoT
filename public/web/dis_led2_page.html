@@ -3,7 +3,7 @@
       <div id="topLoader">      
     </div>
     <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ click: $root.led2Changed}" >
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.led2Changed}" >
         <label data-bind="attr: { 'for': 'cb-' + $root.id }"></label>
      </div>
 </div>
@@ -33,22 +33,6 @@ function centervm()
             controller = self.controller;
 
             console.log("self.led2data", data);
-           // for (var i = 0; i < data.length; i++) 
-           //  {
-           //      if("switch" == data[i].type)
-           //      {
-           //          data[i].value = ko.observable( Boolean(data[i].value) );
-           //          self.switchDevices.push(data[i]);
-           //      }else if ("step" == data[i].type) 
-           //      {
-           //         // data[i].value = ko.observable( Boolean(data[i].value) );
-           //          self.stepDevices.push(data[i]);
-           //      };
-                
-           //  };
-            
-            
-
         });
     };
     self.led2Changed = function ()
