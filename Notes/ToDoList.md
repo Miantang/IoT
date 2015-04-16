@@ -11,7 +11,7 @@
 
 
 ###High Priority:
-    1. 首页item可排序。
+    1. 首页item可排序。devsorder
     2. 可添加删除设备。
     3. 权限安全升级。
 

@@ -38,12 +38,6 @@
 <script type="text/javascript">
     function centervm() {
         var self = this;
-        
-        self.displayval = function (ss) {
-            $.AMUI.utils.cookie.set('dvid', ss.dvid);
-            $.AMUI.utils.cookie.set('ssid', ss.id);
-            $("#render").load("web/dis_val_page.html");
-        };
 
         self.disSwitch = function(ss)
         {
@@ -58,8 +52,6 @@
         self.disCam = function(ss)
         {
             $("#render").load("web/dis_cam_page.html");
-            // $("#render").load("http://192.168.1.1:8081/javascript_simple.html");
-            // document.location = "http://192.168.1.1:8081/javascript_simple.html";
         }
 
         self.switchChanged = function (item) 
@@ -95,7 +87,6 @@
                                 };
                             });
                     }, 4000);
-                 //  console.log(data);
                 },
                 error: function (xhr, status, error) 
                 {
@@ -150,8 +141,6 @@
                             self.switchDevices()[i].value( Boolean(data[i].value) );
                         };
                     }
-                
-                
              //   console.log(self.dvs()[0].switch(), self.dvs().length);
                   //  self.dvs = self.dvs.concat(data);
 
