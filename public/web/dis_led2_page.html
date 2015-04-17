@@ -3,19 +3,17 @@
       <div id="topLoader">      
     </div>
     <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.led2Changed}" >
-        <label data-bind="attr: { 'for': 'cb-' + $root.id }"></label>
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-7" value="led2" data-bind="checked : Boolean($root.switch), event:{ change: $root.led2Changed}" ></input>
+        <label for = "cb-7"></label>
      </div>
 </div>
 <script type="text/javascript">
-var led2Value;var togswitch; var controller; var $topLoader;
-function centervm() 
+var $topLoader; var controller;
+function centerVM() 
 {
     var self = this;
     // make the variables observable    
-    self.switch = ko.observable(new Boolean() );
-    self.led2Value = ko.observable({});
-    self.led2data = ko.observable({});
+    self.switch = new Boolean();
     self.controller = ko.observable(0);
 
     self.loaddata = function () 
@@ -24,21 +22,30 @@ function centervm()
             url: "/index.php/devices/7"
         }).done(function (data) 
         {
-            self.led2Value($.parseJSON(data.value));// = ko.observable();
-            self.switch(Boolean( self.led2Value().switch ));
-            self.controller(Number( self.led2Value().controller ));
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch = Boolean( led2Value.switch );
+            self.controller(Number( led2Value.controller ));
 
-            led2Value = self.led2Value;
-            togswitch = self.switch;
-            controller = self.controller;
+            controller  = self.controller;
 
-            console.log("self.led2data", data);
         });
     };
     self.led2Changed = function ()
     {
-        var switchData = '{"type":"step","switch":' + Number(self.switch()) +',"controller":'+Number(self.controller())+'}';
-        console.log("self.switch():",self.switch());
+        if (self.switch) 
+            {
+                self.switch = 0;
+                console.log("1 to ",self.switch);
+                $("#msg").html("1 to "+self.switch);
+                    $('#my-prompt').modal('open');
+            }else{
+                self.switch = 1;
+                console.log("0 to ",self.switch);
+                $("#msg").html("0 to "+ self.switch);
+                    $('#my-prompt').modal('open');
+            };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
         $.ajax(
         {
             type: "POST",
@@ -46,18 +53,13 @@ function centervm()
             data: switchData,
             success: function (subdata) 
             {
-               $.post("/index.php/feedback/led2",//+self.led2data.name,
-                    "{\"code\":1}",
-                    function (d)
-                    {
-                        console.log("seed 1 OK");
-                    });
+               $.post("/index.php/feedback/led2", "{\"code\":1}");
                setTimeout(function()
                 {
-                    $.get("/index.php/feedback/led2",//+self.led2data.name,
+                    $.get("/index.php/feedback/led2",
                         function(fdbData)
                         {
-                            if(1 == fdbData)
+                            /*if(1 == fdbData)
                             {
                                 console.log("Led2 switch Not accessable !!");
                             }else if (2 == fdbData) 
@@ -66,18 +68,18 @@ function centervm()
                             }else if (0 == fdbData) 
                             {
                                 console.log("Led2 switch Success Changed !");
-                            };
+                            };*/
                         });
                 }, 4000);
 
-               if(self.switch())
+               if(self.switch)
                 {
                     $topLoader.percentageLoader({progress: Number(self.controller())/100 });
                 }
             },
             error: function (xhr, status, error) 
             {
-                $.post("/index.php/feedback/led2",//+self.led2data.name,
+                $.post("/index.php/feedback/led2",
                     "{'code':2}",
                     function()
                     {
@@ -96,12 +98,13 @@ $(function()
         width: 256, height: 256, controllable: true, progress: 0, 
         onProgressComplete: function (val) 
         {
-            if(togswitch())
+            var togswitch  = led2ViewModel.switch;
+            if(togswitch)
             {
                 controller(Math.round(val * 100.0));
 
                 var controllerNumber = controller();
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":'+controllerNumber +'}';
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
                 $.ajax(
                 {
                     type: "POST",
@@ -145,10 +148,10 @@ $(function()
     });
     
 });
-var ctvm2 = new centervm();
+var led2ViewModel = new centerVM();
 
-setTimeout('ctvm2.loaddata()', 200);
-ko.applyBindings(ctvm2, document.getElementById("led2Model"));
+setTimeout('led2ViewModel.loaddata()', 200);
+ko.applyBindings(led2ViewModel, document.getElementById("led2Model"));
 
 //go back to main page
 var mainmodel = ko.dataFor(document.getElementById("mainModel"));

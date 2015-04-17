@@ -59,6 +59,11 @@ input[type='checkbox'].customcb
 	background-color: #003e6d;
 }
 
+.am-fr
+{
+	float: inherit;
+	width: auto;
+}
 /*.am-header-default
 {
 	width: 256px;
