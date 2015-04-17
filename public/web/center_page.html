@@ -9,14 +9,19 @@
                            data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value), event:{ change: $root.switchChanged}"></input>
                 <!-- /ko -->
                 <!-- ko if: dv.type === "step" -->
-                <input  type="checkbox" class="customcb"
-                           data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name },click: $root.disLed2"></input>
+                <div class="custombtn" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
+                        <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                        <span>LED2 Light</span>
+                    </div>           
                 <!-- /ko -->
                 </li>
             </ul>
             <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails">
                 <li class="box am-thumbnail">
-                    <input  type="button" class="custombtn" data-bind=" click: $root.disCam"></input>
+                    <div id="bt1" class="custombtn" data-bind=" click: $root.disCam" >
+                        <div class="imgsimple"><img src="assets/i/favicon.png" alt="Camara"></div>
+                        <span>Camara</span>
+                    </div>
                 </li>
             </ul>
         </div>
