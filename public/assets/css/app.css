@@ -33,6 +33,7 @@
   float: left;
   margin-right: 10px;
   position: relative;
+  padding: 0px;
 }
 
 .boxes .box:hover {
@@ -82,6 +83,7 @@ input[type='checkbox'].customcb
 {
 	cursor: pointer;
 	height: 150px;
+	width: 150px;
 }
 .box span
 {

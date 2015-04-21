@@ -12,9 +12,12 @@ insert into `devices` (`id`, `type`, `name`, `value`, `description`) values
 (3, 'switch', 'screen', '0', '幕布'),
 (4, 'switch', 'tap_water', '0', '自来水'),
 (5, 'switch', 'projector', '0', '投影仪'),
-(6, 'switch', 'camara', '0', '摄像机'),
-(7, 'step', 'led2', '{"switch":0,"controller":"0"}', 'LED灯带');
-
+(6, 'step', 'camara', '0', '摄像机'),
+(7, 'step', 'led2', '{"switch":0,"controller":"0"}', 'LED灯带'),
+(8, 'step', 'air', '{"switch":0,"controller":"0"}', '空调'),
+(9, 'step', 'tv', '{"switch":0,"controller":"0"}', '电视'),
+(10, 'step', 'access', '{"switch":0,"controller":"0"}', '门禁'),
+(11, 'step', 'gas', '{"switch":0,"controller":"0"}', '燃气监控');
 
 /* 
 create table  if not exists genericdevices
@@ -54,4 +57,8 @@ insert into `feedBackCode` (`id`, `name`, `code`) values
 (4, 'tap_water', 1),
 (5, 'projector', 1),
 (6, 'camara', 1),
-(7, 'led2', 1);
+(7, 'led2', 1),
+(8, 'air', 1),
+(9, 'tv', 1),
+(10, 'access', 1),
+(11, 'gas', 1);
