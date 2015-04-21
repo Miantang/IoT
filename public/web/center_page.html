@@ -5,7 +5,7 @@
                 
                 <li class="box am-thumbnail">
                 <!-- ko if: dv.type === 'switch' -->
-                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.switchChanged" data-am-button>
+                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.switchChanged" data-am-button>
                         <!-- <input  type="checkbox" class="customcb needsclick"
                                data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
                         <div class="centerText"><span data-bind="text:dv.description">开关</span></div>
