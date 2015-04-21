@@ -7,24 +7,42 @@
                 <!-- ko if: dv.type === 'switch' -->
                     <input  type="checkbox" class="customcb"
                            data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value), event:{ change: $root.switchChanged}"></input>
-                           <div class="centerText"><span>LED2 Light</span></div>
+                           <div class="centerText"><span data-bind="text:dv.description">开关</span></div>
                 <!-- /ko -->
                 <!-- ko if: dv.name === "led2" -->
                     <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
                             <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
-                            <div  class="centerText"><span>LED2 Light</span></div>
+                            <div  class="centerText"><span>LED灯带</span></div>
                         </div>           
                 <!-- /ko -->
                 <!-- ko if: dv.name === "camara" -->
                     <div id="bt1" class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam" >
                         <div class="imgsimple"><img src="assets/i/favicon.png" alt="Camara"></div>
-                        <div  class="centerText"><span>Camara</span></div>
+                        <div  class="centerText"><span>摄像监控</span></div>
                     </div>        
                 <!-- /ko -->
                 <!-- ko if: dv.name === "tv" -->
-                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disTV" >
                             <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
-                            <div  class="centerText"><span>LED2 Light</span></div>
+                            <div  class="centerText"><span>电视</span></div>
+                        </div>           
+                <!-- /ko -->
+                <!-- ko if: dv.name === "air" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disAir" >
+                            <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                            <div  class="centerText"><span>空调</span></div>
+                        </div>           
+                <!-- /ko -->
+                <!-- ko if: dv.name === "access" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disAir" >
+                            <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                            <div  class="centerText"><span>门禁</span></div>
+                        </div>           
+                <!-- /ko -->
+                <!-- ko if: dv.name === "gas" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disAir" >
+                            <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                            <div  class="centerText"><span>燃气监控</span></div>
                         </div>           
                 <!-- /ko -->
                 </li>
@@ -50,6 +68,16 @@
         self.disCam = function(ss)
         {
             $("#render").load("web/dis_cam_page.html");
+        }
+
+        self.disAir = function(ss)
+        {
+            $("#render").load("web/dis_air_page.html");
+        }
+
+        self.disTV = function(ss)
+        {
+            $("#render").load("web/dis_tv_page.html");
         }
 
         self.switchChanged = function (dv) 

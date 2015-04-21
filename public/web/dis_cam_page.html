@@ -12,7 +12,7 @@
   </label>
 </div>
 <div class="switch am-fr">
-    <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.led2Changed}" >
+    <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.camChanged}" >
     <label data-bind="attr: { 'for': 'cb-' + $root.id }"></label>
  </div>
 <iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="widget.html"></iframe>
@@ -32,7 +32,7 @@ function centervm()
     self.loaddata = function () 
     {
         $.ajax({
-            url: "/index.php/devices/7"
+            url: "/index.php/devices/6"
         }).done(function (data) 
         {
             self.led2data = data;
@@ -51,18 +51,18 @@ function centervm()
             // $("#cam").load("http://192.168.1.1:8081/javascript_simple.html");
         });
     };
-    self.led2Changed = function ()
+    self.camChanged = function ()
     {
         var switchData = '{"type":"step","switch":' + Number(self.switch()) +',"controller":'+Number(self.controller())+'}';
         console.log("self.switch():",self.switch());
             $.ajax(
             {
                 type: "POST",
-                url: "/index.php/devices/7",
+                url: "/index.php/devices/6",
                 data: switchData,
                 success: function (subdata) 
                 {
-                   $.post("/index.php/feedback/led2",//+self.led2data.name,
+                   $.post("/index.php/feedback/camara",//+self.led2data.name,
                         "{\"code\":1}",
                         function (d)
                         {
@@ -70,7 +70,7 @@ function centervm()
                         });
                    setTimeout(function()
                     {
-                        $.get("/index.php/feedback/led2",//+self.led2data.name,
+                        $.get("/index.php/feedback/camara",//+self.led2data.name,
                             function(fdbData)
                             {
                                 if(1 == fdbData)
@@ -89,7 +89,7 @@ function centervm()
                 },
                 error: function (xhr, status, error) 
                 {
-                    $.post("/index.php/feedback/led2",//+self.led2data.name,
+                    $.post("/index.php/feedback/camara",//+self.led2data.name,
                         "{'code':2}",
                         function()
                         {
@@ -115,7 +115,7 @@ $(function()
                 $.ajax(
                     {
                         type: "POST",
-                        url: "/index.php/devices/7",
+                        url: "/index.php/devices/6",
                         data: controllerData,
                         success : function (){console.log("post ", $radios.filter(':checked').val());}
                     });
@@ -126,7 +126,7 @@ $(function()
                 $.ajax(
                     {
                         type: "POST",
-                        url: "/index.php/devices/7",
+                        url: "/index.php/devices/6",
                         data: controllerData,
                         success : function (){console.log("post ", $radios.filter(':checked').val());}
                     });
@@ -136,7 +136,7 @@ $(function()
                 $.ajax(
                     {
                         type: "POST",
-                        url: "/index.php/devices/7",
+                        url: "/index.php/devices/6",
                         data: controllerData,
                         success : function (){console.log("post ", $radios.filter(':checked').val());}
                     });
