@@ -9,20 +9,24 @@
                            data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value), event:{ change: $root.switchChanged}"></input>
                            <div class="centerText"><span>LED2 Light</span></div>
                 <!-- /ko -->
-                <!-- ko if: dv.type === "step" -->
-                    <div class="custombtn" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
+                <!-- ko if: dv.name === "led2" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
                             <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
                             <div  class="centerText"><span>LED2 Light</span></div>
                         </div>           
                 <!-- /ko -->
-                </li>
-            </ul>
-            <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails">
-                <li class="box am-thumbnail">
-                    <div id="bt1" class="custombtn" data-bind=" click: $root.disCam" >
+                <!-- ko if: dv.name === "camara" -->
+                    <div id="bt1" class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam" >
                         <div class="imgsimple"><img src="assets/i/favicon.png" alt="Camara"></div>
-                        <div  class="centerText"><span>Camamra</span></div>
-                    </div>
+                        <div  class="centerText"><span>Camara</span></div>
+                    </div>        
+                <!-- /ko -->
+                <!-- ko if: dv.name === "tv" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disLed2" >
+                            <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                            <div  class="centerText"><span>LED2 Light</span></div>
+                        </div>           
+                <!-- /ko -->
                 </li>
             </ul>
         </div>
