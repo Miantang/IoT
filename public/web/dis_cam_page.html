@@ -1,25 +1,18 @@
 ﻿
 <div id="camModel" >
-<div class="am-btn-group doc-js-btn-1" data-am-button>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="left" id="option1"><i class="am-icon-chevron-left"></i>
-  </label>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="hold" id="option2"><i class="am-icon-stop"></i>
-  </label>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="right" id="option3"><i class="am-icon-chevron-right"></i>
-  </label>
-</div>
-<div class="switch am-fr">
-    <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="camara" data-bind="checked : Boolean($root.switch), event:{ change: $root.camChanged}" ></input>
-    <label for = "cb-6"></label>
-</div>
-<iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="widget.html"></iframe>
+    <iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="../javascript_simple.html">
+    </iframe>
+    <div id="container">
+      <div id="topLoader">      
+    </div>
+    <div class="switch am-fr">
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="led2" data-bind="checked : Boolean($root.switch), event:{ change: $root.camChanged}" ></input>
+        <label for = "cb-6"></label>
+    </div>
 </div>
 <script type="text/javascript">
-var togswitch; var controller;
-function camaraVM() 
+var $topLoader; var controller;
+function centerVM() 
 {
     var self = this;
     // make the variables observable    
@@ -29,12 +22,12 @@ function camaraVM()
     self.loaddata = function () 
     {
         $.ajax({
-            url: "/index.php/devices/7"
+            url: "/index.php/devices/6"
         }).done(function (data) 
         {
-            var camValue = $.parseJSON(data.value);// = ko.observable();
-            self.switch = Boolean( camValue.switch );
-            self.controller(Number( camValue.controller ));
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch = Boolean( led2Value.switch );
+            self.controller(Number( led2Value.controller ));
 
             controller  = self.controller;
 
@@ -104,64 +97,64 @@ function camaraVM()
 // check out which radio is selected and run the function radioChange under event:change
 $(function() 
 {
-    var $radios = $('[name="options"]');
-    $radios.on('change',function() 
-    {
-        if(togswitch)
+    $topLoader = $("#topLoader").percentageLoader({
+        width: 256, height: 256, controllable: true, progress: 0, 
+        onProgressComplete: function (val) 
         {
-           if ("left" == $radios.filter(':checked').val())
+            var togswitch  = camViewModel.switch;
+            if(togswitch)
             {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":1}';
+                controller(Math.round(val * 100.0));
+
+                var controllerNumber = controller();
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
                 $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/6",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
-            }
-            else if ("right" == $radios.filter(':checked').val()) 
-            {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":2}';
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/6",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
-            }else
-            {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":0}';
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/6",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
+                {
+                    type: "POST",
+                    url: "/index.php/devices/6",
+                    data: controllerData,
+                    success : function (){console.log("post 6controller", controllerNumber );}
+                });
             }
         }
-      console.log('selected : ', $radios.filter(':checked').val(),"con",controller());
     });
 
-    var fullscreen = $.AMUI.fullscreen;
-    $('[name="lantk"]').on('click', function () 
-    {
-        if (fullscreen.enabled) 
+    // add animation to the percentageLoader initial.
+    var topLoaderRunning = false;
+    $topLoader.percentageLoader({
+        onready: function ()
         {
-            fullscreen.toggle(this);
-            
-        }
-        console.log("fullscreen:", fullscreen.enabled);
+            if (topLoaderRunning) {
+                return;
+              }
+              topLoaderRunning = true;
+              var kb = 0;
+            var animateFunc = function () 
+            {
+                var totalKb = controller()/100;
+                kb += 0.02;
+                if(kb >= totalKb)
+                {
+                    kb = totalKb;
+                }
+                $topLoader.percentageLoader({progress: kb });
+
+                if (kb < totalKb) {
+                  setTimeout(animateFunc, 25);
+                } else {
+                  topLoaderRunning = false;
+                }
+            };
+
+            setTimeout(animateFunc, 300);
+        } 
     });
-
-
+    
 });
-var ctvm2 = new camaraVM();
+var camViewModel = new centerVM();
 
-setTimeout('ctvm2.loaddata()', 300);
-ko.applyBindings(ctvm2, document.getElementById("camModel"));
+setTimeout('camViewModel.loaddata()', 200);
+ko.applyBindings(camViewModel, document.getElementById("camModel"));
 
 //go back to main page
 var mainmodel = ko.dataFor(document.getElementById("mainModel"));
@@ -173,5 +166,4 @@ mainmodel.gopage = function (url)
     mainmodel.showback(false);
     mainmodel.showuinfo(true);
 };
-    
 </script>

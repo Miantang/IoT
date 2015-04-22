@@ -9,7 +9,7 @@
                         <!-- <input  type="checkbox" class="customcb needsclick"
                                data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
                         <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
-                        <div class="centerText"><span data-bind="text:dv.description">开关</span></div>
+                        <div class="centerText"><span data-bind="text:dv.name+'开关'">开关</span></div>
                     </div> 
                 <!-- /ko -->
                 <!-- ko if: dv.name === "led2" -->
@@ -48,6 +48,12 @@
                         <div  class="centerText"><span>燃气监控</span></div>
                     </div>           
                 <!-- /ko -->
+                <!-- ko if: dv.name === "volume" -->
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disVolume" >
+                        <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
+                        <div  class="centerText"><span>音量控制</span></div>
+                    </div>           
+                <!-- /ko -->
                 </li>
             </ul>
         </div>
@@ -58,14 +64,14 @@
     function centerVM() {
         var self = this;
 
-        self.disSwitch = function(ss)
-        {
-            $("#render").load("web/dis_val_page.html");
-        }
-
         self.disLed2 = function(ss)
         {
             $("#render").load("web/dis_led2_page.html");
+        }
+
+        self.disVolume = function(ss)
+        {
+            $("#render").load("web/dis_volume_page.html");
         }
 
         self.disCam = function(ss)
@@ -193,10 +199,6 @@
             });
         };
     };
-    // $(function()
-    // {
-    //     $('.custom').button({text:false});
-    // });
     var ctvm = new centerVM();
     setTimeout('ctvm.loaddata()', 200);
    // setInterval('ctvm.loaddata()', 5000);

@@ -17,8 +17,8 @@ insert into `devices` (`id`, `type`, `name`, `value`, `description`) values
 (8, 'step', 'air', '{"switch":0,"controller":"0"}', '空调'),
 (9, 'step', 'tv', '{"switch":0,"controller":"0"}', '电视'),
 (10, 'step', 'access', '{"switch":0,"controller":"0"}', '门禁'),
-(11, 'step', 'gas', '{"switch":0,"controller":"0"}', '燃气监控');
-
+(11, 'step', 'gas', '{"switch":0,"controller":"0"}', '燃气监控'),
+(12, 'step', 'volume', '{"switch":0,"controller":"0"}', '音量控制');
 /* 
 create table  if not exists genericdevices
 	(
@@ -61,4 +61,5 @@ insert into `feedBackCode` (`id`, `name`, `code`) values
 (8, 'air', 1),
 (9, 'tv', 1),
 (10, 'access', 1),
-(11, 'gas', 1);
+(11, 'gas', 1),
+(12, 'volume', 1);
