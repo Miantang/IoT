@@ -37,12 +37,12 @@ function centerVM()
             self.switch = 0;
             console.log("1 to ",self.switch);
             $("#msg").html("1 to "+self.switch);
-                $('#my-prompt').modal('open');
+            $('#my-prompt').modal('open');
         }else{
             self.switch = 1;
             console.log("0 to ",self.switch);
             $("#msg").html("0 to "+ self.switch);
-                $('#my-prompt').modal('open');
+            $('#my-prompt').modal('open');
         };
 
         var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
