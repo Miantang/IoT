@@ -5,9 +5,10 @@
                 
                 <li class="box am-thumbnail">
                 <!-- ko if: dv.type === 'switch' -->
-                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.switchChanged" data-am-button>
+                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, css: { 'am-active': dv.value === 1 }, click: $root.switchChanged" data-am-button>
                         <!-- <input  type="checkbox" class="customcb needsclick"
                                data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
+                        <div class="imgsimple"><img src="assets/i/favicon.png" alt="LED2 Light"></div>
                         <div class="centerText"><span data-bind="text:dv.description">开关</span></div>
                     </div> 
                 <!-- /ko -->
@@ -18,7 +19,7 @@
                     </div>           
                 <!-- /ko -->
                 <!-- ko if: dv.name === "camara" -->
-                    <div id="bt1" class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam" >
+                    <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam" >
                         <div class="imgsimple"><img src="assets/i/favicon.png" alt="Camara"></div>
                         <div  class="centerText"><span>摄像监控</span></div>
                     </div>        
@@ -89,12 +90,16 @@
                 dv.value = 0;
                 console.log("1 to ",dv.value);
                 $("#msg").html("1 to "+dv.value);
-                    $('#my-prompt').modal('open');
+                $('#my-prompt').modal('open');
+                if( $("#cb"+dv.id).hasClass("am-active") )
+                    $("#cb"+dv.id).removeClass("am-active");
             }else{
                 dv.value = 1;
                 console.log("0 to ",dv.value);
                 $("#msg").html("0 to "+dv.value);
-                    $('#my-prompt').modal('open');
+                $('#my-prompt').modal('open');
+                if( !$("#cb"+dv.id).hasClass("am-active") )
+                    $("#cb"+dv.id).addClass("am-active");
             };
             var switchData = '{"type":"switch","value":'+ dv.value+'}';
             $.ajax(
@@ -115,13 +120,13 @@
                         $.get("/index.php/feedback/"+dv.name,
                             function(fdbData)
                             {
-                                /*if(1 == fdbData)
+                                /*if(1 === fdbData)
                                 {
                                     console.log("Not accessable !!");
-                                }else if (2 == fdbData) 
+                                }else if (2 === fdbData) 
                                 {
                                     console.log("Something wrong with the server !!");
-                                }else if (0 == fdbData) 
+                                }else if (0 === fdbData) 
                                 {
                                     console.log("Success Changed !");
                                 };*/
@@ -157,10 +162,20 @@
                         {
                             data[i].description = decodeURI(data[i].description);
                             
-                            /*if("switch" === data[i].type)
-                            {
-                                data[i].value = ko.observable( Boolean(data[i].value) );
-                            }*/
+                            // if("switch" === data[i].type)
+                            // {
+                            //     // data[i].value = ko.observable( Boolean(data[i].value) );
+                            //     if( data[i].value === 0 )
+                            //     {
+                            //         if( $("#cb"+(i+1)).hasClass("am-active") )
+                            //             $("#cb"+(i+1)).removeClass("am-active");
+                            //     }
+                            //     else
+                            //     {
+                            //         if( !$("#cb"+(i+1)).hasClass("am-active") )
+                            //             $("#cb"+(i+1)).addClass("am-active");
+                            //     }
+                            // }
                             self.devices.push(data[i]);
                         };
                     }

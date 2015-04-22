@@ -1,5 +1,5 @@
 ﻿
-<div id="led2Model" >
+<div id="camModel" >
 <div class="am-btn-group doc-js-btn-1" data-am-button>
   <label class="am-btn am-btn-primary">
     <input type="radio" name="options" value="left" id="option1"><i class="am-icon-chevron-left"></i>
@@ -12,93 +12,93 @@
   </label>
 </div>
 <div class="switch am-fr">
-    <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.camChanged}" >
-    <label data-bind="attr: { 'for': 'cb-' + $root.id }"></label>
- </div>
+    <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="camara" data-bind="checked : Boolean($root.switch), event:{ change: $root.camChanged}" ></input>
+    <label for = "cb-6"></label>
+</div>
 <iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="widget.html"></iframe>
 </div>
 <script type="text/javascript">
-var led2Value;var togswitch;var led2data; var controller;
-function centervm() 
+var togswitch; var controller;
+function camaraVM() 
 {
     var self = this;
-
-    // make the variables observable 
-    self.switch = ko.observable(new Boolean() );
-    self.led2Value = ko.observable({});
-    self.led2data = ko.observable({});
+    // make the variables observable    
+    self.switch = new Boolean();
     self.controller = ko.observable(0);
 
     self.loaddata = function () 
     {
         $.ajax({
-            url: "/index.php/devices/6"
+            url: "/index.php/devices/7"
         }).done(function (data) 
         {
-            self.led2data = data;
-            
-            self.led2Value($.parseJSON(data.value));// = ko.observable();
-            
-            self.switch(Boolean( self.led2Value().switch ));
-            self.controller(Number( self.led2Value().controller ));
+            var camValue = $.parseJSON(data.value);// = ko.observable();
+            self.switch = Boolean( camValue.switch );
+            self.controller(Number( camValue.controller ));
 
-            led2Value = self.led2Value;
-            togswitch = self.switch;
-            led2data  = self.led2data; 
-            controller = self.controller;
+            controller  = self.controller;
 
-            console.log("self.led2data",led2data);
-            // $("#cam").load("http://192.168.1.1:8081/javascript_simple.html");
         });
     };
     self.camChanged = function ()
     {
-        var switchData = '{"type":"step","switch":' + Number(self.switch()) +',"controller":'+Number(self.controller())+'}';
-        console.log("self.switch():",self.switch());
-            $.ajax(
+        if (self.switch) 
+        {
+            self.switch = 0;
+            console.log("1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+                $('#my-prompt').modal('open');
+        }else{
+            self.switch = 1;
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+                $('#my-prompt').modal('open');
+        };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+        {
+            type: "POST",
+            url: "/index.php/devices/6",
+            data: switchData,
+            success: function (subdata) 
             {
-                type: "POST",
-                url: "/index.php/devices/6",
-                data: switchData,
-                success: function (subdata) 
+               $.post("/index.php/feedback/camara", "{\"code\":1}");
+               setTimeout(function()
                 {
-                   $.post("/index.php/feedback/camara",//+self.led2data.name,
-                        "{\"code\":1}",
-                        function (d)
+                    $.get("/index.php/feedback/camara",
+                        function(fdbData)
                         {
-                            console.log("seed 1 OK");
-                        });
-                   setTimeout(function()
-                    {
-                        $.get("/index.php/feedback/camara",//+self.led2data.name,
-                            function(fdbData)
+                            /*if(1 == fdbData)
                             {
-                                if(1 == fdbData)
-                                {
-                                    console.log("Led2 switch Not accessable !!");
-                                }else if (2 == fdbData) 
-                                {
-                                    console.log("Something wrong with the server !!");
-                                }else if (0 == fdbData) 
-                                {
-                                    console.log("Led2 switch Success Changed !");
-                                };
-                            });
-                    }, 4000);
-                 //  console.log(data);
-                },
-                error: function (xhr, status, error) 
-                {
-                    $.post("/index.php/feedback/camara",//+self.led2data.name,
-                        "{'code':2}",
-                        function()
-                        {
-                            console.log("seed 2 OK");
+                                console.log("Led2 switch Not accessable !!");
+                            }else if (2 == fdbData) 
+                            {
+                                console.log("Something wrong with the server !!");
+                            }else if (0 == fdbData) 
+                            {
+                                console.log("Led2 switch Success Changed !");
+                            };*/
                         });
-                    $("#msg").html(xhr.responseText);
-                    $('#my-prompt').modal('open');
+                }, 4000);
+
+               if(self.switch)
+                {
+                    $topLoader.percentageLoader({progress: Number(self.controller())/100 });
                 }
-            });
+            },
+            error: function (xhr, status, error) 
+            {
+                $.post("/index.php/feedback/camara",
+                    "{'code':2}",
+                    function()
+                    {
+                        console.log("seed 2 OK");
+                    });
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
     }
 }
 // check out which radio is selected and run the function radioChange under event:change
@@ -107,11 +107,11 @@ $(function()
     var $radios = $('[name="options"]');
     $radios.on('change',function() 
     {
-        if(togswitch())
+        if(togswitch)
         {
            if ("left" == $radios.filter(':checked').val())
             {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":1}';
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":1}';
                 $.ajax(
                     {
                         type: "POST",
@@ -122,7 +122,7 @@ $(function()
             }
             else if ("right" == $radios.filter(':checked').val()) 
             {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":2}';
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":2}';
                 $.ajax(
                     {
                         type: "POST",
@@ -132,7 +132,7 @@ $(function()
                     });
             }else
             {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":0}';
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":0}';
                 $.ajax(
                     {
                         type: "POST",
@@ -158,10 +158,10 @@ $(function()
 
 
 });
-var ctvm2 = new centervm();
+var ctvm2 = new camaraVM();
 
 setTimeout('ctvm2.loaddata()', 300);
-ko.applyBindings(ctvm2, document.getElementById("led2Model"));
+ko.applyBindings(ctvm2, document.getElementById("camModel"));
 
 //go back to main page
 var mainmodel = ko.dataFor(document.getElementById("mainModel"));
