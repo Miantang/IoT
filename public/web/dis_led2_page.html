@@ -5,7 +5,7 @@
     <div class="switch am-fr">
         <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-7" value="led2" data-bind="checked : Boolean($root.switch), event:{ change: $root.led2Changed}" ></input>
         <label for = "cb-7"></label>
-     </div>
+    </div>
 </div>
 <script type="text/javascript">
 var $topLoader; var controller;
@@ -33,17 +33,17 @@ function centerVM()
     self.led2Changed = function ()
     {
         if (self.switch) 
-            {
-                self.switch = 0;
-                console.log("1 to ",self.switch);
-                $("#msg").html("1 to "+self.switch);
-                    $('#my-prompt').modal('open');
-            }else{
-                self.switch = 1;
-                console.log("0 to ",self.switch);
-                $("#msg").html("0 to "+ self.switch);
-                    $('#my-prompt').modal('open');
-            };
+        {
+            self.switch = 0;
+            console.log("1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+                $('#my-prompt').modal('open');
+        }else{
+            self.switch = 1;
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+                $('#my-prompt').modal('open');
+        };
 
         var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
         $.ajax(

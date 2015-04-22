@@ -35,10 +35,7 @@
             <a href="#">智能物联</a>
         </h1>
         <div class="am-header-left am-header-nav">
-            <a data-bind="click: link_user, visible: showuinfo" href="#">
-                <i class="am-header-icon am-icon-user"></i>
-                <span class="am-header-nav-title" data-bind="text: uid"></span>
-            </a>
+            
             <a href="#" data-bind="click: gopage, visible: showback">
                 <i class="am-header-icon am-icon-chevron-left"></i>
                 <span class="am-header-nav-title">返回</span>
@@ -54,19 +51,21 @@
             <div class="am-offcanvas-bar am-offcanvas-bar-flip">
                 <ul class="am-menu-nav am-avg-sm-1">
                     <li class="">
-                        <a href="##"></a>
+                        <a href="##"><i class="am-header-icon am-icon-user"></i>
+                            <span class="am-header-nav-title" data-bind="text: uid"></span>
+                        </a>
                     </li>
                     <li class="">
                         <a data-bind="click: link_user_center" href="##">设备主页</a>
                     </li>
                     <li data-bind="visible: showuser" class="am-parent">
-                        <a href="##">我的用户</a>
+                        <a href="##">子用户管理</a>
                         <ul class="am-menu-sub am-collapse  am-avg-sm-2 ">
                             <li class="">
-                                <a href="##" data-bind="click:link_acaddus">添加用户</a>
+                                <a href="##" data-bind="click:link_acaddus">添加子用户</a>
                             </li>
                             <li class="">
-                                <a href="##" data-bind="click:link_acuss">管理用户</a>
+                                <a href="##" data-bind="click:link_acuss">管理子用户</a>
                             </li>
                         </ul>
                     </li> 
@@ -80,6 +79,11 @@
                                 <a data-bind="click: link_accountEditPwd" href="##">修改密码</a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="">
+                        <a data-bind="click: link_user, visible: showuinfo" href="#">
+                            <span class="am-header-nav-title">账户注销</span>
+                        </a>
                     </li>
                 </ul>
             </div>
