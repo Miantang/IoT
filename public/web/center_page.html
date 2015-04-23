@@ -8,7 +8,7 @@
                     <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, click: $root.switchChanged, css: { 'am-active': dv.value === 1 }" data-am-button>
                         <!-- <input  type="checkbox" class="customcb needsclick"
                                data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
-                        <div class="imgsimple"><img data-bind="attr: {src:'assets/i/icons/led1' + 
+                        <div class="imgsimple"><img data-bind="attr: {src:'assets/i/icons/'+ dv.name + 
                             (dv.imgValue()?'-on':'-off')+'.png', alt : dv.name }" ></div>
                         <div class="centerText"><span data-bind="text:dv.name+'开关'">开关</span></div>
                     </div> 
@@ -21,7 +21,7 @@
                 <!-- /ko -->
                 <!-- ko if: dv.name === "camara" -->
                     <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam" >
-                        <div class="imgsimple"><img src="assets/i/icons/camara.png" alt="Camara"></div>
+                        <div class="imgsimple"><img src="assets/i/icons/camara_1.png" alt="Camara"></div>
                         <div  class="centerText"><span>摄像监控</span></div>
                     </div>        
                 <!-- /ko -->
