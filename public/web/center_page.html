@@ -5,10 +5,11 @@
                 
                 <li class="box am-thumbnail">
                 <!-- ko if: dv.type === 'switch' -->
-                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, css: { 'am-active': dv.value === 1 }, click: $root.switchChanged" data-am-button>
+                    <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, click: $root.switchChanged, css: { 'am-active': dv.value === 1 }" data-am-button>
                         <!-- <input  type="checkbox" class="customcb needsclick"
                                data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
-                        <div class="imgsimple"><img src="assets/i/icons/light.png" alt="LED2 Light"></div>
+                        <div class="imgsimple"><img data-bind="attr: {src:'assets/i/icons/led1' + 
+                            (dv.imgValue()?'-on':'-off')+'.png', alt : dv.name }" ></div>
                         <div class="centerText"><span data-bind="text:dv.name+'开关'">开关</span></div>
                     </div> 
                 <!-- /ko -->
@@ -94,20 +95,22 @@
             if (dv.value === 1) 
             {
                 dv.value = 0;
-                console.log("1 to ",dv.value);
-                $("#msg").html("1 to "+dv.value);
+                dv.imgValue(0);
+                var tempValue = dv.value;
+                console.log("1 to ",tempValue);
+                $("#msg").html("1 to "+tempValue);
                 $('#my-prompt').modal('open');
-                if( $("#cb"+dv.id).hasClass("am-active") )
-                    $("#cb"+dv.id).removeClass("am-active");
             }else{
                 dv.value = 1;
-                console.log("0 to ",dv.value);
-                $("#msg").html("0 to "+dv.value);
+                dv.imgValue(1);
+                var tempValue = dv.value;
+                console.log("0 to ", tempValue);
+                $("#msg").html("0 to "+tempValue);
                 $('#my-prompt').modal('open');
-                if( !$("#cb"+dv.id).hasClass("am-active") )
-                    $("#cb"+dv.id).addClass("am-active");
+                
             };
             var switchData = '{"type":"switch","value":'+ dv.value+'}';
+
             $.ajax(
             {
                 type: "POST",
@@ -168,20 +171,10 @@
                         {
                             data[i].description = decodeURI(data[i].description);
                             
-                            // if("switch" === data[i].type)
-                            // {
-                            //     // data[i].value = ko.observable( Boolean(data[i].value) );
-                            //     if( data[i].value === 0 )
-                            //     {
-                            //         if( $("#cb"+(i+1)).hasClass("am-active") )
-                            //             $("#cb"+(i+1)).removeClass("am-active");
-                            //     }
-                            //     else
-                            //     {
-                            //         if( !$("#cb"+(i+1)).hasClass("am-active") )
-                            //             $("#cb"+(i+1)).addClass("am-active");
-                            //     }
-                            // }
+                            if("switch" === data[i].type)
+                            {
+                                data[i].imgValue = ko.observable( data[i].value );
+                            }
                             self.devices.push(data[i]);
                         };
                     }
