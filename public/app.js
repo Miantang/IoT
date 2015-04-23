@@ -82,6 +82,12 @@
   {
       var self = this;
 
+      self.showuser = ko.observable(false);
+      self.shownav = ko.observable(false);
+      self.showuinfo = ko.observable(false);
+      self.showback = ko.observable(false);
+      self.uid = ko.observable("");
+      self.pwd = ko.observable("");
 
       self.link_acuss = function () {
           go("web/ac_uss_page.html");
@@ -94,6 +100,7 @@
       };
       self.link_user_center = function () {
           go("web/center_page.html");
+          self.showback(false);
       };
       self.link_alldvs = function () {
           go("web/dvs_page.html");
@@ -101,14 +108,7 @@
       self.link_adddv = function () {
           go("web/dvadd_page.html");
       };
-
-      self.showuser = ko.observable(false);
-      self.shownav = ko.observable(false);
-      self.showuinfo = ko.observable(false);
-      self.showback = ko.observable(false);
-      self.uid = ko.observable("");
-      self.pwd = ko.observable("");
-
+      
       self.rembme = ko.observable(false);
       if (typeof (Storage) !== "undefined") {
           if (localStorage.getItem("uid") !== null) {
