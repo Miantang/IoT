@@ -6,6 +6,9 @@ require 'Slim/Slim.php';
 
 $app = new \Slim\Slim();
 
+// require("public/phpMQTT.php");
+// $mqtt = new phpMQTT("127.0.0.1", 1883, "phpMQTT"); //Change client name to something unique
+
 $app->get( '/', function () use ($app) 
 {
     
@@ -176,15 +179,22 @@ $app->post('/mqttdevices/:id', function ($id) use ($app)
 
     require("public/phpMQTT.php");
 
-    $mqtt = new phpMQTT("127.0.0.1", 1883, "phpMQTT Pub"); //Change client name to something unique
+    $mqtt = new phpMQTT("127.0.0.1", 1883, "phpMQTT"); //Change client name to something unique
 
     if ($mqtt->connect()) 
     {
         $mqtt->publish("mqttdevice/".$id, $mqtt_message, 0);
         $mqtt->close();
-        echo json_encode(array('success'=>true));
     }
     
+    if ($result)
+    {
+        echo json_encode(array('success'=>true));
+    } 
+    else 
+    {
+        echo json_encode(array('success'=>false));
+    }
 });
 /***************             User                        **********************/
 $app->get('/userall', function () use ($app)
