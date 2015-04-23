@@ -1,167 +1,133 @@
-
-<div id="led2Model" >
-<div class="am-btn-group doc-js-btn-1" data-am-button>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="left" id="option1"><i class="am-icon-chevron-left"></i>
-  </label>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="hold" id="option2"><i class="am-icon-stop"></i>
-  </label>
-  <label class="am-btn am-btn-primary">
-    <input type="radio" name="options" value="right" id="option3"><i class="am-icon-chevron-right"></i>
-  </label>
-</div>
-<div class="switch am-fr">
-    <input class="cmn-toggle cmn-toggle-round" type="checkbox" data-bind="attr: {id: 'cb-' + $root.id, value : $root.switch }, checked : $root.switch, event:{ change: $root.led2Changed}" >
-    <label data-bind="attr: { 'for': 'cb-' + $root.id }"></label>
- </div>
-<iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="../javascript_simple.html"></iframe>
+<div id="airModel" >
+    <div class="switch am-fr">
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="air-8" value="tv" data-bind="checked : Boolean($root.switch), event:{ change: $root.tvSwitched}" ></input>
+        <label for = "air-8"></label>
+    </div>
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <ul  data-bind="foreach: { data: airButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails">
+            <li class="box am-thumbnail">
+                <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'airbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 } " data-am-button>
+                    <div class="centerText"><span data-bind="text:dv.name">开关</span></div>
+                </div> 
+            </li>
+        </ul>
+    </div>
 </div>
 <script type="text/javascript">
-var led2Value;var togswitch;var led2data; var controller;
-function centervm() 
+var $topLoader; var controller;
+function centerVM() 
 {
     var self = this;
-
-    // make the variables observable 
-    self.switch = ko.observable(new Boolean() );
-    self.led2Value = ko.observable({});
-    self.led2data = ko.observable({});
+    // make the variables observable    
+    self.switch = new Boolean();
     self.controller = ko.observable(0);
+    self.airButtonGroup = 
+    [
+        {id : 1, value : 1, name : "1"},{id : 2, value : 2, name : "2"},{id : 3, value : 3, name : "3"},
+        {id : 4, value : 4, name : "4"},{id : 5, value : 5, name : "5"},{id : 6, value : 6, name : "6"},
+        {id : 7, value : 7, name : "7"},{id : 8, value : 8, name : "8"},{id : 9, value : 9, name : "9"},
+        {id : 10, value : 0, name : "0"},{id : 11, value : 11, name : "Mute"},
+        {id : 12, value : 12, name : "Left"},{id : 13, value : 13, name : "Right"},
+        {id : 14, value : 14, name : "Up"},{id : 15, value : 15, name : "Down"}
+    ];
 
     self.loaddata = function () 
     {
         $.ajax({
-            url: "/index.php/devices/7"
+            url: "/index.php/devices/8"
         }).done(function (data) 
         {
-            self.led2data = data;
-            
-            self.led2Value($.parseJSON(data.value));// = ko.observable();
-            
-            self.switch(Boolean( self.led2Value().switch ));
-            self.controller(Number( self.led2Value().controller ));
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch = Boolean( led2Value.switch );
+            self.controller(Number( led2Value.controller ));
 
-            led2Value = self.led2Value;
-            togswitch = self.switch;
-            led2data  = self.led2data; 
-            controller = self.controller;
+            controller  = self.controller;
 
-            console.log("self.led2data",led2data);
-            // $("#cam").load("http://192.168.1.1:8081/javascript_simple.html");
         });
     };
-    self.led2Changed = function ()
+    self.tvSwitched = function ()
     {
-        var switchData = '{"type":"step","switch":' + Number(self.switch()) +',"controller":'+Number(self.controller())+'}';
-        console.log("self.switch():",self.switch());
+        if (self.switch) 
+            {
+                self.switch = 0;
+                console.log("1 to ",self.switch);
+                $("#msg").html("1 to "+self.switch);
+                    $('#my-prompt').modal('open');
+            }else{
+                self.switch = 1;
+                console.log("0 to ",self.switch);
+                $("#msg").html("0 to "+ self.switch);
+                    $('#my-prompt').modal('open');
+            };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+        {
+            type: "POST",
+            url: "/index.php/devices/8",
+            data: switchData,
+            success: function (subdata) 
+            {
+               $.post("/index.php/feedback/tv", "{\"code\":1}");
+               setTimeout(function()
+                {
+                    $.get("/index.php/feedback/tv",
+                        function(fdbData)
+                        {
+                            /*if(1 == fdbData)
+                            {
+                                console.log("Led2 switch Not accessable !!");
+                            }else if (2 == fdbData) 
+                            {
+                                console.log("Something wrong with the server !!");
+                            }else if (0 == fdbData) 
+                            {
+                                console.log("Led2 switch Success Changed !");
+                            };*/
+                        });
+                }, 4000);
+
+               if(self.switch)
+                {
+                    $topLoader.percentageLoader({progress: Number(self.controller())/100 });
+                }
+            },
+            error: function (xhr, status, error) 
+            {
+                $.post("/index.php/feedback/tv",
+                    "{'code':2}",
+                    function()
+                    {
+                        console.log("seed 2 OK");
+                    });
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    }
+    self.controlChanged = function (dv)
+    {
+        var togswitch  = self.switch;
+        if(togswitch)
+        {
+            controller(dv.value);
+
+            var controllerNumber = controller();
+            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
             $.ajax(
             {
                 type: "POST",
-                url: "/index.php/devices/7",
-                data: switchData,
-                success: function (subdata) 
-                {
-                   $.post("/index.php/feedback/led2",//+self.led2data.name,
-                        "{\"code\":1}",
-                        function (d)
-                        {
-                            console.log("seed 1 OK");
-                        });
-                   setTimeout(function()
-                    {
-                        $.get("/index.php/feedback/led2",//+self.led2data.name,
-                            function(fdbData)
-                            {
-                                if(1 == fdbData)
-                                {
-                                    console.log("Led2 switch Not accessable !!");
-                                }else if (2 == fdbData) 
-                                {
-                                    console.log("Something wrong with the server !!");
-                                }else if (0 == fdbData) 
-                                {
-                                    console.log("Led2 switch Success Changed !");
-                                };
-                            });
-                    }, 4000);
-                 //  console.log(data);
-                },
-                error: function (xhr, status, error) 
-                {
-                    $.post("/index.php/feedback/led2",//+self.led2data.name,
-                        "{'code':2}",
-                        function()
-                        {
-                            console.log("seed 2 OK");
-                        });
-                    $("#msg").html(xhr.responseText);
-                    $('#my-prompt').modal('open');
-                }
+                url: "/index.php/devices/8",
+                data: controllerData,
+                success : function (){console.log("post 8controller", controllerNumber );}
             });
+        }
     }
 }
-// check out which radio is selected and run the function radioChange under event:change
-$(function() 
-{
-    var $radios = $('[name="options"]');
-    $radios.on('change',function() 
-    {
-        if(togswitch())
-        {
-           if ("left" == $radios.filter(':checked').val())
-            {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":1}';
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/7",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
-            }
-            else if ("right" == $radios.filter(':checked').val()) 
-            {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":2}';
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/7",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
-            }else
-            {
-                var controllerData = '{"type":"step","switch":' + Number(togswitch()) +',"controller":0}';
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/index.php/devices/7",
-                        data: controllerData,
-                        success : function (){console.log("post ", $radios.filter(':checked').val());}
-                    });
-            }
-        }
-      console.log('selected : ', $radios.filter(':checked').val(),"con",controller());
-    });
+var tvViewModel = new centerVM();
 
-    var fullscreen = $.AMUI.fullscreen;
-    $('[name="lantk"]').on('click', function () 
-    {
-        if (fullscreen.enabled) 
-        {
-            fullscreen.toggle(this);
-            
-        }
-        console.log("fullscreen:", fullscreen.enabled);
-    });
-
-
-});
-var ctvm2 = new centervm();
-
-setTimeout('ctvm2.loaddata()', 300);
-ko.applyBindings(ctvm2, document.getElementById("led2Model"));
+setTimeout('tvViewModel.loaddata()', 200);
+ko.applyBindings(tvViewModel, document.getElementById("airModel"));
 
 //go back to main page
 var mainmodel = ko.dataFor(document.getElementById("mainModel"));
