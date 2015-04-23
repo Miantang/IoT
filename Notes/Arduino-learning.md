@@ -10,3 +10,6 @@ An arduino example（TCP） with Lewei50 (IOT) platform for free use .
 
 http://www.geek-workshop.com/thread-3407-1-1.html
  
+http://www.esp8266.com/viewtopic.php?f=24&t=1653
+
+http://www.esp8266.com/viewtopic.php?f=19&t=1278&start=20
