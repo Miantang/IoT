@@ -183,7 +183,7 @@ $app->post('/mqttdevices/:id', function ($id) use ($app)
 
     if ($mqtt->connect()) 
     {
-        $mqtt->publish("mqttdevice/".$id, $mqtt_message, 0);
+        $mqtt->publish("d".$id, $mqtt_message, 0);
         $mqtt->close();
     }
     
