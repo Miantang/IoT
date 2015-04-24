@@ -1,7 +1,14 @@
 /* Write your styles */
-.am-header-default ,.am-btn-primary {
+.am-header-default ,.am-btn-primary ,.am-navbar-default .am-navbar-nav,.footable > thead > tr > th, .footable > thead > tr > td {
     background-color: #738FE6;
     border-color: #738FE6;
+}
+.footable > tfoot > tr > th, .footable > tfoot > tr > td{
+	background-color: #738FE6;
+	border-color: -moz-use-text-color #738FE6 #738FE6 -moz-use-text-color;
+}
+.footable {
+	border: 3px solid #738FE6;
 }
 span.am-modal-btn
 {
