@@ -35,5 +35,6 @@
     4. 安卓端 滑动
     5. 电视遥控器端样式
     6. toggle bug
-    7. switch两个框
+    ~~7. switch两个框~~
+    8. resize
     
