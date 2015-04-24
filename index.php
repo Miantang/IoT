@@ -6,9 +6,6 @@ require 'Slim/Slim.php';
 
 $app = new \Slim\Slim();
 
-// require("public/phpMQTT.php");
-// $mqtt = new phpMQTT("127.0.0.1", 1883, "phpMQTT"); //Change client name to something unique
-
 $app->get( '/', function () use ($app) 
 {
     
@@ -120,7 +117,7 @@ $app->post('/devices/:id', function ($id) use ($app)
     include 'conn.php';
     // classify three types from the json code items.   
     
-    if("switch" == $type)
+    if ("switch" == $type)
     {
         // $value = $_POST['value'];
         $value = $input->value;
@@ -403,102 +400,5 @@ $app->get('/feedback/:name', function ($name) use ($app)
         $app->response()->status(404);
     }
 });
-
-
-/***************             Switches                 **********************/
-// GET /switches?page=1&rows=10
-$app->get('/switches', function () use ($app) 
-{ 
-    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-    $rows = isset($_GET['rows']) ? intval($_GET['rows']) : 10;
-    $offset = ($page-1)*$rows;
-    $result = array();
-
-    include 'conn.php';
-
-    $rs = mysql_query("select count(*) from switches");
-    $row = mysql_fetch_row($rs); 
-    $result["total"] = $row[0];
-
-    $sql = "select * from switches limit $offset,$rows ";
-    $rs = mysql_query($sql);
-    $items = array();
-
-    while($row = mysql_fetch_object($rs))
-    {
-      array_push($items, $row);
-    }
-    $result["rows"] = $items;
-
-    $app->response()->header('Content-Type', 'application/json');
-    echo json_encode($items, JSON_NUMERIC_CHECK);
-});
-
-// GET /switches/:id 
-$app->get('/switches/:id', function ($id) use ($app) 
-{ 
-    include 'conn.php';
-    // $sql = 'select * from switches where id =' . $id;
-    $sql = "select * from switches where id = '$id' limit 1";
-    $rs = mysql_query($sql);
-    
-    if($row = mysql_fetch_object($rs))
-    {
-        $app->response()->header('Content-Type', 'application/json');
-
-        echo json_encode( $row, JSON_NUMERIC_CHECK);
-    } 
-    else 
-    {
-        $app->response()->status(404);
-    }
-});
-
-// GET /switches/:id/switch 
-$app->get('/switches/:id/switch', function ($id) use ($app) 
-{ 
-  include 'conn.php';
-  //$sql = 'select * from switches where id =' . $id;
-  $sql = "select switch from switches where id = '$id' limit 1";
-  $rs = mysql_query($sql);
-  
-  if($row = mysql_fetch_object($rs))
-    {
-        $app->response()->header('Content-Type', 'application/json');
-
-        echo json_encode( $row, JSON_NUMERIC_CHECK);
-    } 
-    else 
-    {
-        $app->response()->status(404);
-    }
-});
-
-// PUT /switches/:id/status 
-$app->put('/switches/:id/switch', function ($id) use ($app) 
-{   
-    $request = $app->request();
-    $body = $request->getBody();
-    $input = json_decode($body);   
-
-    // $description = (string)$input->description;
-    $switch = (string)($input->switch);
-
-    include 'conn.php';
-
-    $sql = "update switches set switch='$switch' where id='$id'";
-
-    $result = @mysql_query($sql);
-    if ($result)
-    {
-        echo json_encode(array('success'=>true));
-    } 
-    else 
-    {
-        echo json_encode(array('success'=>false));
-    }
-});
-
-
 
 $app->run();
