@@ -1,24 +1,20 @@
 ﻿
 <div id="camModel" >
-    <iframe align="middle" width="640" height="480" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="../javascript_simple.html">
+    <iframe align="middle" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="../javascript_simple.html">
     </iframe>
-    <div id="container">
-      <div id="topLoader">      
-    </div>
     <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="led2" data-bind="checked : Boolean($root.switch), event:{ change: $root.camChanged}" ></input>
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="camara" data-bind="checked : $root.switchValue() ,event:{ change: $root.camChanged}" ></input>
         <label for = "cb-6"></label>
     </div>
 </div>
 <script type="text/javascript">
-var $topLoader; var controller;
+var controller;
 function centerVM() 
 {
     var self = this;
-    // make the variables observable    
-    self.switch = new Boolean();
+    // make the variables observable  
     self.controller = ko.observable(0);
-
+    self.switchValue = ko.observable(false);
     self.loaddata = function () 
     {
         $.ajax({
@@ -26,7 +22,8 @@ function centerVM()
         }).done(function (data) 
         {
             var led2Value = $.parseJSON(data.value);// = ko.observable();
-            self.switch = Boolean( led2Value.switch );
+            self.switch =  Number(led2Value.switch) ;
+            self.switchValue(Boolean(self.switch));
             self.controller(Number( led2Value.controller ));
 
             controller  = self.controller;
@@ -38,11 +35,13 @@ function centerVM()
         if (self.switch) 
         {
             self.switch = 0;
+            self.switchValue(false);
             console.log("1 to ",self.switch);
             $("#msg").html("1 to "+self.switch);
                 $('#my-prompt').modal('open');
         }else{
             self.switch = 1;
+            self.switchValue(true);
             console.log("0 to ",self.switch);
             $("#msg").html("0 to "+ self.switch);
                 $('#my-prompt').modal('open');
@@ -94,63 +93,7 @@ function centerVM()
         });
     }
 }
-// check out which radio is selected and run the function radioChange under event:change
-$(function() 
-{
-    $topLoader = $("#topLoader").percentageLoader({
-        width: 256, height: 256, controllable: true, progress: 0, 
-        onProgressComplete: function (val) 
-        {
-            var togswitch  = camViewModel.switch;
-            if(togswitch)
-            {
-                controller(Math.round(val * 100.0));
 
-                var controllerNumber = controller();
-                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
-                $.ajax(
-                {
-                    type: "POST",
-                    url: "/index.php/devices/6",
-                    data: controllerData,
-                    success : function (){console.log("post 6controller", controllerNumber );}
-                });
-            }
-        }
-    });
-
-    // add animation to the percentageLoader initial.
-    var topLoaderRunning = false;
-    $topLoader.percentageLoader({
-        onready: function ()
-        {
-            if (topLoaderRunning) {
-                return;
-              }
-              topLoaderRunning = true;
-              var kb = 0;
-            var animateFunc = function () 
-            {
-                var totalKb = controller()/100;
-                kb += 0.02;
-                if(kb >= totalKb)
-                {
-                    kb = totalKb;
-                }
-                $topLoader.percentageLoader({progress: kb });
-
-                if (kb < totalKb) {
-                  setTimeout(animateFunc, 25);
-                } else {
-                  topLoaderRunning = false;
-                }
-            };
-
-            setTimeout(animateFunc, 300);
-        } 
-    });
-    
-});
 var camViewModel = new centerVM();
 
 setTimeout('camViewModel.loaddata()', 200);
@@ -166,4 +109,5 @@ mainmodel.gopage = function (url)
     mainmodel.showback(false);
     mainmodel.showuinfo(true);
 };
+    
 </script>

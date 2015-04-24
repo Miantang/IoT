@@ -1,6 +1,6 @@
 <div id="tvModel" >
     <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="tv-9" value="tv" data-bind="checked : Boolean($root.switch), event:{ change: $root.tvSwitched}" ></input>
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="tv-9" value="tv" data-bind="checked : $root.switchValue(), event:{ change: $root.tvSwitched}" ></input>
         <label for = "tv-9"></label>
     </div>
     <div data-am-widget="list_news" class="am-list-news am-list-news-default">
@@ -18,7 +18,7 @@ function centerVM()
 {
     var self = this;
     // make the variables observable    
-    self.switch = new Boolean();
+    self.switchValue = ko.observable(false);
     self.controller = ko.observable(0);
     self.tvButtonGroup = 
     [
@@ -38,9 +38,8 @@ function centerVM()
         {
             var led2Value = $.parseJSON(data.value);// = ko.observable();
             self.switch = Boolean( led2Value.switch );
+            self.switchValue(Boolean(self.switch));
             self.controller(Number( led2Value.controller ));
-
-
         });
     };
     self.tvSwitched = function ()
@@ -48,11 +47,13 @@ function centerVM()
         if (self.switch) 
             {
                 self.switch = 0;
+                self.switchValue(false);
                 console.log("1 to ",self.switch);
                 $("#msg").html("1 to "+self.switch);
                     $('#my-prompt').modal('open');
             }else{
                 self.switch = 1;
+                self.switchValue(true);
                 console.log("0 to ",self.switch);
                 $("#msg").html("0 to "+ self.switch);
                     $('#my-prompt').modal('open');

@@ -3,7 +3,7 @@
       <div id="topLoader">      
     </div>
     <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-12" value="volume" data-bind="checked : Boolean($root.switch), event:{ change: $root.volChanged}" ></input>
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-12" value="volume" data-bind="checked:$root.switchValue(), event:{ change: $root.volChanged}" ></input>
         <label for = "cb-12"></label>
     </div>
 </div>
@@ -12,10 +12,9 @@ var $topLoader; var controller;
 function centerVM() 
 {
     var self = this;
-    // make the variables observable    
-    self.switch = new Boolean();
+    // make the variables observable  
     self.controller = ko.observable(0);
-
+    self.switchValue = ko.observable(false);
     self.loaddata = function () 
     {
         $.ajax({
@@ -23,7 +22,8 @@ function centerVM()
         }).done(function (data) 
         {
             var led2Value = $.parseJSON(data.value);// = ko.observable();
-            self.switch = Boolean( led2Value.switch );
+            self.switch =  Number(led2Value.switch) ;
+            self.switchValue(Boolean(self.switch));
             self.controller(Number( led2Value.controller ));
 
             controller  = self.controller;
@@ -35,14 +35,16 @@ function centerVM()
         if (self.switch) 
         {
             self.switch = 0;
+            self.switchValue(false);
             console.log("1 to ",self.switch);
             $("#msg").html("1 to "+self.switch);
-            $('#my-prompt').modal('open');
+                $('#my-prompt').modal('open');
         }else{
             self.switch = 1;
+            self.switchValue(true);
             console.log("0 to ",self.switch);
             $("#msg").html("0 to "+ self.switch);
-            $('#my-prompt').modal('open');
+                $('#my-prompt').modal('open');
         };
 
         var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
