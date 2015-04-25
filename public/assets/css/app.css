@@ -10,6 +10,9 @@
 .footable {
 	border: 3px solid #738FE6;
 }
+.am-header .am-header-title {
+	margin: 0px;
+}
 span.am-modal-btn
 {
 	color: #738FE6;
