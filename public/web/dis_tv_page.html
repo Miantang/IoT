@@ -4,10 +4,10 @@
         <label for = "tv-9"></label>
     </div>
     <div data-am-widget="list_news" class="am-list-news am-list-news-default">
-        <ul  data-bind="foreach: { data: tvButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails">
-            <li class="box am-thumbnail">
-                <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 } " data-am-button>
-                    <div class="centerText"><span data-bind="text:dv.name">开关</span></div>
+        <ul  data-bind="foreach: { data: tvButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 tvboxes am-thumbnails">
+            <li class="tvbox am-thumbnail">
+                <div class="tvbtn am-btn am-btn-primary" data-bind="attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 } ,style:{height:$('#tvbutton-1').width()+'px'} " data-am-button>
+                    <div class="tvBtnText"><span data-bind="text:dv.name">开关</span></div>
                 </div> 
             </li>
         </ul>

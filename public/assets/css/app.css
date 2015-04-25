@@ -1,4 +1,5 @@
 /* Write your styles */
+/* header, button and footable page Default Setting*/
 .am-header-default ,.am-btn-primary ,.am-navbar-default .am-navbar-nav,.footable > thead > tr > th, .footable > thead > tr > td {
     background-color: #738FE6;
     border-color: #738FE6;
@@ -21,22 +22,17 @@ span.am-modal-btn:hover
 {
 	background-color: #DEDEDE;
 }
-#allmap {
-	width: 100%;
-	height: 300px;
-	overflow: hidden;
-	margin: 0;
-	font-family: "微软雅黑";
-}
-
+/* circle controller Loader*/
 #topLoader {
 	width: 256px;
 	height: 256px;
+	margin-top: 20px;
 	margin-bottom: 32px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
+/* button list for center page */
 .boxes {
 	margin-top: 1em;
 	margin-left:auto;
@@ -71,7 +67,6 @@ span.am-modal-btn:hover
 @media only screen and (max-width: 479px) {
 	.box {  width: 45%;  margin: 2.45%; }
 }
-
 
 .imgsimple
 {
@@ -119,10 +114,72 @@ img.imgsimple
 	font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
 	font-size: 100%;
 }
+/* toggle in secondary page*/
 .am-fr
 {
 	float: inherit;
 	width: auto;
+}
+
+/* button list for tv and air conditioner page */
+.tvboxes {
+	margin-top: 1em;
+	margin-left:auto;
+	margin-right:auto;
+  	width: auto;
+  	text-align:center;
+  	padding-left: 5%;
+  	padding-right: 5%;
+}
+.tvbox {
+	display:inline;
+	height: auto;
+	text-align: center;
+	transition: all .2s ease;
+	float: left;
+	position: relative;
+	padding: 0px;
+	border-color: #738FE6;
+}
+.tvbtn ,.tvbtn.am-active
+{
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	padding: 0px 0px;
+	background-color: #fff;
+	border: 0px;
+	box-shadow: 0px 0px 0px;
+}
+.tvbtn:hover ,.tvbtn.am-active:hover{
+  background-color: #667399;
+}
+@media screen and (min-width:1200px){
+	.tvbox { width: 6%; margin: 1.33%;}
+}
+@media screen and (min-width: 960px) and (max-width: 1199px){
+	.tvbox { width: 8%; margin: 0.95%;}
+}
+@media screen and (min-width: 768px) and (max-width: 959px){
+	.tvbox { width: 13%; margin: 0.95%;}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	.tvbox { width: 20%; margin: 1.66%; }
+}
+@media only screen and (max-width: 479px) {
+	.tvbox {  width: 25%;  margin: 2.45%; }
+}
+
+.tvbox span
+{
+	color: #000;
+	text-align: center;
+	font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
+	font-size: 100%;
+}
+.tvBtnText{
+	margin-top: auto;
+	margin-bottom: auto;
 }
 /*.am-header-default
 {
