@@ -37,3 +37,15 @@ src/gz chaos_calmer_packages http://downloads.openwrt.org/snapshots/trunk/ramips
 src/gz chaos_calmer_routing http://downloads.openwrt.org/snapshots/trunk/ramips/generic/packages/routing
 src/gz chaos_calmer_telephony http://downloads.openwrt.org/snapshots/trunk/ramips/generic/packages/telephony
 
+
+###编译openwrt
+
+从download 处下载了最新的openwrt 1407 
+
+按照http://www.right.com.cn/forum/forum.php?mod=viewthread&tid=124604
+
+`make menuconfig` 遇到gnu-find 的问题
+
+解决：http://blog.csdn.net/qingfengtsing/article/details/39346403
+
+

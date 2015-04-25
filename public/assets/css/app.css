@@ -22,6 +22,19 @@ span.am-modal-btn:hover
 {
 	background-color: #DEDEDE;
 }
+.am-menu-offcanvas1 .am-menu-nav > li > a {
+	height: 50px;
+	line-height: 50px;
+	font-size: 1.7rem;
+}
+.am-menu-offcanvas1 .am-menu-sub{
+	font-size: 1.7rem;
+}
+.am-icon-user{
+	width: auto;
+	display: inline;
+	margin-left: -12px;
+}
 /* circle controller Loader*/
 #topLoader {
 	width: 256px;
