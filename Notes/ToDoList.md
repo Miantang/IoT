@@ -64,3 +64,5 @@
 
 8. resize
 
+http://blog.csdn.net/lsldd/article/details/13506263
+
