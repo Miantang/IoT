@@ -48,4 +48,6 @@ src/gz chaos_calmer_telephony http://downloads.openwrt.org/snapshots/trunk/ramip
 
 解决：http://blog.csdn.net/qingfengtsing/article/details/39346403
 
+[编译过程](http://www.right.com.cn/forum/thread-83746-1-1.html)
+
 
