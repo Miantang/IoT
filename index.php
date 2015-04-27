@@ -167,7 +167,7 @@ $app->post('/mqttdevices/:id', function ($id) use ($app)
         $switch = (string)$input->switch;
         $controller = (string)$input->controller;
         $value = '{"switch":'.$switch.',"controller":'.$controller.'}'; 
-        $mqtt_message = json_encode( json_decode($value,true), JSON_NUMERIC_CHECK);    
+        $mqtt_message = json_encode( json_decode($value, true), JSON_NUMERIC_CHECK);    
     }
 
     $sql = "update devices set value='$value' where id='$id'";
