@@ -63,7 +63,7 @@ function centerVM()
         $.ajax(
         {
             type: "POST",
-            url: "/index.php/devices/9",
+            url: "/index.php/mqttdevices/9",
             data: switchData,
             success: function (subdata) 
             {
@@ -112,7 +112,7 @@ function centerVM()
             $.ajax(
             {
                 type: "POST",
-                url: "/index.php/devices/9",
+                url: "/index.php/mqttdevices/9",
                 data: controllerData,
                 success : function (){console.log("post 9controller", controllerNumber );}
             });
