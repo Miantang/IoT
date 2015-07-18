@@ -3,6 +3,11 @@ the Internet of Things, Smart home, Home automation. Based on OpenWRT, Arduino.
 
 Only server's code is updated, arduino's code is on the way(based on WIFI shield)
 
+![](http://progressed.io/bar/70?title=Progress)
+
+
+----
+
 ####This is:
 
 - Just a specific requirement from a first party, not a pervasive templete for anybody. I'll try my best to make it reusable. So, api is on the way.
