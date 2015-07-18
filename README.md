@@ -6,8 +6,11 @@ We can do some interesting things ,such as controlling or monitoring the househo
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) 
 ![](http://progressed.io/bar/80?title=Progress)
 
-Only server's code is updated, arduino's code is on the way(based on WIFI shield)
 ----
+
+[Arduino HardWare SDK](https://github.com/Internet-of-Things/Arduino)
+
+I am trying to transfer it to Node.js, and make it usable on Arduino.
 
 ####This is:
 
