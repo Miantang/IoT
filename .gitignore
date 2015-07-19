@@ -10,3 +10,7 @@ phpmyadmin
 *.bak
 *.sh~
 *.sql~
+
+PythonTest
+p.php
+phpinfo.php

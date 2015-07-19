@@ -11,7 +11,6 @@ curl -i --request POST  --data "{\"code\":0}"  http://192.168.1.1:8080/index.php
 
 curl -i --request POST  --data "{\"type\":\"switch\",\"value\":7}"  http://192.168.1.1:8080/index.php/devices/1
 
-<<<<<<< HEAD
 curl -i --request POST  --data "{\"type\":\"step\",\"switch\":7,\"controller\":1}"  http://192.168.1.1:8080/index.php/devices/7
 
 

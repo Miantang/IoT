@@ -13,7 +13,6 @@ $app->get( '/', function () use ($app)
     {
         session_start();
     }
-#session_destroy();
     if ( !isset($_SESSION['username']) )
     {
         // header('Location:public/index.html'); 
@@ -26,7 +25,6 @@ $app->get( '/', function () use ($app)
     }
     else
     {
-        // header('Location:public/index.html'); 
         echo "<script language=\"javascript\">";
 
         echo "document.location=\"public/index.html\"";
@@ -274,7 +272,6 @@ $app->post('/userlogin', function ()
     {
 
         echo json_encode(array('username'=>$username)); 
-
        /* if(!isset($_SESSION))
         {
             session_start();
