@@ -1,6 +1,6 @@
 (function($) 
 {
-  String.prototype.startWith = function (str)
+  String.prototype.startWith = function (str) 
   {
       var reg = new RegExp("^" + str);
       return reg.test(this);
@@ -76,7 +76,7 @@
       }
     });
     
-  function appvm() 
+  function mainModelVM() 
   {
       var self = this;
 
@@ -187,7 +187,7 @@
                           }
                       self.showuinfo(true);
                       self.shownav(true);
-                      go("web/center_page.html");
+                      go("/web/center_page.html");
                   } else {
 
                       $("#msg").html("登陆失败");
@@ -205,8 +205,8 @@
       };
 
       self.gopage = function (url) {};
-  }
-  ko.applyBindings(new appvm(), document.getElementById("mainModel"));
+  };
+  ko.applyBindings(new mainModelVM(), document.getElementById("mainModel"));
 
   function go(url)
   {
@@ -229,4 +229,3 @@
   }
 
 })($);
-
