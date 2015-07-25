@@ -1,60 +1,5 @@
-(function($) 
-{
-  String.prototype.startWith = function (str)
-  {
-      var reg = new RegExp("^" + str);
-      return reg.test(this);
-  }
-
-  String.prototype.endWith = function (str) 
-  {
-      var reg = new RegExp(str + "$");
-      return reg.test(this);
-  }
-
-  Date.prototype.pattern = function (fmt) 
-  {
-      var o = 
-      {
-          "M+": this.getMonth() + 1, //月份         
-          "d+": this.getDate(), //日         
-          "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时         
-          "H+": this.getHours(), //小时         
-          "m+": this.getMinutes(), //分         
-          "s+": this.getSeconds(), //秒         
-          "q+": Math.floor((this.getMonth() + 3) / 3), //季度         
-          "S": this.getMilliseconds() //毫秒         
-      };
-      var week = 
-      {
-          "0": "/u65e5",
-          "1": "/u4e00",
-          "2": "/u4e8c",
-          "3": "/u4e09",
-          "4": "/u56db",
-          "5": "/u4e94",
-          "6": "/u516d"
-      };
-      if (/(y+)/.test(fmt)) 
-      {
-          fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-      }
-      if (/(E+)/.test(fmt)) 
-      {
-          fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[this.getDay() + ""]);
-      }
-      for (var k in o) 
-      {
-          if (new RegExp("(" + k + ")").test(fmt)) 
-          {
-              fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-          }
-      }
-      return fmt;
-  }
-
-  $.ajaxSetup(
-  {
+(function($) {
+  $.ajaxSetup({
       cache: true,
       statusCode: {
           406: function () {
@@ -74,19 +19,16 @@
               $('#my-prompt').modal('open');
           }
       }
-    });
+  });
     
-  function appvm() 
-  {
+  function mainViewModel() {
       var self = this;
-
       self.showuser = ko.observable(false);
       self.shownav = ko.observable(false);
       self.showuinfo = ko.observable(false);
       self.showback = ko.observable(false);
       self.uid = ko.observable("");
       self.pwd = ko.observable("");
-
       self.link_acuss = function () {
           go("web/ac_uss_page.html");
       };
@@ -100,13 +42,6 @@
           go("web/center_page.html");
           self.showback(false);
       };
-      self.link_alldvs = function () {
-          go("web/dvs_page.html");
-      };
-      self.link_adddv = function () {
-          go("web/dvadd_page.html");
-      };
-      
       self.rembme = ko.observable(false);
       if (typeof (Storage) !== "undefined") {
           if (localStorage.getItem("uid") !== null) {
@@ -125,7 +60,7 @@
                       $('#my-prompt').modal('open');
                   }
               } else {
-                    localStorage.clear();
+                  localStorage.clear();
                   self.uid("");
                   self.pwd("");
               }
@@ -134,14 +69,13 @@
               $('#my-prompt').modal('open');
           }
       });
-      
       self.link_accountEditPwd = function () {
           go("web/acpwd_page.html");
       };
       
-    self.link_user = function () 
+    self.link_user = function ()
     {
-        if ($.AMUI.utils.cookie.get('uid') !== null) 
+        if ($.AMUI.utils.cookie.get('uid') !== null)
         {
             $("#dialog").html("你确定想退出系统吗？");
             var $confirm = $('#exit-confirm');
@@ -149,9 +83,10 @@
                 var onConfirm = function () {
                 $.AMUI.utils.cookie.set('uid', null);
                 $.AMUI.utils.cookie.set('pwd', null);
-                window.location = "index.html";
-            }; var onCancel = function () { }
-                
+                window.location = "/";
+            };
+            var onCancel = function () { };
+
             if (confirm) {
                 confirm.options.onConfirm = onConfirm;
                 confirm.options.onCancel = onCancel;
@@ -177,7 +112,6 @@
               }).done(function (data) {
                     if (data)
                     {
-                       // $.AMUI.utils.cookie.set('ukey', data.ukey);
                         $.AMUI.utils.cookie.set('uid', self.uid(), { expires: 7 });
                         $.AMUI.utils.cookie.set('pwd', self.pwd(), { expires: 7 });
                         $.AMUI.utils.cookie.set('data', data);
@@ -185,11 +119,9 @@
                           {
                               self.showuser(true);
                           }
-                      self.showuinfo(true);
                       self.shownav(true);
                       go("web/center_page.html");
                   } else {
-
                       $("#msg").html("登陆失败");
                       $('#my-prompt').modal('open');
                       self.uid("");
@@ -206,11 +138,10 @@
 
       self.gopage = function (url) {};
   }
-  ko.applyBindings(new appvm(), document.getElementById("mainModel"));
+  ko.applyBindings(new mainViewModel(), document.getElementById("mainModel"));
 
   function go(url)
   {
-      console.log('go url', url);
       $("#render").load(url, null, function (res, status, xhr) {
           if ( status == "error" ) {
               var msg = "Sorry but there was an error: ";
@@ -230,3 +161,212 @@
 
 })($);
 
+function centerViewModel() {
+    var self = this;
+    self.disLed2 = function() {
+        $("#render").load("web/dis_led2_page.html");
+    };
+    self.disVolume = function() {
+        $("#render").load("web/dis_volume_page.html");
+    };
+    self.disCam = function() {
+        $("#render").load("web/dis_cam_page.html");
+    };
+
+    self.disAir = function() {
+        $("#render").load("web/dis_air_page.html");
+    };
+
+    self.disTV = function() {
+        $("#render").load("web/dis_tv_page.html");
+    };
+
+    self.switchChanged = function (dv) {
+        var tempValue;
+        if (dv.value === 1)
+        {
+            dv.value = 0;
+            dv.imgValue(0);
+            tempValue = dv.value;
+            console.log("1 to ",tempValue);
+            $("#msg").html("1 to "+tempValue);
+            $('#my-prompt').modal('open');
+        }else{
+            dv.value = 1;
+            dv.imgValue(1);
+            tempValue = dv.value;
+            console.log("0 to ", tempValue);
+            $("#msg").html("0 to "+tempValue);
+            $('#my-prompt').modal('open');
+
+        }
+        var switchData = '{"type":"switch","value":'+ dv.value+'}';
+
+        $.ajax({
+            type: "POST",
+            //url: "/index.php/mqttdevices/"  + dv.id,
+            url: "/devices/"  + dv.id,
+            data: JSON.parse(switchData),
+            success: function ()
+            {
+            },
+            error: function (xhr, status, error)
+            {
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    };
+
+    self.devices = ko.observableArray();
+
+    self.loaddata = function ()
+    {
+        $.ajax({
+            url: "/devices"
+        }).done(function (data)
+        {
+            if (data.length === 0)
+            {
+                $("#render").load("web/nav_page.html");
+            }
+            else
+            {
+                if(0 === self.devices().length)
+                {
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        data[i].description = decodeURI(data[i].description);
+
+                        if("switch" === data[i].type)
+                        {
+                            data[i].imgValue = ko.observable( data[i].value );
+                        }
+                        self.devices.push(data[i]);
+                    }
+                }
+                else
+                {
+                    // for (var i = 0; i < data.length; i++)
+                    // {
+                    //     self.devices()[i].value( Boolean(data[i].value) );
+                    // };
+                }
+            }
+        }).fail(function (xhr) {
+        });
+    };
+}
+
+var $topLoader; var controller;
+function volumeViewModel()
+{
+    var self = this;
+    // make the variables observable
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.loaddata = function ()
+    {
+        $.ajax({
+            url: "/devices/12"
+        }).done(function (data)
+        {
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(led2Value.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( led2Value.controller ));
+
+            controller  = self.controller;
+
+        });
+    };
+    self.volChanged = function ()
+    {
+        if (self.switch)
+        {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+            $('#my-prompt').modal('open');
+        }else{
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+            $('#my-prompt').modal('open');
+        };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+            {
+                type: "POST",
+                url: "/devices/12",
+                data: switchData,
+                success: function (subdata)
+                {
+                    if(self.switch)
+                    {
+                        $topLoader.percentageLoader({progress: Number(self.controller())/100 });
+                    }
+                }
+            });
+    }
+}
+// check out which radio is selected and run the function radioChange under event:change
+$(function()
+{
+    $topLoader = $("#topLoader").percentageLoader({
+        width: 256, height: 256, controllable: true, progress: 0,
+        onProgressComplete: function (val)
+        {
+            var togswitch  = volViewModel.switch;
+            if(togswitch)
+            {
+                controller(Math.round(val * 100.0));
+
+                var controllerNumber = controller();
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "/devices/12",
+                        data: controllerData,
+                        success : function (){console.log("post 12controller", controllerNumber );}
+                    });
+            }
+        }
+    });
+
+    // add animation to the percentageLoader initial.
+    var topLoaderRunning = false;
+    $topLoader.percentageLoader({
+        onready: function ()
+        {
+            if (topLoaderRunning) {
+                return;
+            }
+            topLoaderRunning = true;
+            var kb = 0;
+            var animateFunc = function ()
+            {
+                var totalKb = controller()/100;
+                kb += 0.02;
+                if(kb >= totalKb)
+                {
+                    kb = totalKb;
+                }
+                $topLoader.percentageLoader({progress: kb });
+
+                if (kb < totalKb) {
+                    setTimeout(animateFunc, 25);
+                } else {
+                    topLoaderRunning = false;
+                }
+            };
+
+            setTimeout(animateFunc, 300);
+        }
+    });
+
+});

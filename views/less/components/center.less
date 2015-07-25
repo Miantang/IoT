@@ -1,0 +1,89 @@
+/* button list for center page */
+.boxes {
+  margin-top: 1em;
+  margin-left:auto;
+  margin-right:auto;
+  width: auto;
+  text-align:center;
+  padding-left: 5%;
+  padding-right: 5%;
+  overflow: hidden;
+}
+.box {
+  display:inline-block;
+  height: 150px;
+  text-align: center;
+  transition: all .2s ease;
+  float: left;
+  position: relative;
+  padding: 0;
+  border-color: @global-color;
+}
+@media screen and (min-width:1200px){
+  .box { width: 14%; margin: 1.33%;}
+}
+@media screen and (min-width: 960px) and (max-width: 1199px){
+  .box { width: 18%; margin: 0.95%;}
+}
+@media screen and (min-width: 768px) and (max-width: 959px){
+  .box { width: 23%; margin: 0.95%;}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .box { width: 30%; margin: 1.66%; }
+}
+@media only screen and (max-width: 479px) {
+  .box {  width: 45%;  margin: 2.45%; }
+}
+
+.imgsimple
+{
+  padding: 10% 0px 10%;
+  width: 57%;
+  height: 57%;
+  margin-left: auto;
+  margin-right: auto;
+}
+img.imgsimple
+{
+  width: 100%;
+}
+.centerText
+{
+  position: absolute;
+  bottom: 8%;
+  width: 100%;
+  height: 16%
+}
+.custombtn
+{
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  padding: 0px 0px;
+  background-color: #fff;
+  border: 0px;
+  /*border-color: @global-color;*/
+}
+.custombtn:hover {
+  background-color: #667399;
+}
+
+.custombtn.am-active {
+  background-color: #A0D6D6;
+}
+.custombtn.am-active:hover {
+  border: 3px solid #33394D;
+}
+.box span
+{
+  color: #000;
+  text-align: center;
+  font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
+  font-size: 100%;
+}
+/* toggle in secondary page*/
+.am-fr
+{
+  float: inherit;
+  width: auto;
+}

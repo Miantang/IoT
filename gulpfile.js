@@ -17,7 +17,8 @@ gulp.task('mocha', function () {
            //    process.exit();
            //});
 });
-var lessPath = [path.join(__dirname, 'views', 'less')];
+var lessPath = [path.join(__dirname, 'src', 'less', 'includes'),
+                path.join(__dirname, 'src', 'less', 'components')];
 gulp.task('less', function () {
     return gulp.src('./views/less/app.less')
         .pipe(plugins.less({ paths: lessPath }))

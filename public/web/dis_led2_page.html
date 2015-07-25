@@ -18,7 +18,7 @@ function centerVM()
     self.loaddata = function () 
     {
         $.ajax({
-            url: "/index.php/devices/7"
+            url: "/devices/7"
         }).done(function (data) 
         {
             var led2Value = $.parseJSON(data.value);// = ko.observable();
@@ -51,44 +51,14 @@ function centerVM()
         $.ajax(
         {
             type: "POST",
-            url: "/index.php/mqttdevices/7",
+            url: "/devices/7",
             data: switchData,
             success: function (subdata) 
             {
-               $.post("/index.php/feedback/led2", "{\"code\":1}");
-               setTimeout(function()
-                {
-                    $.get("/index.php/feedback/led2",
-                        function(fdbData)
-                        {
-                            /*if(1 == fdbData)
-                            {
-                                console.log("Led2 switch Not accessable !!");
-                            }else if (2 == fdbData) 
-                            {
-                                console.log("Something wrong with the server !!");
-                            }else if (0 == fdbData) 
-                            {
-                                console.log("Led2 switch Success Changed !");
-                            };*/
-                        });
-                }, 4000);
-
                if(self.switch)
                 {
                     $topLoader.percentageLoader({progress: Number(self.controller())/100 });
                 }
-            },
-            error: function (xhr, status, error) 
-            {
-                $.post("/index.php/feedback/led2",
-                    "{'code':2}",
-                    function()
-                    {
-                        console.log("seed 2 OK");
-                    });
-                $("#msg").html(xhr.responseText);
-                $('#my-prompt').modal('open');
             }
         });
     }
@@ -110,7 +80,7 @@ $(function()
                 $.ajax(
                 {
                     type: "POST",
-                    url: "/index.php/mqttdevices/7",
+                    url: "/devices/7",
                     data: controllerData,
                     success : function (){console.log("post 7controller", controllerNumber );}
                 });
@@ -158,8 +128,7 @@ ko.applyBindings(led2ViewModel, document.getElementById("led2Model"));
 //go back to main page
 var mainmodel = ko.dataFor(document.getElementById("mainModel"));
 mainmodel.showback(true);
-mainmodel.showuinfo(false);
-mainmodel.gopage = function (url) 
+mainmodel.gopage = function (url)
 {
     $("#render").load("web/center_page.html");
     mainmodel.showback(false);
