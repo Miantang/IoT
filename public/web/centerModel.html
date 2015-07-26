@@ -1,7 +1,4 @@
 <div id="centerModel"><div .am-list-news.am-list-news-default=".am-list-news.am-list-news-default" class="am-list-news am-list-news-default"><ul data-bind="foreach: { data: devices, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails"><li class="box am-thumbnail"><!-- ko if: dv.type === 'switch'--><div data-bind="click: $root.switchChanged, css: {'am-active': dv.value === 1}" data-am-button="data-am-button" class="custombtn am-btn am-btn-primary"><div class="imgsimple"><img data-bind="attr: {src:'i/icons/'+ dv.name + (dv.imgValue()?'-on':'-off')+'.png', alt : dv.name }"/></div><div class="centerText"><span data-bind="text:dv.description"></span></div></div><!-- /ko -->
-<!-- ko if: dv.name === "led2" --><div data-bind="click: $root.disLed2" class="custombtn"><div class="imgsimple"><img src="i/icons/light2.png" alt="LED2 Light"/></div><div class="centerText"><span>LED灯带</span></div></div><!-- /ko --></li></ul></div></div><script type="text/javascript">if(ctvm === undefined) {
-  console.log('just once!');
-  var ctvm = new centerViewModel();
-}
+<!-- ko if: dv.name === "led2" --><div data-bind="click: $root.disLed2" class="custombtn"><div class="imgsimple"><img src="i/icons/light2.png" alt="LED2 Light"/></div><div class="centerText"><span>LED灯带</span></div></div><!-- /ko --></li></ul></div></div><script type="text/javascript">var ctvm = new centerViewModel();
 setTimeout(ctvm.loaddata, 200);
 ko.applyBindings(ctvm, document.getElementById("centerModel"));</script>

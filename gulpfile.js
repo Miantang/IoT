@@ -17,6 +17,11 @@ gulp.task('mocha', function () {
            //    process.exit();
            //});
 });
+gulp.task('jade', function () {
+    return gulp.src('./views/jade/viewModels/*.jade')
+        .pipe(plugins.jade())
+        .pipe(gulp.dest('./public/web/'));
+});
 var lessPath = [path.join(__dirname, 'src', 'less', 'includes'),
                 path.join(__dirname, 'src', 'less', 'components')];
 gulp.task('less', function () {
@@ -27,4 +32,4 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./public/css/'));
 });
 gulp.task('test', ['mocha']);
-gulp.task('default', ['less', 'server']);
+gulp.task('default', ['less', 'jade', 'server']);

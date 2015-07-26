@@ -344,7 +344,6 @@ see the file license.txt that was included with the plugin bundle.
         /* Do an initial draw */
         drawLoader();
 
-
         /* In controllable mode, add event handlers */
         if (params.controllable === true) {
             (function () {
