@@ -16,10 +16,3 @@
           .centerText
             span LED灯带
         <!-- /ko -->
-script(type='text/javascript').
-  if(ctvm === undefined) {
-    console.log('just once!');
-    var ctvm = new centerViewModel();
-  }
-  setTimeout(ctvm.loaddata, 200);
-  ko.applyBindings(ctvm, document.getElementById("centerModel"));

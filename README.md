@@ -1,18 +1,18 @@
 # IoT
-A web server of the Internet of Things, Smart home, Home automation. Run on OpenWRT, Arduino.
+A web platform of the Internet of Things, Smart home, Home automation. Run on OpenWRT, Arduino.
 
 We can do some interesting things ,such as controlling or monitoring the household appliances via it.
 
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) 
-![](http://progressed.io/bar/80?title=Progress)
+![](http://progressed.io/bar/95?title=Progress)
 
 ----
 
-[Arduino HardWare SDK](https://github.com/Internet-of-Things/Arduino)
+Based on [Node.js](http://nodejs.org), Older version was based on PHP: [IoT-PHP](https://github.com/Miantang/IoT-PHP)
 
-I am trying to transfer it to Node.js, and make it usable on Arduino.
+You need [Arduino HardWare SDK](https://github.com/Internet-of-Things/Arduino) to enjoy this platform.
 
-####This is:
+###This is:
 
 - Just a specific requirement from a first party, not a pervasive templete for anybody. If you want to make it reusable, please contact me.
 
@@ -24,29 +24,20 @@ I am trying to transfer it to Node.js, and make it usable on Arduino.
 
 Sound, Access Control, Gas, TV, Air Conditioner.
 
-####Depends:
-    
-    PHP 5.3.4
-    MySQL
-    Nginx
-    Slim
-    AmazeUI
+###Get it
+```
+git clone git@github.com:Miantang/IoT.git && cd IoT
+```
 
-####//TODOLIST
- 
-1. Chinese wiki branch, doc and unit test.
+```
+npm install
+```
 
-2. NodeJS transfer
+```
+gulp
+```
 
-3. Android client
-
-4. Frontend Design
-
-5. ……
-
-*master branch* 
-
-####License
+###License
 -----------------------------------------------------------
 
 This software is released under the MIT License 

@@ -15,13 +15,7 @@ setTimeout(led2VM.loaddata, 200);
 ko.applyBindings(led2VM, document.getElementById("led2Model"));
 
 //go back to main page
-var mainmodel = ko.dataFor(document.getElementById("mainModel"));
+console.log('mainmodel : ', mainmodel);
 mainmodel.showback(true);
-mainmodel.gopage = function (url)
-{
-    $("#render").load("web/center_page.html");
-    mainmodel.showback(false);
-    mainmodel.showuinfo(true);
-};
-    
+
 </script>

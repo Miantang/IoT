@@ -61,14 +61,10 @@ function centerViewModel() {
     {
         $.ajax({
             url: "/devices"
-        }).done(function (data)
-        {
-            if (data.length === 0)
-            {
-                $("#render").load("web/nav_page.html");
-            }
-            else
-            {
+        }).done(function (data) {
+            if (data.length === 0) {
+                goCenter();
+            } else {
                 if(0 === self.devices().length)
                 {
                     for (var i = 0; i < data.length; i++)
