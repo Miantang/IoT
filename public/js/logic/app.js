@@ -103,8 +103,7 @@ self.link_user = function ()
         }
     }
 };
-  self.bt_login = function ()
-  {
+  self.bt_login = function () {
       if (self.uid() !== "" && self.pwd() !== "")
       {
           $.AMUI.progress.start();

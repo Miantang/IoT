@@ -16,3 +16,10 @@
           .centerText
             span LED灯带
         <!-- /ko -->
+        <!-- ko if: dv.name === "camera" -->
+        .custombtn(data-bind="click: $root.disCam")
+          .imgsimple
+            img(src="i/icons/camera_1.png" alt="Camera")
+          <div  class="centerText"><span>摄像监控</span></div>
+          </div>
+        <!-- /ko -->
