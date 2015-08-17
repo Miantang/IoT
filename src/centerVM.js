@@ -80,21 +80,21 @@ function centerVM() {
 
         self.devices = ko.observableArray();
 
-        self.loaddata = function () 
+        self.loaddata = function ()
         {
             $.ajax({
                 url: "/index.php/devices"
-            }).done(function (data) 
+            }).done(function (data)
             {
-                if (data.length === 0) 
+                if (data.length === 0)
                 {
                     $("#render").load("web/nav_page.html");
-                } 
-                else 
+                }
+                else
                 {
                     if(0 === self.devices().length)
                     {
-                       for (var i = 0; i < data.length; i++) 
+                       for (var i = 0; i < data.length; i++)
                         {
                             data[i].description = decodeURI(data[i].description);
                             

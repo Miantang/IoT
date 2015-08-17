@@ -11,7 +11,7 @@ function server () {
 gulp.task('server', server);
 
 gulp.task('mocha', function () {
-   return gulp.src('./test/*')
+   return gulp.src('./test/*.js')
        .pipe(plugins.mocha());
            //.once('end', function () {
            //    process.exit();

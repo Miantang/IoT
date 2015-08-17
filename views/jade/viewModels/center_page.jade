@@ -20,6 +20,41 @@
         .custombtn(data-bind="click: $root.disCam")
           .imgsimple
             img(src="i/icons/camera_1.png" alt="Camera")
-          <div  class="centerText"><span>摄像监控</span></div>
-          </div>
+          .centerText
+            span 摄像监控
+        <!-- /ko -->
+        <!-- ko if: dv.name === "tv" -->
+        .custombtn(data-bind="click: $root.disTV")
+          .imgsimple
+            img(src="i/icons/tv.png" alt="TV")
+          .centerText
+            span 电视
+        <!-- /ko -->
+        <!-- ko if: dv.name === "air" -->
+        .custombtn(data-bind="click: $root.disAir")
+          .imgsimple
+            img(src="i/icons/air2.png" alt="Air")
+          .centerText
+            span 空调
+        <!-- /ko -->
+        <!-- ko if: dv.name === "access" -->
+        .custombtn(data-bind="click: $root.disTV")
+        .imgsimple
+          img(src="i/icons/access2.png" alt="Access")
+        .centerText
+          span 门禁
+        <!-- /ko -->
+        <!-- ko if: dv.name === "gas" -->
+        .custombtn(data-bind="click: $root.disTV")
+          .imgsimple
+            img(src="i/icons/gas2.png" alt="gas")
+          .centerText
+            span 燃气监控
+        <!-- /ko -->
+        <!-- ko if: dv.name === "volume" -->
+        .custombtn(data-bind="click: $root.disVolume")
+          .imgsimple
+            img(src="i/icons/volume.png" alt="volume")
+          .centerText
+            span 音量控制
         <!-- /ko -->
