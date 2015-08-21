@@ -37,15 +37,15 @@
           .centerText
             span 空调
         <!-- /ko -->
-        <!-- ko if: dv.name === "access" -->
-        .custombtn(data-bind="click: $root.disTV")
+        <!-- ko if: dv.name === "curtain" -->
+        .custombtn(data-bind="click: $root.disCurtain")
           .imgsimple
-            img(src="i/icons/access2.png" alt="Access")
+            img(src="i/icons/curtain.png" alt="Curtain")
           .centerText
-            span 门禁
+            span 窗帘
         <!-- /ko -->
         <!-- ko if: dv.name === "screen" -->
-        .custombtn(data-bind="click: $root.disTV")
+        .custombtn(data-bind="click: $root.disScreen")
           .imgsimple
             img(src="i/icons/screen.png" alt="screen")
           .centerText

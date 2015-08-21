@@ -50,9 +50,9 @@ DeviceModel.findOne({id: 2}, function (err, dv) {
         var device = new DeviceModel({
             id: 2,
             type: 'switch',
-            name: 'curtain',
+            name: 'access',
             value: '0',
-            description: '窗帘'
+            description: '门禁开关'
         });
         device.save();
     }
@@ -146,9 +146,9 @@ DeviceModel.findOne({id: 10}, function (err, dv) {
         var device = new DeviceModel({
             id: 10,
             type: 'step',
-            name: 'access',
-            value: '{"switch":0,"controller":"0"}',
-            description: '门禁'
+            name: 'curtain',
+            value: '{"switch":1,"controller":"0"}',
+            description: '窗帘'
         });
         device.save();
     }
@@ -159,7 +159,7 @@ DeviceModel.findOne({id: 11}, function (err, dv) {
             id: 11,
             type: 'step',
             name: 'screen',
-            value: '{"switch":0,"controller":"0"}',
+            value: '{"switch":1,"controller":"0"}',
             description: '幕布'
         });
         device.save();

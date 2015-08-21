@@ -9,26 +9,28 @@ function centerViewModel() {
     self.disCam = function() {
         $("#render").load("web/dis_cam_page.html");
     };
-
     self.disAir = function() {
         $("#render").load("web/dis_air_page.html");
     };
-
     self.disTV = function() {
         $("#render").load("web/dis_tv_page.html");
     };
-
+    self.disCurtain = function() {
+        $("#render").load("web/dis_curtain_page.html");
+    };
+    self.disScreen = function() {
+        $("#render").load("web/dis_screen_page.html");
+    };
     self.switchChanged = function (dv) {
         var tempValue;
-        if (dv.value == 1)
-        {
+        if (dv.value == 1) {
             dv.value = 0;
             dv.imgValue(0);
             tempValue = dv.value;
             console.log("1 to ",tempValue);
             $("#msg").html("1 to "+tempValue);
             $('#my-prompt').modal('open');
-        }else{
+        } else {
             dv.value = 1;
             dv.imgValue(1);
             tempValue = dv.value;
@@ -44,11 +46,8 @@ function centerViewModel() {
             //url: "/index.php/mqttdevices/"  + dv.id,
             url: "/devices/"  + dv.id,
             data: JSON.parse(switchData),
-            success: function ()
-            {
-            },
-            error: function (xhr, status, error)
-            {
+            success: function () { },
+            error: function (xhr, status, error) {
                 $("#msg").html(xhr.responseText);
                 $('#my-prompt').modal('open');
             }
@@ -57,22 +56,18 @@ function centerViewModel() {
 
     self.devices = ko.observableArray();
 
-    self.loaddata = function ()
-    {
+    self.loaddata = function () {
         $.ajax({
             url: "/devices"
         }).done(function (data) {
             if (data.length === 0) {
                 goCenter();
             } else {
-                if(0 === self.devices().length)
-                {
-                    for (var i = 0; i < data.length; i++)
-                    {
+                if(0 === self.devices().length) {
+                    for (var i = 0; i < data.length; i++) {
                         data[i].description = decodeURI(data[i].description);
 
-                        if("switch" === data[i].type)
-                        {
+                        if("switch" === data[i].type) {
                             data[i].imgValue = ko.observable( Number(data[i].value) );
                         }
                         self.devices.push(data[i]);

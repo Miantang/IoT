@@ -76,8 +76,7 @@ function mainViewModel() {
       go("web/acpwd_page.html");
   };
 
-self.link_user = function ()
-{
+self.link_user = function () {
     if ($.AMUI.utils.cookie.get('uid') !== null)
     {
         $("#dialog").html("你确定想退出系统吗？");

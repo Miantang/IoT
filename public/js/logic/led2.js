@@ -145,7 +145,7 @@ function volumeViewModel() {
                     type: "POST",
                     url: "/devices/12",
                     data: JSON.parse(controllerData),
-                    success : function (){console.log("post 12 controller", controllerNumber );}
+                    success : function (){console.log("post 12 volume controller", controllerNumber );}
                 });
             }
         }
@@ -345,7 +345,125 @@ function tvViewModel() {
                 type: "POST",
                 url: "/devices/9",
                 data: JSON.parse(controllerData),
-                success : function (){console.log("post 9 controller", controllerNumber );}
+                success : function (){console.log("post 9 tv controller", controllerNumber );}
+            });
+        }
+    }
+}
+
+function curtainViewModel() {
+    var self = this;
+    // make the variables observable
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.curtainButtonGroup = [
+        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"}
+    ];
+
+    self.loaddata = function () {
+        $.ajax({
+            url: "/devices/10"
+        }).done(function (data) {
+            var tvValue = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(tvValue.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( tvValue.controller ));
+        });
+    };
+    self.togSwitched = function() {
+        if (self.switch) {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("tvSwitched 1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+            $('#my-prompt').modal('open');
+        } else {
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+            $('#my-prompt').modal('open');
+        }
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax({
+            type: "POST",
+            url: "/devices/10",
+            data: JSON.parse(switchData),
+            success: function () { }
+        });
+    };
+    self.controlChanged = function (dv) {
+        var togswitch  = self.switch;
+        if(togswitch) {
+            self.controller(dv.value);
+
+            var controllerNumber = self.controller();
+            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+            $.ajax({
+                type: "POST",
+                url: "/devices/10",
+                data: JSON.parse(controllerData),
+                success : function (){console.log("post 10 curtain controller", controllerNumber );}
+            });
+        }
+    }
+}
+
+function screenViewModel() {
+    var self = this;
+    // make the variables observable
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.screenButtonGroup = [
+        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"}
+    ];
+
+    self.loaddata = function () {
+        $.ajax({
+            url: "/devices/11"
+        }).done(function (data) {
+            var screenValue = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(screenValue.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( screenValue.controller ));
+        });
+    };
+    self.togSwitched = function() {
+        if (self.switch) {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("screenSwitched 1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+            $('#my-prompt').modal('open');
+        } else {
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+            $('#my-prompt').modal('open');
+        }
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax({
+            type: "POST",
+            url: "/devices/11",
+            data: JSON.parse(switchData),
+            success: function () { }
+        });
+    };
+    self.controlChanged = function (dv) {
+        var togswitch  = self.switch;
+        if(togswitch) {
+            self.controller(dv.value);
+
+            var controllerNumber = self.controller();
+            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+            $.ajax({
+                type: "POST",
+                url: "/devices/11",
+                data: JSON.parse(controllerData),
+                success : function (){console.log("post 11 screen controller", controllerNumber );}
             });
         }
     }

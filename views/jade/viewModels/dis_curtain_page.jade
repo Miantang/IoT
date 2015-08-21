@@ -1,0 +1,15 @@
+#curtainModel
+  .switch.am-fr
+    input.cmn-toggle.cmn-toggle-round#curtain-10(type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}")
+    label(for="curtain-10")
+  .am-list-news.am-list-news-default(data-am-widget="list_news")
+    ul.am-avg-sm-2.am-avg-md-3.am-avg-lg-4.boxes.am-thumbnails(data-bind="foreach: { data: curtainButtonGroup, as: 'dv' }")
+      li.tvbox.am-thumbnail
+        .custombtn.am-btn.am-btn-primary(data-bind="attr: {id: 'curbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#curbutton-1').width()+'px'}" data-am-button)
+          .centerText
+            span(data-bind="text:dv.name") 开关
+script.
+  var curVM = new curtainViewModel();
+  setTimeout(curVM.loaddata, 200);
+  ko.applyBindings(curVM, document.getElementById("curtainModel"));
+  mainmodel.showback(true);
