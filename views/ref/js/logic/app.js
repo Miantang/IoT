@@ -34,14 +34,18 @@ function mainViewModel() {
   self.showback = ko.observable(false);
   self.uid = ko.observable("");
   self.pwd = ko.observable("");
-  self.link_acuss = function () {
-      go("web/ac_uss_page.html");
+  self.link_addUser = function () {
+      go("web/account_addUser_page.html");
   };
-  self.link_acaddus = function () {
-      go("web/ac_addus_page.html");
+  self.link_childUsersManager = function () {
+      go("web/account_usersManager_page.html");
   };
+
   self.link_account = function () {
-      go("web/ac_page.html");
+      go("web/account_page.html");
+  };
+  self.link_accountEditPwd = function () {
+      go("web/account_pwd_page.html");
   };
   self.link_user_center = goCenter;
 
@@ -72,9 +76,7 @@ function mainViewModel() {
           $('#my-prompt').modal('open');
       }
   });
-  self.link_accountEditPwd = function () {
-      go("web/acpwd_page.html");
-  };
+
 
 self.link_user = function () {
     if ($.AMUI.utils.cookie.get('uid') !== null)

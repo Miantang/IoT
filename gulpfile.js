@@ -31,5 +31,32 @@ gulp.task('less', function () {
         .pipe(plugins.minifyCss({ compatibility: 'ie9' }))
         .pipe(gulp.dest('./public/css/'));
 });
+
+gulp.task('scripts', function() {
+    return gulp.src(['./src/**/*.js'])
+        // .pipe(plugins.jshint('.jshintrc'))
+        // .pipe(plugins.jshint.reporter('default'))
+        // .pipe(plugins.uglify())
+        .pipe(gulp.dest('public/js/'))
+        .pipe(browserSync.stream());
+});
+
+// copy files from ref
+gulp.task('copy:img', function () {
+    return gulp.src('./views/ref/i/**/*.png')
+        .pipe(gulp.dest('./public/i'));
+});
+gulp.task('copy:js', function () {
+    return gulp.src('./views/ref/js/**/*.js')
+        .pipe(gulp.dest('./public/js'));
+});
+gulp.task('copy:css', function () {
+    return gulp.src('./views/ref/css/**/*.css')
+        .pipe(gulp.dest('./public/css'));
+});
+gulp.task('copy', ['copy:img', 'copy:css', 'copy:js']);
+
 gulp.task('test', ['mocha']);
-gulp.task('default', ['less', 'jade', 'server']);
+
+gulp.task('build', ['less', 'jade', 'copy', 'server']);
+gulp.task('default', ['build']);

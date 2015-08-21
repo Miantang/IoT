@@ -357,7 +357,7 @@ function curtainViewModel() {
     self.controller = ko.observable(0);
     self.switchValue = ko.observable(false);
     self.curtainButtonGroup = [
-        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"}
+        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"},{id : 3, value : 3, name : "Stop"}
     ];
 
     self.loaddata = function () {
@@ -416,7 +416,7 @@ function screenViewModel() {
     self.controller = ko.observable(0);
     self.switchValue = ko.observable(false);
     self.screenButtonGroup = [
-        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"}
+        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"},{id : 3, value : 3, name : "Stop"}
     ];
 
     self.loaddata = function () {

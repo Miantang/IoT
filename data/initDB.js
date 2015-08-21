@@ -25,8 +25,8 @@ UserModel.findOne({ uid: "admin" }, function (err, u) {
         var admin = new UserModel({
             uid: 'admin',
             pwd: 'admin',
-            username: 'admin',
-            email: 'admin@admin',
+            username: '管理员',
+            email: 'admin@admin.com',
             qq: 'admin'
         });
         admin.save();
