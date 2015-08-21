@@ -104,24 +104,21 @@ self.link_user = function ()
     }
 };
   self.bt_login = function () {
-      if (self.uid() !== "" && self.pwd() !== "")
-      {
+      if (self.uid() !== "" && self.pwd() !== "") {
           $.AMUI.progress.start();
           $.ajax({
               type:"POST",
               url: "/user/login",
               data:{'username' : self.uid(), 'pwd': self.pwd()}
           }).done(function (data) {
-                if (data)
-                {
+                if (data) {
                     $.AMUI.utils.cookie.set('uid', self.uid(), { expires: 7 });
                     $.AMUI.utils.cookie.set('pwd', self.pwd(), { expires: 7 });
                     $.AMUI.utils.cookie.set('data', data);
-                      if (data.username === "admin")
-                      {
-                          self.showuser(true);
-                      }
-                  self.shownav(true);
+                    if (data.username === "admin") {
+                       self.showuser(true);
+                    }
+                    self.shownav(true);
                   //go("web/center_page.html");
                 goCenter();
               } else {

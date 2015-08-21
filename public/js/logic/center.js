@@ -20,7 +20,7 @@ function centerViewModel() {
 
     self.switchChanged = function (dv) {
         var tempValue;
-        if (dv.value === 1)
+        if (dv.value == 1)
         {
             dv.value = 0;
             dv.imgValue(0);
@@ -73,13 +73,11 @@ function centerViewModel() {
 
                         if("switch" === data[i].type)
                         {
-                            data[i].imgValue = ko.observable( data[i].value );
+                            data[i].imgValue = ko.observable( Number(data[i].value) );
                         }
                         self.devices.push(data[i]);
                     }
-                }
-                else
-                {
+                } else {
                     // for (var i = 0; i < data.length; i++)
                     // {
                     //     self.devices()[i].value( Boolean(data[i].value) );

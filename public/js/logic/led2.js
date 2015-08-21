@@ -1,5 +1,4 @@
-function led2ViewModel()
-{
+function led2ViewModel() {
     var self = this;
     // make the variables observable  
     self.controller = ko.observable(0);
@@ -55,7 +54,7 @@ function led2ViewModel()
                     type: "POST",
                     url: "/devices/7",
                     data: JSON.parse(controllerData),
-                    success : function (){console.log("post 7controller", controllerNumber );}
+                    success : function (){console.log("post 7 controller", controllerNumber );}
                 });
             }
         }

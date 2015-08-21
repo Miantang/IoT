@@ -3,7 +3,7 @@
     ul.am-avg-sm-2.am-avg-md-3.am-avg-lg-4.boxes.am-thumbnails(data-bind="foreach: { data: devices, as: 'dv' }")
       li.box.am-thumbnail
         // ko if: dv.type === 'switch'
-        .custombtn.am-btn.am-btn-primary(data-bind="click: $root.switchChanged, css: {'am-active': dv.value === 1}" data-am-button)
+        .custombtn.am-btn.am-btn-primary(data-bind="click: $root.switchChanged, css: {'am-active': dv.value == 1}" data-am-button)
           .imgsimple
             img(data-bind="attr: {src:'i/icons/'+ dv.name + (dv.imgValue()?'-on':'-off')+'.png', alt : dv.name }")
           .centerText

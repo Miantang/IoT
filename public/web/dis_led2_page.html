@@ -1,21 +1,6 @@
-﻿<div id="led2Model" >
-    <div id="container">
-      <div id="topLoader"></div>
-    </div>
-    <div class="switch am-fr">
-        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-7" value="led2" data-bind="checked:$root.switchValue(), event:{ change: $root.led2Changed}" ></input>
-        <label for = "cb-7"></label>
-    </div>
-</div>
-<script type="text/javascript">
-
-var led2VM = new led2ViewModel();
-
+<div id="led2Model"><div id="container"><div id="topLoader"></div></div><div class="switch am-fr"><input id="cb-7" type="checkbox" value="led2" data-bind="checked:$root.switchValue(), event:{ change: $root.led2Changed}" class="cmn-toggle cmn-toggle-round"/><label for="cb-7"></label></div></div><script>var led2VM = new led2ViewModel();
 setTimeout(led2VM.loaddata, 200);
 ko.applyBindings(led2VM, document.getElementById("led2Model"));
-
 //go back to main page
 console.log('mainmodel : ', mainmodel);
-mainmodel.showback(true);
-
-</script>
+mainmodel.showback(true);</script>

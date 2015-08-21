@@ -25,7 +25,8 @@ exports.getAllDevices = function (req, res) {
 exports.updateDevice = function (req, res) {
     var value;
     if(req.body.type === 'switch') {
-        value = '{"switch":' + req.param('value') + '}';
+        //value = '{"switch":' + req.param('value') + '}';
+        value = req.param('value');
     } else if(req.body.type === 'step') {
         var reqSwitch = req.body.switch;
         var controller = req.body.controller;
