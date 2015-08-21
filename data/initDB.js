@@ -62,9 +62,9 @@ DeviceModel.findOne({id: 3}, function (err, dv) {
         var device = new DeviceModel({
             id: 3,
             type: 'switch',
-            name: 'screen',
+            name: 'gas',
             value: '0',
-            description: '幕布'
+            description: '燃气开关'
         });
         device.save();
     }
@@ -158,9 +158,9 @@ DeviceModel.findOne({id: 11}, function (err, dv) {
         var device = new DeviceModel({
             id: 11,
             type: 'step',
-            name: 'gas',
+            name: 'screen',
             value: '{"switch":0,"controller":"0"}',
-            description: '燃气控制'
+            description: '幕布'
         });
         device.save();
     }

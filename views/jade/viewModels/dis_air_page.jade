@@ -1,0 +1,15 @@
+#airModel
+  .switch.am-fr
+    input.cmn-toggle.cmn-toggle-round#air-8(type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}")
+    label(for="air-8")
+  .am-list-news.am-list-news-default(data-am-widget="list_news")
+    ul.am-avg-sm-2.am-avg-md-3.am-avg-lg-4.boxes.am-thumbnails(data-bind="foreach: { data: airButtonGroup, as: 'dv' }")
+      li.box.am-thumbnail
+        .custombtn.am-btn.am-btn-primary(data-bind="attr: {id: 'airbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 }, style:{height:$('#tvbutton-1').width()+'px'}" data-am-button)
+          .centerText
+            span(data-bind="text:dv.name") 开关
+script.
+  var airVM = new airViewModel();
+  setTimeout(airVM.loaddata, 200);
+  ko.applyBindings(airVM, document.getElementById("airModel"));
+  mainmodel.showback(true);
