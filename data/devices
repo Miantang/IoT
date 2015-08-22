@@ -70,3 +70,12 @@
 {"k":"0000000079","o":"0000000153","v":"001"}
 {"_id":7,"_uid":13,"_dt":1440225803246,"_s":"96a2075aac3ed9cded8212222301fd22"}
 {"id":6,"type":"step","name":"camera","value":"{\"switch\":\"1\",\"controller\":\"NaN\"}","description":"摄像机","_id":{"$wrap":"$oid","v":7},"__v":0}
+{"k":"0000000079","o":"0000000113","v":"001"}
+{"_id":2,"_uid":13,"_dt":1440228726035,"_s":"cd6045a83204e91c222a03960eb3568d"}
+{"id":1,"type":"switch","name":"led1","value":"1","description":"照明灯","_id":{"$wrap":"$oid","v":2},"__v":0}
+{"k":"0000000079","o":"0000000118","v":"001"}
+{"_id":3,"_uid":13,"_dt":1440229184636,"_s":"deb9db2489ebbb07c66f3f3c6afafe77"}
+{"id":2,"type":"switch","name":"access","value":"1","description":"门禁开关","_id":{"$wrap":"$oid","v":3},"__v":0}
+{"k":"0000000079","o":"0000000150","v":"001"}
+{"_id":8,"_uid":13,"_dt":1440229212647,"_s":"5b0b4f0937a1c326a8d7835e5d6c5877"}
+{"id":7,"type":"step","name":"led2","value":"{\"switch\":\"1\",\"controller\":\"41\"}","description":"LED灯带","_id":{"$wrap":"$oid","v":8},"__v":0}

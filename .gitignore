@@ -28,3 +28,5 @@ node_modules
 
 .idea
 
+data/devices
+data/users

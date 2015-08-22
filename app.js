@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views/jade'));
 app.set('view engine', 'jade');
 

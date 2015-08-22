@@ -11,9 +11,7 @@ module.exports = function(app) {
     //});
     app.get('/', function(req, res) {
         console.log('user in session: ', req.session.user);
-        res.render('index', {
-            title: '智能物联'
-        })
+        res.render('index');
     });
 
     // Device

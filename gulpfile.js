@@ -4,8 +4,8 @@ var path = require('path');
 
 function server () {
     var app = require('./app');
-    var server = app.listen(3001, '0.0.0.0');
-    console.log('Server running at http://127.0.0.1:3001/');
+    var server = app.listen(8080, '0.0.0.0');
+    console.log('Server running at http://127.0.0.1:8080/');
 }
 
 gulp.task('server', server);
@@ -22,6 +22,12 @@ gulp.task('jade', function () {
         .pipe(plugins.jade())
         .pipe(gulp.dest('./public/web/'));
 });
+gulp.task('jade:index', function () {
+    return gulp.src('./views/jade/index.jade')
+        .pipe(plugins.jade())
+        .pipe(gulp.dest('./public/'));
+});
+
 var lessPath = [path.join(__dirname, 'src', 'less', 'includes'),
                 path.join(__dirname, 'src', 'less', 'components')];
 gulp.task('less', function () {
@@ -58,5 +64,5 @@ gulp.task('copy', ['copy:img', 'copy:css', 'copy:js']);
 
 gulp.task('test', ['mocha']);
 
-gulp.task('build', ['less', 'jade', 'copy', 'server']);
+gulp.task('build', ['less', 'jade', 'jade:index', 'copy', 'server']);
 gulp.task('default', ['build']);
