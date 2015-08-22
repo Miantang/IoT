@@ -1,0 +1,5 @@
+<div id="camModel"><center><img src="//127.0.0.1:8080/?action=stream"/></center><div class="switch am-fr"><input id="cb-6" type="checkbox" value="camera" data-bind="checked:$root.switchValue(), event:{ change: $root.camChanged}" class="cmn-toggle cmn-toggle-round"/><label for="cb-6"></label></div></div><script>var camVM = new camViewModel();
+setTimeout(camVM.loaddata, 200);
+ko.applyBindings(camVM, document.getElementById("camModel"));
+//go back to main page
+mainmodel.showback(true);</script>

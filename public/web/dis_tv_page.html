@@ -1,0 +1,4 @@
+<div id="tvModel"><div class="switch am-fr"><input id="tv-9" type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}" class="cmn-toggle cmn-toggle-round"/><label for="tv-9"></label></div><div data-am-widget="list_news" class="am-list-news am-list-news-default"><ul data-bind="foreach: { data: tvButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails"><li class="tvbox am-thumbnail"><div data-bind="attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 }, style:{height:$('#tvbutton-1').width()+'px'}" data-am-button="data-am-button" class="custombtn am-btn am-btn-primary"><div class="tvBtnText"><span data-bind="text:dv.name">开关</span></div></div></li></ul></div></div><script>var tvVM = new tvViewModel();
+setTimeout(tvVM.loaddata, 200);
+ko.applyBindings(tvVM, document.getElementById("tvModel"));
+mainmodel.showback(true);</script>

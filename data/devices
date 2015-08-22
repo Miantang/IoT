@@ -61,3 +61,12 @@
 {"k":"0000000079","o":"0000000150","v":"001"}
 {"_id":8,"_uid":13,"_dt":1440165228290,"_s":"fe1e9b284bea900b64e51bb76168080f"}
 {"id":7,"type":"step","name":"led2","value":"{\"switch\":\"1\",\"controller\":\"54\"}","description":"LED灯带","_id":{"$wrap":"$oid","v":8},"__v":0}
+{"k":"0000000079","o":"0000000153","v":"001"}
+{"_id":7,"_uid":13,"_dt":1440225776865,"_s":"96a2075aac3ed9cded8212222301fd22"}
+{"id":6,"type":"step","name":"camera","value":"{\"switch\":\"1\",\"controller\":\"NaN\"}","description":"摄像机","_id":{"$wrap":"$oid","v":7},"__v":0}
+{"k":"0000000079","o":"0000000153","v":"001"}
+{"_id":7,"_uid":13,"_dt":1440225778722,"_s":"a51ea0026f737a8c0d102309542e0846"}
+{"id":6,"type":"step","name":"camera","value":"{\"switch\":\"0\",\"controller\":\"NaN\"}","description":"摄像机","_id":{"$wrap":"$oid","v":7},"__v":0}
+{"k":"0000000079","o":"0000000153","v":"001"}
+{"_id":7,"_uid":13,"_dt":1440225803246,"_s":"96a2075aac3ed9cded8212222301fd22"}
+{"id":6,"type":"step","name":"camera","value":"{\"switch\":\"1\",\"controller\":\"NaN\"}","description":"摄像机","_id":{"$wrap":"$oid","v":7},"__v":0}

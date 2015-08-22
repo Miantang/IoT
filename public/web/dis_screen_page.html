@@ -1,0 +1,4 @@
+<div id="screenModel"><div class="switch am-fr"><input id="screen-11" type="checkbox" value="screen" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}" class="cmn-toggle cmn-toggle-round"/><label for="screen-11"></label></div><div data-am-widget="list_news" class="am-list-news am-list-news-default"><ul data-bind="foreach: { data: screenButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails"><li class="box am-thumbnail"><div data-bind="attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#curbutton-1').width()+'px'}" data-am-button="data-am-button" class="custombtn am-btn am-btn-primary"><div class="centerText"><span data-bind="text:dv.name">开关</span></div></div></li></ul></div></div><script>var scrVM = new screenViewModel();
+setTimeout(scrVM.loaddata, 200);
+ko.applyBindings(scrVM, document.getElementById("screenModel"));
+mainmodel.showback(true);</script>
