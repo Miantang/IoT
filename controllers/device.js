@@ -23,15 +23,16 @@ exports.getAllDevices = function (req, res) {
 };
 
 exports.updateDevice = function (req, res) {
-    var value;
+    var value, mqttValue;
     if(req.body.type === 'switch') {
-        value = '{"switch":' + Number(req.param('value')) + '}';
-        //value = req.param('value');
+        value = req.param('value');
+        mqttValue = '{"switch":' + Number(req.param('value')) + '}';
     } else if(req.body.type === 'step') {
         var reqSwitch = Number(req.body.switch);
         var controller = Number(req.body.controller);
         //value = JSON.stringify({"switch": reqSwitch, "controller": controller});
         value = '{"switch":' + reqSwitch+',"controller":' +controller+ '}';
+        mqttValue = value;
     } else {
         res.send('post type error!');
         res.end();
@@ -49,7 +50,7 @@ exports.updateDevice = function (req, res) {
             res.send('post success!');
             res.end();
             if(config.mqttServer) {
-                client.publish('d'+req.params.id, value);
+                client.publish('d'+req.params.id, mqttValue);
             }
         }
     });
