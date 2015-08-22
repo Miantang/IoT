@@ -25,12 +25,13 @@ exports.getAllDevices = function (req, res) {
 exports.updateDevice = function (req, res) {
     var value;
     if(req.body.type === 'switch') {
-        //value = '{"switch":' + req.param('value') + '}';
-        value = req.param('value');
+        value = '{"switch":' + Number(req.param('value')) + '}';
+        //value = req.param('value');
     } else if(req.body.type === 'step') {
-        var reqSwitch = req.body.switch;
-        var controller = req.body.controller;
-        value = JSON.stringify({"switch": reqSwitch, "controller": controller});
+        var reqSwitch = Number(req.body.switch);
+        var controller = Number(req.body.controller);
+        //value = JSON.stringify({"switch": reqSwitch, "controller": controller});
+        value = '{"switch":' + reqSwitch+',"controller":' +controller+ '}';
     } else {
         res.send('post type error!');
         res.end();
