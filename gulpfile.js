@@ -10,6 +10,17 @@ function server () {
 
 gulp.task('server', server);
 
+// static server + watching
+gulp.task('server2', ['build'], function (done) {
+    browserSync.init({
+        server: 'public'
+    });
+    gulp.watch('./views/jade/viewModels/*.jade', ['jade']);
+    gulp.watch('./views/jade/index.jade', ['jade:index']);
+    gulp.watch('./views/less/**/*.less', ['less']);
+    gulp.watch('./views/js/**/*.js', ['scripts']);
+});
+
 gulp.task('mocha', function () {
    return gulp.src('./test/*.js')
        .pipe(plugins.mocha());
@@ -20,12 +31,12 @@ gulp.task('mocha', function () {
 gulp.task('jade', function () {
     return gulp.src('./views/jade/viewModels/*.jade')
         .pipe(plugins.jade())
-        .pipe(gulp.dest('./public/web/'));
+        .pipe(gulp.dest('./public/web/'))
 });
 gulp.task('jade:index', function () {
     return gulp.src('./views/jade/index.jade')
         .pipe(plugins.jade())
-        .pipe(gulp.dest('./public/'));
+        .pipe(gulp.dest('./public/'))
 });
 
 var lessPath = [path.join(__dirname, 'src', 'less', 'includes'),
@@ -35,16 +46,15 @@ gulp.task('less', function () {
         .pipe(plugins.less({ paths: lessPath }))
         .pipe(plugins.debug())
         .pipe(plugins.minifyCss({ compatibility: 'ie9' }))
-        .pipe(gulp.dest('./public/css/'));
+        .pipe(gulp.dest('./public/css/'))
 });
 
 gulp.task('scripts', function() {
-    return gulp.src(['./src/**/*.js'])
+    return gulp.src(['./views/js/*.js','!./views/js/main.js'])
         // .pipe(plugins.jshint('.jshintrc'))
         // .pipe(plugins.jshint.reporter('default'))
         // .pipe(plugins.uglify())
-        .pipe(gulp.dest('public/js/'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('public/js/logic/'))
 });
 
 // copy files from ref
@@ -53,7 +63,7 @@ gulp.task('copy:img', function () {
         .pipe(gulp.dest('./public/i'));
 });
 gulp.task('copy:js', function () {
-    return gulp.src('./views/ref/js/**/*.js')
+    return gulp.src(['./views/ref/js/**/*.js','./views/js/main.js'])
         .pipe(gulp.dest('./public/js'));
 });
 gulp.task('copy:css', function () {
@@ -64,5 +74,5 @@ gulp.task('copy', ['copy:img', 'copy:css', 'copy:js']);
 
 gulp.task('test', ['mocha']);
 
-gulp.task('build', ['less', 'jade', 'jade:index', 'copy', 'server']);
+gulp.task('build', ['less', 'jade', 'jade:index', 'copy', 'scripts', 'server']);
 gulp.task('default', ['build']);
