@@ -18,6 +18,13 @@
   position: relative;
   padding: 0;
   border-color: @global-color;
+  span{
+    color: #000;
+    text-align: center;
+    font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
+    font-size: 100%;
+  }
+
 }
 @media screen and (min-width:1200px){
   .box { width: 14%; margin: 1.33%;}
@@ -35,20 +42,17 @@
   .box {  width: 45%;  margin: 2.45%; }
 }
 
-.imgsimple
-{
-  padding: 10% 0px 10%;
+.imgsimple {
+  padding: 10% 0 10%;
   width: 57%;
   height: 57%;
   margin-left: auto;
   margin-right: auto;
 }
-img.imgsimple
-{
+img.imgsimple {
   width: 100%;
 }
-.centerText
-{
+.centerText {
   position: absolute;
   bottom: 8%;
   width: 100%;
@@ -63,27 +67,127 @@ img.imgsimple
   background-color: #fff;
   border: 0px;
   /*border-color: @global-color;*/
-}
-.custombtn:hover {
-  background-color: #667399;
-}
-
-.custombtn.am-active {
-  background-color: #A0D6D6;
-}
-.custombtn.am-active:hover {
-  border: 3px solid #33394D;
-}
-.box span
-{
-  color: #000;
-  text-align: center;
-  font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
-  font-size: 100%;
+  &:hover {
+    background-color: #667399;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
 }
 /* toggle in secondary page*/
 .am-fr
 {
   float: inherit;
   width: auto;
+}
+
+#led1 {
+  background-color: @led1-color;
+  &:hover {
+    background-color: @led1-color - @minus-color;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
+}
+#access {
+  background-color: @access-color;
+  &:hover {
+    background-color: @access-color - @minus-color;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
+}
+
+#gas {
+  background-color: @gas-color;
+  &:hover {
+    background-color: @gas-color - @minus-color;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
+}
+#tap_water {
+  background-color: @tap_water-color;
+  &:hover {
+    background-color: @tap_water-color - @minus-color;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
+}
+#projector {
+  background-color: @projector-color;
+  &:hover {
+    background-color: @projector-color - @minus-color;
+  }
+  &.am-active {
+    background-color: #A0D6D6;
+  }
+  &.am-active:hover {
+    border: 3px solid #33394D;
+  }
+}
+#camera {
+  background-color: @camera-color;
+  &:hover {
+    background-color: @camera-color - @minus-color;
+  }
+}
+
+#led2 {
+  background-color: @led2-color;
+  &:hover {
+    background-color: @led2-color - @minus-color;
+  }
+}
+
+#air {
+  background-color: @air-color;
+  &:hover {
+    background-color: @air-color - @minus-color;
+  }
+}
+
+#tv {
+  background-color: @tv-color;
+  &:hover {
+    background-color: @tv-color - @minus-color;
+  }
+}
+
+#curtain {
+  background-color: @curtain-color;
+  &:hover {
+    background-color: @curtain-color - @minus-color;
+  }
+}
+#screen {
+  background-color: @screen-color;
+  &:hover {
+    background-color: @screen-color - @minus-color;
+  }
+}
+#volume {
+  background-color: @volume-color;
+  &:hover {
+    background-color: @volume-color - @minus-color;
+  }
 }
