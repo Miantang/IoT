@@ -8,4 +8,4 @@ require.config({
         account: 'account'
     }
 });
-require(['../../public/js/logic/test', 'app', 'center', 'led2', 'account']);
+require(['test', 'app', 'center', 'led2', 'account']);

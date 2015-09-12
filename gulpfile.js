@@ -59,7 +59,7 @@ gulp.task('scripts', function() {
 
 // copy files from ref
 gulp.task('copy:img', function () {
-    return gulp.src('./views/ref/i/**/*.png')
+    return gulp.src(['./views/ref/i/**/*.png', './views/ref/i/**/*.jpg'])
         .pipe(gulp.dest('./public/i'));
 });
 gulp.task('copy:js', function () {
