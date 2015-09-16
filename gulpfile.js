@@ -6,15 +6,16 @@ function server () {
     var app = require('./app');
     var server = app.listen(8080, '0.0.0.0');
     console.log('Server running at http://127.0.0.1:8080/');
+    gulp.watch('./views/jade/viewModels/*.jade', ['jade']);
+    gulp.watch('./views/jade/index.jade', ['jade:index']);
+    gulp.watch('./views/less/**/*.less', ['less']);
+    gulp.watch('./views/js/**/*.js', ['scripts']);
 }
 
 gulp.task('server', server);
 
 // static server + watching
 gulp.task('server2', ['build'], function (done) {
-    browserSync.init({
-        server: 'public'
-    });
     gulp.watch('./views/jade/viewModels/*.jade', ['jade']);
     gulp.watch('./views/jade/index.jade', ['jade:index']);
     gulp.watch('./views/less/**/*.less', ['less']);
