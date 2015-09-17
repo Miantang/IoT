@@ -7,21 +7,21 @@ body {
   height: 100%;
 }
 .boxes {
-  margin-top: 1em;
   margin-left:auto;
   margin-right:auto;
-  width: auto;
   text-align:center;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 0;
+  padding-right: 0;
   overflow: hidden;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-top: 2em;
 }
 .box {
-  display:inline-block;
-  height: 150px;
   text-align: center;
   transition: all .2s ease;
-  float: left;
   position: relative;
   padding: 0;
   border-color: @global-color;
@@ -31,22 +31,18 @@ body {
     font-family: "微软雅黑", "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
     font-size: 100%;
   }
-
 }
 @media screen and (min-width:1200px){
-  .box { width: 14%; margin: 1.33%;}
+  .box { width: 16vw;height: 16vw; }
 }
-@media screen and (min-width: 960px) and (max-width: 1199px){
-  .box { width: 18%; margin: 0.95%;}
-}
-@media screen and (min-width: 768px) and (max-width: 959px){
-  .box { width: 23%; margin: 0.95%;}
+@media screen and (min-width: 768px) and (max-width: 1199px){
+  .box { width: 23vw;height: 23vw; }
 }
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-  .box { width: 30%; margin: 1.66%; }
+  .box { width: 28vw; height: 28vw; }
 }
-@media only screen and (max-width: 479px) {
-  .box {  width: 45%;  margin: 2.45%; }
+@media only screen and (min-width: 180px) and (max-width: 479px) {
+  .box {  width: 40vw;  height: 40vw; }
 }
 
 .imgsimple {
@@ -63,26 +59,16 @@ img.imgsimple {
   position: absolute;
   bottom: 8%;
   width: 100%;
-  height: 16%
+  height: 16%;
 }
-.custombtn
-{
+.custombtn {
   cursor: pointer;
   height: 100%;
   width: 100%;
   padding: 0px 0px;
   background-color: #fff;
   border: 0px;
-  /*border-color: @global-color;*/
-  &:hover {
-    background-color: #667399;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
+
 }
 /* toggle in secondary page*/
 .am-fr
@@ -91,110 +77,16 @@ img.imgsimple {
   width: auto;
 }
 
-#led1 {
-  background-color: @led1-color;
-  &:hover {
-    background-color: @led1-color - @minus-color;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
-}
-#access {
-  background-color: @access-color;
-  &:hover {
-    background-color: @access-color - @minus-color;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
-}
+.btn-color-1(led1, hsl(0, 100%, 30%));
+.btn-color-1(access, hsl(30, 100%, 30%));
+.btn-color-1(gas, hsl(60, 100%, 30%));
+.btn-color-1(tap_water, hsl(90, 100%, 30%));
+.btn-color-1(projector, hsl(120, 100%, 30%));
 
-#gas {
-  background-color: @gas-color;
-  &:hover {
-    background-color: @gas-color - @minus-color;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
-}
-#tap_water {
-  background-color: @tap_water-color;
-  &:hover {
-    background-color: @tap_water-color - @minus-color;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
-}
-#projector {
-  background-color: @projector-color;
-  &:hover {
-    background-color: @projector-color - @minus-color;
-  }
-  &.am-active {
-    background-color: #A0D6D6;
-  }
-  &.am-active:hover {
-    border: 3px solid #33394D;
-  }
-}
-#camera {
-  background-color: @camera-color;
-  &:hover {
-    background-color: @camera-color - @minus-color;
-  }
-}
-
-#led2 {
-  background-color: @led2-color;
-  &:hover {
-    background-color: @led2-color - @minus-color;
-  }
-}
-
-#air {
-  background-color: @air-color;
-  &:hover {
-    background-color: @air-color - @minus-color;
-  }
-}
-
-#tv {
-  background-color: @tv-color;
-  &:hover {
-    background-color: @tv-color - @minus-color;
-  }
-}
-
-#curtain {
-  background-color: @curtain-color;
-  &:hover {
-    background-color: @curtain-color - @minus-color;
-  }
-}
-#screen {
-  background-color: @screen-color;
-  &:hover {
-    background-color: @screen-color - @minus-color;
-  }
-}
-#volume {
-  background-color: @volume-color;
-  &:hover {
-    background-color: @volume-color - @minus-color;
-  }
-}
+.btn-color-2(camera, hsl(150, 100%, 30%));
+.btn-color-2(led2, hsl(180, 100%, 30%));
+.btn-color-2(air, hsl(210, 100%, 30%));
+.btn-color-2(tv, hsl(240, 100%, 30%));
+.btn-color-2(curtain, hsl(270, 100%, 30%));
+.btn-color-2(screen, hsl(300, 100%, 30%));
+.btn-color-2(volume, hsl(330, 100%, 30%));

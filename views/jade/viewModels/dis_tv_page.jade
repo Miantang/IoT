@@ -4,9 +4,9 @@
   //  label(for="tv-9")
   //.am-list-news.am-list-news-default(data-am-widget="list_news")
   ul.tvboxes.am-thumbnails(data-bind="foreach: { data: tvButtonGroup, as: 'dv' }")
-    li.tvbox.am-thumbnail.am-btn(data-bind="attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button)
-      .tvBtnText(data-bind="text:dv.name") 开关
-      //  span(data-bind="text:dv.name") 开关
+    li.tvbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button)
+  //li.tvbox.am-thumbnail.am-btn(data-bind="text:$root.tvBtnGroup2[0].name,attr: {id: 'tvbutton-' + $root.tvBtnGroup2[0].id, value : $root.tvBtnGroup2[0].name }, click: $root.controlChanged" data-am-button)
+
 script.
   var tvVM = new tvViewModel();
   setTimeout(tvVM.loaddata, 200);

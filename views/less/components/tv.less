@@ -3,18 +3,19 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  margin-top: 1em;
+  margin-top: 2em;
   margin-left:auto;
   margin-right:auto;
   width: 90%;
   text-align:center;
   padding-left: 5%;
   padding-right: 5%;
-
+  //position:relative;
+  font-size: 12vw;
 }
 
 .tvbox  {
-  position:relative;
+
   width: 22vw;
   height: 14vw;
   -webkit-border-radius: 10%;
@@ -25,41 +26,10 @@
   text-align: center;
   transition: all .2s ease;
   //background: radial-gradient(#ffffff, #fafff3);
-}
-/*.tvbtn ,.tvbtn.am-active
-{
-
-  padding: 0;
-  background-color: #fff;
-  border: 0;
-  box-shadow: 0px 0px 0px;
-}*/
-.tvbox:hover {
-  background-color: #667399;
-}
-/*@media screen and (min-width:1200px){
-  .tvbox { width: 6%; margin: 1.33%;}
-}
-@media screen and (min-width: 960px) and (max-width: 1199px){
-  .tvbox { width: 8%; margin: 0.95%;}
-}
-@media screen and (min-width: 768px) and (max-width: 959px){
-  .tvbox { width: 13%; margin: 0.95%;}
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  .tvbox { width: 20%; margin: 1.66%; }
-}
-@media only screen and (max-width: 479px) {
-  .tvbox {  width: 25%;  margin: 2.45%; }
-}*/
-
-
-.tvBtnText{
-  color: #000;
-  text-align: center;
   font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
-  height: 100%;
-  font-size: 80%;
+  //height: 100%;
+  font-size: 1em;
   line-height: 100%;
-
+  .btn-color-tv(hsl(181, 25%, 50%));
+  color: #fff;
 }

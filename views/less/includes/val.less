@@ -1,14 +1,32 @@
 @global-color: #1a1158;
-@minus-color: #333;// the color to minus
-@led1-color: #48b3ff;
-@access-color: #9b8aff;
-@gas-color: #ff7e1f;
-@tap_water-color: #38ff6c;
-@projector-color: #a08fa9;
-@camera-color: #3c8f99;
-@led2-color: #b27169;
-@air-color: #db4a62;
-@tv-color: #3c367a;
-@curtain-color: #ff9965;
-@screen-color: #8e8525;
-@volume-color: #86108f;
+
+.btn-color-1(@name, @color) {
+  #@{name} {
+    background-color: @color;
+    @active-color: lighten(@color, 50%);
+    &:hover {
+      background-color: darken(@color, 20%);
+    }
+    &.am-active {
+      background-color: @active-color;
+    }
+    &.am-active:hover {
+      background-color: darken(@active-color, 20%);
+    }
+  }
+}
+
+.btn-color-2(@name, @color) {
+  #@{name} {
+    background-color: @color;
+    &:hover {
+      background-color: darken(@color, 20%);
+    }
+  }
+}
+.btn-color-tv(@color) {
+  background-color: @color;
+  &:hover {
+    background-color: darken(@color, 20%);
+  }
+}
