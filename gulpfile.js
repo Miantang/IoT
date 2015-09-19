@@ -46,6 +46,7 @@ gulp.task('less', function () {
     return gulp.src('./views/less/app.less')
         .pipe(plugins.less({ paths: lessPath }))
         .pipe(plugins.debug())
+        .pipe(plugins.autoprefixer())
         .pipe(plugins.minifyCss({ compatibility: 'ie9' }))
         .pipe(gulp.dest('./public/css/'))
 });
