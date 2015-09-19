@@ -7,11 +7,13 @@
   padding-left: 5%;
   padding-right: 5%;
   //position:relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
 
 .inner-box {
-  display: inline-block;
-  margin: 0 1.5vw;
+  margin: 3% 1.5%;
   -webkit-border-radius: 10%;
   -moz-border-radius: 10%;
   border-radius: 10%;
@@ -26,23 +28,22 @@
   color: #fff;
 }
 .tvboxes {
-  font-size: 12vw;
-  margin-top: 0.3em;
+  font-size: 2em;
+  margin-top: 1em;
 }
 .tvbox  {
-  width: 22vw;
-  height: 14vw;
+  width: 30%;
+  height: 14%;
   .btn-color-tv(hsl(181, 25%, 50%));
 }
 
 .airboxes , .curboxes , .scrboxes{
-  font-size: 8vw;
+  font-size: 2em;
   margin-top: 1em;
 }
 .airbox , .curbox ,.scrbox {
-  width: 24vw;
-  height: 16vw;
-  line-height: 1.8;
+  width: 30%;
+  height: 16%;
   .btn-color-tv(hsl(181, 25%, 50%));
   font-family: "微软雅黑";
   margin: 6px 4px;

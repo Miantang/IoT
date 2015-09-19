@@ -3,7 +3,7 @@
     input.cmn-toggle.cmn-toggle-round#screen-11(type="checkbox" value="screen" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}")
     label(for="screen-11")
   ul.inner-boxes.scrboxes.am-thumbnails(data-bind="foreach: { data: screenButtonGroup, as: 'dv' }")
-    li.inner-box.scrbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button)
+    li.inner-box.scrbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#scrbutton-'+dv.id).width()*0.618+'px'}" data-am-button)
 
 script.
   var scrVM = new screenViewModel();
