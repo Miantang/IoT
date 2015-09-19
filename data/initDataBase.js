@@ -123,7 +123,7 @@ DeviceModel.findOne({id: 8}, function (err, dv) {
             id: 8,
             type: 'step',
             name: 'air',
-            value: '{"switch":0,"controller":"0"}',
+            value: '{"switch":1,"controller":"0"}',
             description: '空调'
         });
         device.save();
@@ -135,7 +135,7 @@ DeviceModel.findOne({id: 9}, function (err, dv) {
             id: 9,
             type: 'step',
             name: 'tv',
-            value: '{"switch":0,"controller":"0"}',
+            value: '{"switch":1,"controller":"0"}',
             description: '电视'
         });
         device.save();

@@ -28,14 +28,14 @@ function centerViewModel() {
             dv.imgValue(0);
             tempValue = dv.value;
             console.log("1 to ",tempValue);
-            $("#msg").html("1 to "+tempValue);
+            $("#msg").html(" 关闭成功 ");
             $('#my-prompt').modal('open');
         } else {
             dv.value = 1;
             dv.imgValue(1);
             tempValue = dv.value;
             console.log("0 to ", tempValue);
-            $("#msg").html("0 to "+tempValue);
+            $("#msg").html(" 开启成功 ");
             $('#my-prompt').modal('open');
 
         }

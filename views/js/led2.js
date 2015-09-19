@@ -232,9 +232,9 @@ function airViewModel() {
     self.controller = ko.observable(0);
     self.switchValue = ko.observable(false);
     self.airButtonGroup = [
-        {id : 1, value : 1, name : "Option"},
-        {id : 2, value : 2, name : "Left"},{id : 3, value : 3, name : "Right"},
-        {id : 4, value : 4, name : "Up"},{id : 5, value : 5, name : "Down"}
+        {id : 1, value : 1, name : "选项"},
+        {id : 2, value : 2, name : "1"},{id : 3, value : 3, name : "2"},
+        {id : 4, value : 4, name : "3"},{id : 5, value : 5, name : "4"}
     ];
 
     self.loaddata = function () {
@@ -363,7 +363,7 @@ function curtainViewModel() {
     self.controller = ko.observable(0);
     self.switchValue = ko.observable(false);
     self.curtainButtonGroup = [
-        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"},{id : 3, value : 3, name : "Stop"}
+        {id : 1, value : 1, name : "左"},{id : 2, value : 2, name : "右"},{id : 3, value : 3, name : "停"}
     ];
 
     self.loaddata = function () {
@@ -422,7 +422,7 @@ function screenViewModel() {
     self.controller = ko.observable(0);
     self.switchValue = ko.observable(false);
     self.screenButtonGroup = [
-        {id : 1, value : 1, name : "Up"},{id : 2, value : 2, name : "Down"},{id : 3, value : 3, name : "Stop"}
+        {id : 1, value : 1, name : "上"},{id : 2, value : 2, name : "下"},{id : 3, value : 3, name : "停"}
     ];
 
     self.loaddata = function () {

@@ -2,12 +2,9 @@
   .switch.am-fr
     input.cmn-toggle.cmn-toggle-round#screen-11(type="checkbox" value="screen" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}")
     label(for="screen-11")
-  .am-list-news.am-list-news-default(data-am-widget="list_news")
-    ul.am-avg-sm-2.am-avg-md-3.am-avg-lg-4.boxes.am-thumbnails(data-bind="foreach: { data: screenButtonGroup, as: 'dv' }")
-      li.box.am-thumbnail
-        .custombtn.am-btn.am-btn-primary(data-bind="attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#curbutton-1').width()+'px'}" data-am-button)
-          .centerText
-            span(data-bind="text:dv.name") 开关
+  ul.inner-boxes.scrboxes.am-thumbnails(data-bind="foreach: { data: screenButtonGroup, as: 'dv' }")
+    li.inner-box.scrbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button)
+
 script.
   var scrVM = new screenViewModel();
   setTimeout(scrVM.loaddata, 200);

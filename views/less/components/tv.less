@@ -1,9 +1,5 @@
 /* button list for tv and air conditioner page */
 .inner-boxes {
-  display: -webkit-flex;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
   margin-left:auto;
   margin-right:auto;
   width: 90%;
@@ -11,10 +7,11 @@
   padding-left: 5%;
   padding-right: 5%;
   //position:relative;
-
 }
 
 .inner-box {
+  display: inline-block;
+  margin: 0 1.5vw;
   -webkit-border-radius: 10%;
   -moz-border-radius: 10%;
   border-radius: 10%;
@@ -30,7 +27,7 @@
 }
 .tvboxes {
   font-size: 12vw;
-  margin-top: 1em;
+  margin-top: 0.3em;
 }
 .tvbox  {
   width: 22vw;
@@ -38,13 +35,18 @@
   .btn-color-tv(hsl(181, 25%, 50%));
 }
 
-.airboxes {
-  font-size: 12vw;
+.airboxes , .curboxes , .scrboxes{
+  font-size: 8vw;
   margin-top: 1em;
 }
-.airbox  {
-  width: 32vw;
-  height: 24vw;
-  line-height: 100%;
+.airbox , .curbox ,.scrbox {
+  width: 24vw;
+  height: 16vw;
+  line-height: 1.8;
   .btn-color-tv(hsl(181, 25%, 50%));
+  font-family: "微软雅黑";
+  margin: 6px 4px;
+}
+#curtain-10 {
+  margin-top: 5px;
 }
