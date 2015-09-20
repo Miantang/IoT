@@ -10,3 +10,7 @@ script.
   setTimeout(scrVM.loaddata, 200);
   ko.applyBindings(scrVM, document.getElementById("screenModel"));
   mainmodel.showback(true);
+  $(function () {
+    var $innerbox = $(".inner-box");
+    $innerbox.css("height", $innerbox.width()*0.618);
+  });

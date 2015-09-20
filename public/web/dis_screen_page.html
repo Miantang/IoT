@@ -1,4 +1,8 @@
 <div id="screenModel"><div class="switch am-fr"><input id="screen-11" type="checkbox" value="screen" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}" class="cmn-toggle cmn-toggle-round"/><label for="screen-11"></label></div><ul data-bind="foreach: { data: screenButtonGroup, as: 'dv' }" class="inner-boxes scrboxes am-thumbnails"><li data-bind="text:dv.name,attr: {id: 'scrbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#scrbutton-'+dv.id).width()*0.618+'px'}" data-am-button="data-am-button" class="inner-box scrbox am-thumbnail am-btn"></li></ul></div><script>var scrVM = new screenViewModel();
 setTimeout(scrVM.loaddata, 200);
 ko.applyBindings(scrVM, document.getElementById("screenModel"));
-mainmodel.showback(true);</script>
+mainmodel.showback(true);
+$(function () {
+  var $innerbox = $(".inner-box");
+  $innerbox.css("height", $innerbox.width()*0.618);
+});</script>

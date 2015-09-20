@@ -13,18 +13,21 @@ body {
   padding: 0;
   overflow: hidden;
 
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+  //display: flex;
+  //flex-flow: row wrap;
+  //justify-content: space-around;
   margin-top: 2em;
+  position: relative;
 }
 .box {
+  display: inline-block;
   margin: 1% 0.6%;
   text-align: center;
   transition: all .2s ease;
   position: relative;
   padding: 0;
   border-color: @global-color;
+  box-sizing: border-box;
   /*&:before {
     content:" ";
     display:block;

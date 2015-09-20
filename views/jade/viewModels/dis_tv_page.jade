@@ -4,7 +4,7 @@
   //  label(for="tv-9")
   //.am-list-news.am-list-news-default(data-am-widget="list_news")
   ul.inner-boxes.tvboxes.am-thumbnails(data-bind="foreach: { data: tvButtonGroup, as: 'dv' }")
-    li.inner-box.tvbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, style:{height:$('#tvbutton-'+dv.id).width()*0.618+'px'}" data-am-button)
+    li.inner-box.tvbox.am-thumbnail.am-btn(data-bind="text:dv.name,attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button)
   //li.tvbox.am-thumbnail.am-btn(data-bind="text:$root.tvBtnGroup2[0].name,attr: {id: 'tvbutton-' + $root.tvBtnGroup2[0].id, value : $root.tvBtnGroup2[0].name }, click: $root.controlChanged" data-am-button)
 
 script.
@@ -12,3 +12,7 @@ script.
   setTimeout(tvVM.loaddata, 200);
   ko.applyBindings(tvVM, document.getElementById("tvModel"));
   mainmodel.showback(true);
+  $(function () {
+    var $innerbox = $(".inner-box");
+    $innerbox.css("height", $innerbox.width()*0.618);
+  });

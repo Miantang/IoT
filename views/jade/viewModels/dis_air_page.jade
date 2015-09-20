@@ -9,3 +9,7 @@ script.
   setTimeout(airVM.loaddata, 200);
   ko.applyBindings(airVM, document.getElementById("airModel"));
   mainmodel.showback(true);
+  $(function () {
+    var $innerbox = $(".inner-box");
+    $innerbox.css("height", $innerbox.width()*0.618);
+  });
