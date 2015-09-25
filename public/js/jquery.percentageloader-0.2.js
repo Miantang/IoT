@@ -417,7 +417,6 @@ see the file license.txt that was included with the plugin bundle.
                         y = Number(touch.pageY) - offset.top; //页面触点Y坐标
                     }
 
-                    console.log(offset, x, y);
                     distance = getDistance(x, y);
 
                     if (distance > innerRadius && distance < radius) {
