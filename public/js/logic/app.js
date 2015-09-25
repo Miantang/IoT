@@ -170,3 +170,5 @@ function goCenter() {
     $("#menu1").offCanvas('close');
 }
 
+
+

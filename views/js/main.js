@@ -1,6 +1,7 @@
 require.config({
     baseUrl: 'js/logic',
     paths: {
+        fastclick: 'faskclick',
         test: 'test',
         app: 'app',
         center: 'center',
@@ -8,4 +9,6 @@ require.config({
         account: 'account'
     }
 });
-require(['test', 'app', 'center', 'led2', 'account']);
+require(['fastclick', 'app', 'center', 'led2', 'account'], function(FastClick){
+    Origami.fastclick(document.body);
+});

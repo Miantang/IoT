@@ -23,6 +23,33 @@ see the file license.txt that was included with the plugin bundle.
        imageLoaded = true;
     });
 
+    function isPC() {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+        }
+        return flag;
+    }
+
+    var touchEvents = {
+        touchstart: "touchstart",
+        touchmove: "touchmove",
+        touchend: "touchend",
+
+        /**
+         * @desc:判断是否pc设备，若是pc，需要更改touch事件为鼠标事件，否则默认触摸事件
+         */
+        initTouchEvents: function () {
+            if (isPC()) {
+                this.touchstart = "mousedown";
+                this.touchmove = "mousemove";
+                this.touchend = "mouseup";
+            }
+        }
+    };
+    touchEvents.initTouchEvents();
 
     window.PercentageLoader = function(el, params) {
       var settings, canvas, percentageText, valueText, items, i, item, selectors, s, ctx, progress,
@@ -378,11 +405,17 @@ see the file license.txt that was included with the plugin bundle.
                     }
                 };
 
-                outerDiv.addEventListener('mousedown', function (e) {
+                outerDiv.addEventListener(touchEvents.touchstart, function (e) {
                     var offset, x, y, distance;
                     offset = this.getBoundingClientRect();
-                    x = e.pageX - offset.left;
-                    y = e.pageY - offset.top;
+                    if(isPC()) {
+                        x = e.pageX - offset.left;
+                        y = e.pageY - offset.top;
+                    } else {
+                        var touch = e.touches[0]; //获取第一个触点
+                        x = Number(touch.pageX) - offset.left; //页面触点X坐标
+                        y = Number(touch.pageY) - offset.top; //页面触点Y坐标
+                    }
 
                     distance = getDistance(x, y);
 
@@ -392,20 +425,26 @@ see the file license.txt that was included with the plugin bundle.
                     }
                 });
 
-                outerDiv.addEventListener('mouseup', function () {
+                outerDiv.addEventListener(touchEvents.touchend, function () {
                     mouseDown = false;
                     if (params.onProgressComplete !== undefined) {
-                        
+
                         params.onProgressComplete.call(plugin, progress);
                     }
                 });
 
-                outerDiv.addEventListener('mousemove', function (e) {
+                outerDiv.addEventListener(touchEvents.touchmove, function (e) {
                     var offset, x, y;
                     if (mouseDown) {
                         offset = this.getBoundingClientRect();
-                        x = e.pageX - offset.left;
-                        y = e.pageY - offset.top;
+                        if(isPC()) {
+                            x = e.pageX - offset.left;
+                            y = e.pageY - offset.top;
+                        } else {
+                            var touch = e.touches[0]; //获取第一个触点
+                            x = Number(touch.pageX) - offset.left; //页面触点X坐标
+                            y = Number(touch.pageY) - offset.top; //页面触点Y坐标
+                        }
                         adjustProgressWithXY(x, y);
                     }
                 });
@@ -413,6 +452,7 @@ see the file license.txt that was included with the plugin bundle.
                 outerDiv.addEventListener('mouseleave', function (e) {
                     mouseDown = false;
                 });
+
             }());
         }
 
