@@ -97,7 +97,7 @@ function volumeViewModel() {
 
     self.volButtonGroup = [
         {id : 2, value : 2, name : "↑"},{id : 3, value : 3, name : "↓"},
-        {id : 4, value : 4, name : "="},{id : 5, value : 5, name : "丄"},{id : 5, value : 5, name : "丅"}
+        {id : 4, value : 4, name : "="},{id : 5, value : 5, name : "丄"},{id : 6, value : 6, name : "丅"}
     ];
 
     self.loaddata = function () {
