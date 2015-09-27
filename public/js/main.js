@@ -9,6 +9,6 @@ require.config({
         account: 'account'
     }
 });
-require(['fastclick', 'app', 'center', 'led2', 'account'], function(FastClick){
+require(['fastclick', 'app', 'center', 'led2', 'account'], function(){
     Origami.fastclick(document.body);
 });
