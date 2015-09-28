@@ -9,6 +9,13 @@
           .centerText
             span(data-bind="text:dv.description")
         <!-- /ko -->
+        <!-- ko if: dv.name === "projector" -->
+        .custombtn.am-btn.am-btn-primary(data-bind="attr:{id: dv.name},click: $root.disProjector")
+          .imgsimple
+            img(src="i/icons/projector-on.png" alt="projector")
+          .centerText
+            span 投影仪
+        <!-- /ko -->
         <!-- ko if: dv.name === "led2" -->
         .custombtn.am-btn.am-btn-primary(data-bind="attr:{id: dv.name},click: $root.disLed2")
           .imgsimple

@@ -85,9 +85,9 @@ DeviceModel.findOne({id: 5}, function (err, dv) {
     if (dv === null) {
         var device = new DeviceModel({
             id: 5,
-            type: 'switch',
+            type: 'step',
             name: 'projector',
-            value: '0',
+            value: '{"switch":1,"controller":"0"}',
             description: '投影仪'
         });
         device.save();

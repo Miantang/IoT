@@ -21,6 +21,9 @@ function centerViewModel() {
     self.disScreen = function() {
         $("#render").load("web/dis_screen_page.html");
     };
+    self.disProjector = function() {
+        $("#render").load("web/dis_projector_page.html");
+    };
     self.switchChanged = function (dv) {
         var tempValue;
         if (dv.value == 1) {

@@ -443,3 +443,64 @@ function screenViewModel() {
         }
     }
 }
+
+function projectorViewModel() {
+    var self = this;
+    // make the variables observable
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.proButtonGroup = [
+        {id : 1, value : 1, name : "1"},{id : 2, value : 2, name : "2"},{id : 3, value : 3, name : "3"},
+        {id : 4, value : 4, name : "4"},{id : 5, value : 5, name : "5"},{id : 6, value : 6, name : "6"}
+
+    ];
+
+    self.loaddata = function () {
+        $.ajax({
+            url: "/devices/5"
+        }).done(function (data) {
+            var tvValue = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(tvValue.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( tvValue.controller ));
+        });
+    };
+    self.togSwitched = function() {
+        if (self.switch) {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("Switched 1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+            $('#my-prompt').modal('open');
+        } else {
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+            $('#my-prompt').modal('open');
+        }
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax({
+            type: "POST",
+            url: "/devices/5",
+            data: JSON.parse(switchData),
+            success: function () { }
+        });
+    };
+    self.controlChanged = function (dv) {
+        var togswitch  = self.switch;
+        if(togswitch) {
+            self.controller(dv.value);
+
+            var controllerNumber = self.controller();
+            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+            $.ajax({
+                type: "POST",
+                url: "/devices/5",
+                data: JSON.parse(controllerData),
+                success : function (){console.log("post 5 tv controller", controllerNumber );}
+            });
+        }
+    }
+}
