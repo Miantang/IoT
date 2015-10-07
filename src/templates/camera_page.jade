@@ -1,0 +1,35 @@
+// We don't need full layout here, because this page will be parsed with Ajax
+// Top Navbar
+.navbar
+  .navbar-inner
+    .left
+      a(href="#").back.link 
+        i.icon.icon-back
+        span 后退
+    .center.sliding 摄像监控
+    .right
+      // Right link contains only icon - additional "icon-only" class
+      a(href="#").link.icon-only.open-panel 
+        i.icon.icon-bars
+.pages
+  // Page, data-page contains page name
+  //.page(data-page="form")
+    // Scrollable page content
+
+  .page(data-page="camera-button")
+    // Scrollable page content
+    .page-content
+      #camera-view
+      .content-block-title
+        h2#camera-title 云台控制
+        .row
+          .col-33
+            a(href="#").button.button-big.button-fill.camera-btn
+              i.fa.fa-chevron-left.fa-2x.camera-icon
+          .col-33
+            a(href="#").button.button-big.button-fill.camera-btn
+              i.fa.fa-stop.fa-2x.camera-icon
+          .col-33
+            a(href="#").button.button-big.button-fill.camera-btn
+              i.fa.fa-chevron-right.fa-2x.camera-icon
+

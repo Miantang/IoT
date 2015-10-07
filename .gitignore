@@ -30,3 +30,7 @@ node_modules
 
 data/devices
 data/users
+
+
+examples
+views

@@ -1,4 +1,0 @@
-<div id="curtainModel"><div class="switch am-fr"><input id="curtain-10" type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}" class="cmn-toggle cmn-toggle-round"/><label for="curtain-10"></label></div><ul data-bind="foreach: { data: curtainButtonGroup, as: 'dv' }" class="inner-boxes curboxes am-thumbnails"><li data-bind="text:dv.name,attr: {id: 'curbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button="data-am-button" class="inner-box curbox am-thumbnail am-btn"></li></ul></div><script>var curVM = new curtainViewModel();
-setTimeout(curVM.loaddata, 200);
-ko.applyBindings(curVM, document.getElementById("curtainModel"));
-mainmodel.showback(true);</script>

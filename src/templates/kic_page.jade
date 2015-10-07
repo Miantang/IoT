@@ -1,0 +1,42 @@
+// We don't need full layout here, because this page will be parsed with Ajax
+// Top Navbar
+
+.navbar
+  .navbar-inner
+    .left
+      a(href="#").back.link 
+        i.icon.icon-back
+        span 返回
+    .center.sliding.kic-inner 厨房
+    .right
+      a(href="#").link.icon-only.open-panel
+        i.icon.icon-bars
+.pages
+  .page(data-page="kic")
+    .page-content
+      .list-block
+        ul.ul-ul
+          li
+            .item-content
+              .item-media
+              .item-inner.kic-inner
+                .middle-title.label 煤气
+          li
+            .switch
+            .switch.demo1
+              input(type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}")
+              label
+          li
+            .item-content
+              .item-media
+              .item-inner.kic-inner
+                .middle-title.label 自来水
+          li
+            .switch
+            .switch.demo1
+              input(type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}")
+              label
+          li
+            .item-content
+              .item-media
+              .item-inner.kic-inner

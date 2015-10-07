@@ -1,0 +1,291 @@
+.led-inner {
+   color: #5656ff;
+   font-style:normal;
+   font-weight:bolder ;
+ }
+.row.led {
+  padding-top: 30px;
+  height: 400px;
+  line-height: 400px;
+  text-align: center;
+}
+.row.row.led :nth-child(2){
+  background: SkyBlue;
+}
+.btn-pointer{
+  position: relative;
+  width: 200px;
+  height: 280px;
+  margin: 0 auto;
+  padding: 5px;
+  transform: scale(.7);
+}
+
+.btn-pointer-inner{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background:Transparent;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 50% 50% 0 50%;
+  box-shadow: 0 0 4px 2px rgba(150, 100, 100, .4),
+  inset 8px 8px 8px rgba(150, 100, 100, 0.4);
+  transform: rotate( 45deg );
+  transition: all .8s ease;
+}
+
+.btn-pointer-inner::after {
+  content: " ";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50px;
+  left: 50px;
+  border: 1px solid rgba(0,0,0,0.4);
+  border-radius: 50%;
+  box-shadow: 1px 2px 4px 2px rgba(150, 100, 100, .4),
+  inset 1px 2px 3px 5px rgba(150, 100, 100, 0.4);
+}
+
+.btn-pointer-inner::before {
+  content: " ";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, .4),
+  inset 1px 0px 2px 1px rgba(150 ,100 , 100, 0.4);
+  right: 25px;
+  bottom: 22px;
+}
+
+.btn-pointer-yes:checked~.btn-pointer-inner{
+  transform: rotate(75deg);
+}
+
+.btn-pointer-no:checked~.btn-pointer-inner{
+  transform: rotate(15deg);
+}
+
+.btn-pointer input{
+  display: none;
+}
+
+.btn-pointer label{
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color: rgba(0,0,0,0.8);
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(150,100,100,0.8);
+  font-size: 20px;
+}
+
+.btn-pointer label::after{
+  content: " ";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: -15px;
+  left: 20%;
+  border: 1px solid rgba(0,0,0,.8);
+  box-shadow: 0 0 2px 1px rgba(150, 100, 100, .8),
+  inset 2px 2px 2px 0px rgba(150, 100, 100, 0.8);
+  border-radius: 50%;
+}
+
+.btn-pointer-for-yes{
+  left: 0;
+}
+.btn-pointer-for-no{
+  right: 0;
+}
+
+
+.btn-pointer1{
+  position: relative;
+  width: 200px;
+  height: 280px;
+  margin: 0 auto;
+  padding: 5px;
+  transform: scale(.7);
+}
+
+.btn-pointer1-inner{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 50% 50% 0 50%;
+  box-shadow: 0 0 4px 2px rgba(150, 100, 100, .4),
+  inset 8px 8px 8px rgba(150, 100, 100, 0.4);
+  transform: rotate( 45deg );
+  transition: all .8s ease;
+}
+
+.btn-pointer1-inner::after {
+  content: " ";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50px;
+  left: 50px;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 50%;
+  box-shadow: 1px 2px 4px 2px rgba(150, 100, 100, .4),
+  inset 1px 2px 3px 5px rgba(150, 100, 100, 0.4);
+}
+
+.btn-pointer1-inner::before {
+  content: " ";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, .4),
+  inset 1px 0px 2px 1px rgba(150 ,100 , 100, 0.4);
+  right: 25px;
+  bottom: 22px;
+}
+
+.btn-pointer1-yes:checked~.btn-pointer1-inner{
+  transform: rotate(75deg);
+}
+
+.btn-pointer1-no:checked~.btn-pointer1-inner{
+  transform: rotate(15deg);
+}
+
+.btn-pointer1 input{
+  display: none;
+}
+
+.btn-pointer1 label{
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color: rgba(0,0,0,0.8);
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(150,100,100,0.8);
+  font-size: 20px;
+}
+
+.btn-pointer1 label::after{
+  content: " ";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: -15px;
+  left: 20%;
+  border: 1px solid rgba(0,0,0,.8);
+  box-shadow: 0 0 2px 1px rgba(150, 100, 100, .8),
+  inset 2px 2px 2px 0px rgba(150, 100, 100, 0.8);
+  border-radius: 50%;
+}
+
+.btn-pointer1-for-yes{
+  left: 0;
+}
+.btn-pointer1-for-no{
+  right: 0;
+}
+
+
+.btn-pointer2{
+  position: relative;
+  width: 200px;
+  height: 280px;
+  margin: 0 auto;
+  padding: 5px;
+  transform: scale(.7);
+}
+
+.btn-pointer2-inner{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 50% 50% 0 50%;
+  box-shadow: 0 0 4px 2px rgba(150, 100, 100, .4),
+  inset 8px 8px 8px rgba(150, 100, 100, 0.4);
+  transform: rotate( 45deg );
+  transition: all .8s ease;
+}
+
+.btn-pointer2-inner::after {
+  content: " ";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50px;
+  left: 50px;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 50%;
+  box-shadow: 1px 2px 4px 2px rgba(150, 100, 100, .4),
+  inset 1px 2px 3px 5px rgba(150, 100, 100, 0.4);
+}
+
+.btn-pointer2-inner::before {
+  content: " ";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, .8),
+  inset 1px 0px 2px 1px rgba(150 ,100 , 100, 0.8);
+  right: 25px;
+  bottom: 22px;
+}
+
+.btn-pointer2-yes:checked~.btn-pointer2-inner{
+  transform: rotate(75deg);
+}
+
+.btn-pointer2-no:checked~.btn-pointer2-inner{
+  transform: rotate(15deg);
+}
+
+.btn-pointer2 input{
+  display: none;
+}
+
+.btn-pointer2 label{
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color: rgba(0,0,0,0.8);
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(150,100,100,0.8);
+  font-size: 20px;
+}
+
+.btn-pointer2 label::after{
+  content: " ";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: -15px;
+  left: 20%;
+  border: 1px solid rgba(0,0,0,.8);
+  box-shadow: 0 0 2px 1px rgba(150, 100, 100, .8),
+  inset 2px 2px 2px 0px rgba(150, 100, 100, 0.8);
+  border-radius: 50%;
+}
+
+.btn-pointer2-for-yes{
+  left: 0;
+}
+.btn-pointer2-for-no{
+  right: 0;
+}
+
+
+

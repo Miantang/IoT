@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>智能物联</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/rangeslider.css">
+    <!--link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")-->
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body>
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-cover">
+      <div class="content-block">
+        <p>Right panel content goes here</p>
+      </div>
+    </div>
+    <!-- Views-->
+    <div class="views">
+      <!-- Your main view, should have "view-main" class-->
+      <div class="view view-main">
+        <!-- Top Navbar-->
+        <div class="navbar">
+          <div class="navbar-inner">
+            <!-- We have home navbar without left link-->
+            <div class="center sliding">智能物联</div>
+            <div class="right">
+              <!-- Right link contains only icon - additional "icon-only" class--><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through toolbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page">
+            <!-- Scrollable page content-->
+            <div class="page-content">
+              <div class="content-image"><img src="img/background.jpg"></div>
+              <div class="content-block-title">我的设备</div>
+              <div class="list-block sortable">
+                <ul id="device-list">
+                  <li><a href="led_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/led.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">智能照明</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="kic_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/gas.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">智能厨房</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="door_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/access.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">门禁</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="camera_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/camera.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">摄像监控</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="air_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/air.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">空调</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="tv_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img//icons/tv.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">电视</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="curtain_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img//icons/curtain.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">窗帘</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="volume_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/volume.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">智能音箱</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="projector_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img/icons/projector.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">投影仪</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="screen_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img//icons/screen.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">投影幕布</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="screen_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img//icons/window.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">窗户</div>
+                        </div>
+                      </div></a>
+                    <div class="sortable-handler"></div>
+                  </li>
+                  <li><a href="screen_page.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-media index-img"><img src="img//icons/add.svg"></div>
+                        <div class="item-inner">
+                          <div class="item-title index-title">添加设备</div>
+                        </div>
+                      </div></a></li>
+                  <div class="sortable-handler"></div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/knockout-3.2.0.js"></script>
+    <script type="text/javascript" src="js/knockout.validation.min.js"></script>
+    <script type="text/javascript" src="js/knockout.validation.zh-CN.js">
+      <script type="text/javascript" src="js/rangeslider.min.js.js"></script>
+    </script>
+    <script type="text/javascript" src="js/framework7.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/my-app.js"></script>
+  </body>
+</html>

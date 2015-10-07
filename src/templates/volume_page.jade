@@ -1,0 +1,30 @@
+// We don't need full layout here, because this page will be parsed with Ajax
+// Top Navbar
+.navbar
+  .navbar-inner
+    .left
+      a(href="#").back.link 
+        i.icon.icon-back
+        span 返回
+    .center.sliding 智能音箱
+    .right
+      a(href="#").link.icon-only.open-panel
+        i.icon.icon-bars
+.pages
+  .page(data-page="volume")
+    .page-content
+      .content-block.volume-background
+        .volume-img-block
+          .row(data-bind="click: $root.controllerChanged(8)")
+            a#btn1.a-content-block-volume-icon.button.button-big.button-fill
+              i#icon1.fa.fa-plus.color-white.content-block-icon
+            a#btn2.a-content-block-volume-icon.button.button-big.button-fill
+              i#icon2.fa.fa-step-backward.color-white.content-block-icon
+            a#btn3.a-content-block-volume-icon.button.button-big.button-fill
+              i#icon3.fa.fa-play.color-white.content-block-icon
+            a#btn4.a-content-block-volume-icon.button.button-big.button-fill
+              i#icon41.fa.fa-step-forward.color-white.content-block-icon
+            a#btn5.a-content-block-volume-icon.button.button-big.button-fill
+              i#icon5.fa.fa-minus.color-white.content-block-icon
+
+

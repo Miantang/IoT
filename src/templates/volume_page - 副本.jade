@@ -1,0 +1,32 @@
+// We don't need full layout here, because this page will be parsed with Ajax
+// Top Navbar
+.navbar
+  .navbar-inner
+    .left
+      a(href="#").back.link 
+        i.icon.icon-back
+        span 后退
+    .center.sliding 智能音箱
+    .right
+      // Right link contains only icon - additional "icon-only" class
+      a(href="#").link.icon-only.open-panel 
+        i.icon.icon-bars
+.pages
+  // Page, data-page contains page name
+  .page(data-page="volume")
+    // Scrollable page content
+    .page-content
+      .content-block-title Form Example
+      .content-block(data-bind="with: $root.stepValues")
+        .row
+          .col-50
+            a(href="#" data-bind="attr: {id : 'btn'+ this[0] }, click: $root.controllerChanged").button.button-big.button-fill.color-red 音量+
+          .col-50
+            input(type="submit", value="音量-" data-bind="attr: {id : 'btn'+ this[1] }, click: $root.controllerChanged").button.button-big.button-fill.color-green
+        .row
+          .col-50
+            a(href="#" data-bind="attr: {value : 3 }, click: $root.controllerChanged").button.button-big.button-fill.color-green 上一曲
+          .col-50
+            input(type="submit", value="下一曲" data-bind="attr: {value : 4 }, click: $root.controllerChanged").button.button-big.button-fill.color-red
+          input(type="submit", value="暂停/开始" data-bind="attr: {value : 5 }, click: $root.controllerChanged").button.button-big.button-fill.color-green
+          

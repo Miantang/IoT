@@ -1,8 +1,0 @@
-<div id="tvModel"><!--.switch.am-fr--><!--  input.cmn-toggle.cmn-toggle-round#tv-9(type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}")--><!--  label(for="tv-9")--><div data-am-widget="list_news" class="am-list-news am-list-news-default"><ul data-bind="foreach: { data: tvButtonGroup, as: 'dv' }" class="inner-boxes tvboxes am-thumbnails"><li data-bind="text:dv.name,attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button="data-am-button" class="inner-box tvbox am-thumbnail am-btn"></li></ul><!--li.tvbox.am-thumbnail.am-btn(data-bind="text:$root.tvBtnGroup2[0].name,attr: {id: 'tvbutton-' + $root.tvBtnGroup2[0].id, value : $root.tvBtnGroup2[0].name }, click: $root.controlChanged" data-am-button)--></div></div><script>var tvVM = new tvViewModel();
-setTimeout(tvVM.loaddata, 200);
-ko.applyBindings(tvVM, document.getElementById("tvModel"));
-mainmodel.showback(true);
-$(function () {
-  var $innerbox = $(".inner-box");
-  $innerbox.css("height", $innerbox.width()*0.618);
-});</script>
