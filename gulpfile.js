@@ -76,5 +76,5 @@ gulp.task('copy', ['copy:img', 'copy:css', 'copy:js']);
 
 gulp.task('test', ['mocha']);
 
-gulp.task('build', ['less', 'jade', 'jade:index', 'copy', 'scripts', 'server']);
-gulp.task('default', ['build']);
+gulp.task('build', ['less', 'jade', 'jade:index', 'copy', 'scripts']);
+gulp.task('default', ['build', 'server']);
