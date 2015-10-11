@@ -234,9 +234,15 @@ myApp.onPageInit("door", function(page){
 
 myApp.onPageInit("volume", function(page){
     console.log(page);
-    var volume = new Step2ViewModel(8);
+    var volume = new Step2ViewModel(12);
     setTimeout(volume.loadData, 200);
     ko.applyBindings(volume, page.container );
+});
+myApp.onPageInit("tv", function(page){
+    console.log(page);
+    var tv = new Step2ViewModel(9);
+    setTimeout(tv.loadData, 200);
+    ko.applyBindings(tv, page.container );
 });
 // center.js
 
@@ -505,10 +511,8 @@ function Step2ViewModel(code, group) {
             if(togSwitch) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
-                console.log("this: ", this, target.id);
                 var targetId = target.id;
-
-                self.controller[id](targetId[targetId.length - 1]);
+                self.controller[id](targetId.slice(3));
 
                  var controllerNumber = self.controller[id]();
                  var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
@@ -517,7 +521,8 @@ function Step2ViewModel(code, group) {
                     url: ip + "/devices/" + id,
                     data: JSON.parse(controllerData)
                 }).done(function(){
-                        myApp.alert('更新成功', '智能物联');
+                        //myApp.alert('更新成功', '智能物联');
+                    console.log("UPDATE: ", target.nodeName, controllerData);
                 }).fail(function () {
                     myApp.alert('不能更新设备信息，请检查网络', '智能物联');
                 });

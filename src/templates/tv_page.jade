@@ -15,61 +15,39 @@
   // Page, data-page contains page name
   .page(data-page="tv")
     // Scrollable page content
-    .page-content
-      .content-block.tv-content
-        .row
-          .left
-            a.a-content-block-icon#btn-mute(href="#").button.button-big.button-fill
+    .page-content-tv
+      .tv-img-block(data-bind="click: $root.controllerChanged(9)")
+        .content-block.tv-content
+          .row
+            a.a-content-block-icon#btn15(href="#").button.button-big.button-fill
               span.fa-stack.fa-1g
                 i.fa.fa-volume-down.a-stack-1x.color-blue
-                i.fa.fa-ban.fa-stack-2x.color-red
-          .right
-            a.a-content-block-icon#btn-off(href="#").button.button-big.button-fill
-             i.fa.fa-power-off.fa-2x.color-red.content-block-icon2
-             
-      .content-block.block-btn-2
-        .row
-          .left
-          .center
-            a.a-content-block-icon3.button.button-big.button-fill
-             <i class="fa fa-angle-up fa-2x pull-center content-block-icon3 color-blue"></i>
-          .right
-        .row
-          .left
-            a.a-content-block-icon4.button.button-big.button-fill
-              <i class="fa fa-angle-left fa-2x content-block-icon4"></i>
-          .center
-            a.a-content-block-icon5(type="submit", style="color:blue;font-size:30;height:5ex").button.button-big.button-fill OK
-          .right
-            a.a-content-block-icon6(href="#").button.button-big.button-fill
-              <i class="fa fa-chevron-right fa-2x content-block-icon6 color-blue"></i>
-        .row
-          .left
-          .center
-            a.a-content-block-icon7(href="#").button.button-big.button-fill
-              <i class="fa fa-angle-down fa-2x content-block-icon7 color-blue"></i>
-          .right
-      .content-block
-        .row
-          .left
-            input.a-content-block-icon11(type="submit", value="1",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .center
-            input.a-content-block-icon12(type="submit", value="2",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .right
-            input.a-content-block-icon13(type="submit", value="3",style="color:blue;font-size:30pt").button.button-big.button-fill
-      .content-block
-        .row
-          .left
-            input.a-content-block-icon14(type="submit", value="4",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .center
-            input.a-content-block-icon15(type="submit", value="5",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .right
-            input.a-content-block-icon16(type="submit", value="6",style="color:blue;font-size:30pt").button.button-big.button-fill
-      .content-block
-        .row
-          .left
-            input.a-content-block-icon17(type="submit", value="7",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .center
-            input.a-content-block-icon18(type="submit", value="8",style="color:blue;font-size:30pt").button.button-big.button-fill
-          .right
-            input.a-content-block-icon19(type="submit", value="9",style="color:blue;font-size:30pt").button.button-big.button-fill
+                i#ico15.fa.fa-ban.fa-stack-2x.color-red
+            a.a-content-block-icon#btn0(href="#").button.button-big.button-fill
+              i#ico0.fa.fa-power-off.fa-2x.color-red.content-block-icon2
+        .content-block.block-btn-2
+          .row
+            a#btn11.a-content-block-icon.button.button-big.button-fill
+              i#ico11.fa.fa-angle-up.fa-3x.content-block-icon3
+          .row
+            a#btn12.a-content-block-icon.button.button-big.button-fill
+              i#ico12.fa.fa-angle-left.fa-3x.content-block-icon4
+            a#btn10.a-content-block-icon.button.button-big.button-fill OK
+            a#btn13.a-content-block-icon.button.button-big.button-fill
+              i#ico13.fa.fa-angle-right.fa-3x.content-block-icon6
+          .row
+            a#btn14.a-content-block-icon.button.button-big.button-fill
+              i#ico14.fa.fa-angle-down.fa-3x.content-block-icon7
+        .content-block.block-btn-3
+          .row
+            a#btn1.a-content-block-icon.button.button-big.button-fill 1
+            a#btn2.a-content-block-icon.button.button-big.button-fill 2
+            a#btn3.a-content-block-icon.button.button-big.button-fill 3
+          .row
+            a#btn4.a-content-block-icon.button.button-big.button-fill 4
+            a#btn5.a-content-block-icon.button.button-big.button-fill 5
+            a#btn6.a-content-block-icon.button.button-big.button-fill 6
+          .row
+            a#btn7.a-content-block-icon.button.button-big.button-fill 7
+            a#btn8.a-content-block-icon.button.button-big.button-fill 8
+            a#btn9.a-content-block-icon.button.button-big.button-fill 9
