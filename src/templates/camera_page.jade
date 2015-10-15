@@ -21,16 +21,16 @@
     .page-content
       #camera-view
         img(src="//192.168.1.111:8081/?action=stream")
-      .content-block-title
+      .content-block-title(data-bind="click: $root.controllerChanged2(6)")
         h2#camera-title 云台控制
         .row
           .col-33
-            a(href="#").button.button-big.button-fill.camera-btn
+            a(href="#" data-code="1").button.button-big.button-fill.camera-btn
               i.fa.fa-chevron-left.fa-2x.camera-icon
           .col-33
-            a(href="#").button.button-big.button-fill.camera-btn
+            a(href="#" data-code="2").button.button-big.button-fill.camera-btn
               i.fa.fa-stop.fa-2x.camera-icon
           .col-33
-            a(href="#").button.button-big.button-fill.camera-btn
+            a(href="#" data-code="3").button.button-big.button-fill.camera-btn
               i.fa.fa-chevron-right.fa-2x.camera-icon
 

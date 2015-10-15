@@ -45,6 +45,7 @@ DeviceModel.findOne({id: 1}, function (err, dv) {
         device.save();
     }
 });
+
 DeviceModel.findOne({id: 2}, function (err, dv) {
     if (dv === null) {
         var device = new DeviceModel({
@@ -99,7 +100,7 @@ DeviceModel.findOne({id: 6}, function (err, dv) {
             id: 6,
             type: 'step',
             name: 'camera',
-            value: '0',
+            value: '{"switch":1,"controller":"0"}',
             description: '摄像机'
         });
         device.save();
@@ -111,7 +112,7 @@ DeviceModel.findOne({id: 7}, function (err, dv) {
             id: 7,
             type: 'step',
             name: 'led2',
-            value: '{"switch":0,"controller":"0"}',
+            value: '{"switch":1,"controller":"0"}',
             description: 'LED灯带'
         });
         device.save();
@@ -171,8 +172,32 @@ DeviceModel.findOne({id: 12}, function (err, dv) {
             id: 12,
             type: 'step',
             name: 'volume',
-            value: '{"switch":0,"controller":"0"}',
+            value: '{"switch":1,"controller":"0"}',
             description: '音量控制'
+        });
+        device.save();
+    }
+});
+DeviceModel.findOne({id: 13}, function (err, dv) {
+    if (dv === null) {
+        var device = new DeviceModel({
+            id: 13,
+            type: 'switch',
+            name: 'led2',
+            value: '0',
+            description: '照明灯'
+        });
+        device.save();
+    }
+});
+DeviceModel.findOne({id: 14}, function (err, dv) {
+    if (dv === null) {
+        var device = new DeviceModel({
+            id: 14,
+            type: 'step',
+            name: 'window',
+            value: '{"switch":1,"controller":"0"}',
+            description: '窗户'
         });
         device.save();
     }

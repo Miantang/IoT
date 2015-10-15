@@ -14,8 +14,8 @@
   .page(data-page="volume")
     .page-content.volume-block
       .content-block.volume-background
-        .volume-img-block
-          .row(data-bind="click: $root.controllerChanged(12)")
+        .volume-img-block(data-bind="click: $root.controllerChanged(12)")
+          .row
             a#btn1.a-content-block-volume-icon.button.button-big.button-fill
               i#ico1.fa.fa-plus.color-white.content-block-icon
             a#btn2.a-content-block-volume-icon.button.button-big.button-fill

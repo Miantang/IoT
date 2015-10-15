@@ -22,7 +22,7 @@
           li
             .switch
             .switch.demo2
-              input(type="checkbox")
+              input(type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}")
               label
             .item-content
               .item-media
@@ -32,7 +32,7 @@
           li
             .switch
             .switch.demo2
-              input(type="checkbox")
+              input(type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}")
               label
           li
             .item-content

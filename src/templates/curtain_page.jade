@@ -24,13 +24,13 @@
                 div(class="item-inner")
                   .item-title 1号窗帘
               .accordion-item-content
-                .content-block
+                .content-block(data-bind="click: $root.controllerChanged(7)")
                   .row
-                    a#b1.curtain-button-1.button-filling-color-in
+                    a#btn1.curtain-button-1.button-filling-color-in
                       i(class="fa fa-arrow-left")
-                    a#b2.curtain-button-2.button-filling-color-in
+                    a#btn2.curtain-button-2.button-filling-color-in
                       i(class="fa fa-square")
-                    a#b3.curtain-button-3.button-filling-color-in
+                    a#btn3.curtain-button-3.button-filling-color-in
                       i(class="fa fa-arrow-right")
             li.accordion-item
               a(href="#").item-content.item-link
@@ -39,11 +39,11 @@
               .accordion-item-content
                 .content-block
                   .row
-                   a#b4.curtain-button-4.button-filling-color-in
+                   a#btn4.curtain-button-4.button-filling-color-in
                         i(class="fa fa-arrow-left")
-                    a#b5.curtain-button-5.button-filling-color-in
+                    a#btn5.curtain-button-5.button-filling-color-in
                       i(class="fa fa-square")
-                    a#b6.curtain-button-6.button-filling-color-in
+                    a#btn6.curtain-button-6.button-filling-color-in
                       i(class="fa fa-arrow-right")
             li.accordion-item
               a(href="#").item-content.item-link
@@ -52,9 +52,9 @@
               .accordion-item-content
                 .content-block
                   .row
-                    a#b7.curtain-button-7.button-filling-color-in
+                    a#btn7.curtain-button-7.button-filling-color-in
                       i(class="fa fa-arrow-left")
-                    a#b8.curtain-button-8.button-filling-color-in
+                    a#btn8.curtain-button-8.button-filling-color-in
                       i(class="fa fa-square")
-                    a#b9.curtain-button-9.button-filling-color-in
+                    a#btn9.curtain-button-9.button-filling-color-in
                       i(class="fa fa-arrow-right")

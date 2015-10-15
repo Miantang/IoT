@@ -16,16 +16,16 @@
   // Scrollable page content
   
   -->
-  <div data-page="camera-button" class="page">
+  <div data-page="camera" class="page">
     <!-- Scrollable page content-->
     <div class="page-content">
-      <div id="camera-view"></div>
-      <div class="content-block-title">
+      <div id="camera-view"><img src="//192.168.1.111:8081/?action=stream"/></div>
+      <div data-bind="click: $root.controllerChanged2(6)" class="content-block-title">
         <h2 id="camera-title">云台控制</h2>
         <div class="row">
-          <div class="col-33"><a href="#" class="button button-big button-fill camera-btn"><i class="fa fa-chevron-left fa-2x camera-icon"></i></a></div>
-          <div class="col-33"><a href="#" class="button button-big button-fill camera-btn"><i class="fa fa-stop fa-2x camera-icon"></i></a></div>
-          <div class="col-33"><a href="#" class="button button-big button-fill camera-btn"><i class="fa fa-chevron-right fa-2x camera-icon"></i></a></div>
+          <div class="col-33"><a href="#" data-code="1" class="button button-big button-fill camera-btn"><i class="fa fa-chevron-left fa-2x camera-icon"></i></a></div>
+          <div class="col-33"><a href="#" data-code="2" class="button button-big button-fill camera-btn"><i class="fa fa-stop fa-2x camera-icon"></i></a></div>
+          <div class="col-33"><a href="#" data-code="3" class="button button-big button-fill camera-btn"><i class="fa fa-chevron-right fa-2x camera-icon"></i></a></div>
         </div>
       </div>
     </div>

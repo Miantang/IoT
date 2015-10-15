@@ -1,15 +1,12 @@
 // Initialize your app
 var myApp = new Framework7();
-
 // Export selectors engine
 var $$ = Dom7;
-
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
-
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageAfterAnimation('services', function (page) {
     // run createContentPage func after link was clicked
@@ -17,7 +14,6 @@ myApp.onPageAfterAnimation('services', function (page) {
         createContentPage();
     });
 });
-
 // Generate dynamic page
 var dynamicPageIndex = 0;
 function createContentPage() {
@@ -46,7 +42,6 @@ function createContentPage() {
     );
 	return;
 }
-
 // app.js
 window.onbeforeunload = function () {
     $.AMUI.utils.cookie.set('ukey', null);
@@ -72,164 +67,77 @@ $.ajaxSetup({
     }
 });
 
-function mainViewModel() {
-    var self = this;
-    self.showuser = ko.observable(false);
-    self.shownav = ko.observable(false);
-    self.showuinfo = ko.observable(false);
-    self.showback = ko.observable(false);
-    self.uid = ko.observable("");
-    self.pwd = ko.observable("");
-    self.link_addUser = function () {
-        go("web/account_addUser_page.html");
-    };
-    self.link_childUsersManager = function () {
-        go("web/account_usersManager_page.html");
-    };
-
-    self.link_account = function () {
-        go("web/account_page.html");
-    };
-    self.link_accountEditPwd = function () {
-        go("web/account_pwd_page.html");
-    };
-    self.link_user_center = goCenter;
-
-    self.rembme = ko.observable(false);
-    if (typeof (Storage) !== "undefined") {
-        if (localStorage.getItem("uid") !== null) {
-            self.rembme(true);
-            self.uid(localStorage.getItem("uid"));
-            self.pwd(localStorage.getItem("pwd"));
-        }
-    }
-    self.rembme.subscribe(function (val) {
-        if (typeof (Storage) !== "undefined") {
-            if (val) {
-                if (self.uid() !== "" && self.pwd() !== "") {
-                    localStorage.setItem('uid', self.uid());
-                    localStorage.setItem('pwd', self.pwd());
-                    $("#msg").html("账号已记录在本机！");
-                    $('#my-prompt').modal('open');
-                }
-            } else {
-                localStorage.clear();
-                self.uid("");
-                self.pwd("");
-            }
-        } else {
-            $("#msg").html("你的浏览器不支持此功能！");
-            $('#my-prompt').modal('open');
-        }
-    });
-
-
-    self.link_user = function () {
-        if ($.AMUI.utils.cookie.get('uid') !== null)
-        {
-            $("#dialog").html("你确定想退出系统吗？");
-            var $confirm = $('#exit-confirm');
-            var confirm = $confirm.data('am.modal');
-            var onConfirm = function () {
-                $.AMUI.utils.cookie.set('uid', null);
-                $.AMUI.utils.cookie.set('pwd', null);
-                window.location = "/";
-            };
-            var onCancel = function () { };
-
-            if (confirm) {
-                confirm.options.onConfirm = onConfirm;
-                confirm.options.onCancel = onCancel;
-                confirm.toggle(this);
-            } else {
-                $confirm.modal({
-                    relatedElement: this,
-                    onConfirm: onConfirm,
-                    onCancel: onCancel
-                });
-            }
-        }
-    };
-    self.bt_login = function () {
-        if (self.uid() !== "" && self.pwd() !== "") {
-            $.AMUI.progress.start();
-            $.ajax({
-                type:"POST",
-                url: "/user/login",
-                data:{'username' : self.uid(), 'pwd': self.pwd()}
-            }).done(function (data) {
-                if (data) {
-                    $.AMUI.utils.cookie.set('uid', self.uid(), { expires: 7 });
-                    $.AMUI.utils.cookie.set('pwd', self.pwd(), { expires: 7 });
-                    $.AMUI.utils.cookie.set('data', data);
-                    if (data.username === "admin") {
-                        self.showuser(true);
-                    }
-                    self.shownav(true);
-                    //go("web/center_page.html");
-                    goCenter();
-                } else {
-                    $("#msg").html("登陆失败");
-                    $('#my-prompt').modal('open');
-                    self.uid("");
-                    self.pwd("");
-                }
-                $.AMUI.progress.done();
-            }).fail(function (xhr) {
-                self.uid("");
-                self.pwd("");
-                $.AMUI.progress.done();
-            });
-        }
-    };
-
-    self.gopage = goCenter;
-}
-/*ko.applyBindings(new mainViewModel(), document.getElementById("mainModel")) ;
-mainmodel = ko.dataFor(document.getElementById("mainModel"));
-function go(url) {
-    $("#render").load(url, null, function (res, status, xhr) {
-        if ( status == "error" ) {
-            var msg = "Sorry but there was an error: ";
-            $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
-        }
-        console.log('load success');
-    });
-    $("#menu1").offCanvas('close');
-}*/
-var centerModel, ctvm;
-function goCenter() {
-    $("#render").load('web/center_page.html', null, function (res, status, xhr) {
-        if (status == "error") {
-            var msg = "Sorry but there was an error: ";
-            $("#error").html(msg + xhr.status + " " + xhr.statusText);
-        }
-        if (ctvm === undefined) {
-            console.log('just once!');
-            ctvm = new centerViewModel();
-        }
-        //ko.applyBindings(ctvm, document.getElementById("centerModel"));
-        setTimeout(ctvm.loaddata, 200);
-    });
-    mainmodel.showback(false);
-    $("#menu1").offCanvas('close');
-}
-
 // Init Here
-var ip = '';//http://192.168.1.116:8080';
+var ip = 'http://192.168.1.116:8080';
 jQuery.support.cors = true;
+
+myApp.onPageInit("led", function(page){
+    console.log(page);
+    var led = new SwitchViewModel(1);
+    setTimeout(led.loadData, 200);
+    ko.applyBindings(led, page.container );
+});
+
+/*myApp.onPageInit("door", function(page){
+    console.log(page);
+    var door = new SwitchViewModel(2);
+    setTimeout(door.loadData, 200);
+    ko.applyBindings(door, page.container );
+});*/
+
+myApp.onPageInit("door", function(page){
+    console.log(page);
+    var door = new SwitchViewModel(2);
+    setTimeout(door.loadData, 200);
+    ko.applyBindings(door, page.container );
+});
+
 myApp.onPageInit("kic", function(page){
     console.log(page);
-    var kic = new SwitchViewModel([1,2]);
+    var kic = new SwitchViewModel([3,4]);
     setTimeout(kic.loadData, 200);
     ko.applyBindings(kic, page.container );
 });
 
-myApp.onPageInit("door", function(page){
+myApp.onPageInit("projector", function(page) {
     console.log(page);
-    var door = new StepViewModel(7);
-    setTimeout(door.loadData, 200);
-    ko.applyBindings(door, page.container );
+    var projector = new Step2ViewModel(5);
+    setTimeout(projector.loadData, 200);
+    ko.applyBindings(projector, page.container );
+});
+myApp.onPageInit("camera", function(page) {
+    console.log(page);
+    var screen = new Step2ViewModel(6);
+    setTimeout(screen.loadData, 200);
+    ko.applyBindings(screen, page.container );
+});
+
+myApp.onPageInit("curtain", function(page){
+    console.log(page);
+    var curtain = new Step2ViewModel(7);
+    setTimeout(curtain.loadData, 200);
+    ko.applyBindings(curtain, page.container );
+});
+
+myApp.onPageInit("air", function(page){
+    console.log(page);
+    var air = new AirViewModel(8);
+    setTimeout(air.loadData, 200);
+    ko.applyBindings(air, page.container );
+});
+
+myApp.onPageInit("tv", function(page){
+    console.log(page);
+    var tv = new Step2ViewModel(9);
+    setTimeout(tv.loadData, 200);
+    ko.applyBindings(tv, page.container );
+});
+
+myApp.onPageInit("screen", function(page){
+    console.log(page);
+    var screen = new Step2ViewModel(10);
+    setTimeout(screen.loadData, 200);
+    ko.applyBindings(screen, page.container );
 });
 
 myApp.onPageInit("volume", function(page){
@@ -238,75 +146,16 @@ myApp.onPageInit("volume", function(page){
     setTimeout(volume.loadData, 200);
     ko.applyBindings(volume, page.container );
 });
-myApp.onPageInit("tv", function(page){
+
+myApp.onPageInit("window", function(page){
     console.log(page);
-    var tv = new Step2ViewModel(9);
-    setTimeout(tv.loadData, 200);
-    ko.applyBindings(tv, page.container );
+    var window = new Step2ViewModel(14);
+    setTimeout(window.loadData, 200);
+    ko.applyBindings(window, page.container );
 });
+
 // center.js
 
-function centerViewModel() {
-    var self = this;
-    self.disLed2 = function() {
-        $("#render").load("web/dis_led2_page.html");
-    };
-    self.switchChanged = function (dv) {
-        var tempValue;
-        if (dv.value == 1) {
-            dv.value = 0;
-            dv.imgValue(0);
-            tempValue = dv.value;
-            console.log("1 to ",tempValue);
-            $("#msg").html(" 关闭成功 ");
-            $('#my-prompt').modal('open');
-        } else {
-            dv.value = 1;
-            dv.imgValue(1);
-            tempValue = dv.value;
-            console.log("0 to ", tempValue);
-            $("#msg").html(" 开启成功 ");
-            $('#my-prompt').modal('open');
-
-        }
-        var switchData = '{"type":"switch","value":'+ dv.value+'}';
-
-        $.ajax({
-            type: "POST",
-            //url: "/index.php/mqttdevices/"  + dv.id,
-            url: "/devices/"  + dv.id,
-            data: JSON.parse(switchData),
-            success: function () { },
-            error: function (xhr, status, error) {
-                $("#msg").html(xhr.responseText);
-                $('#my-prompt').modal('open');
-            }
-        });
-    };
-
-    self.devices = ko.observableArray();
-
-    /*self.loaddata = function () {
-        $.ajax({
-            url: "/devices"
-        }).done(function (data) {
-            if (data.length === 0) {
-                goCenter();
-            } else {
-                if(0 === self.devices().length) {
-                    for (var i = 0; i < data.length; i++) {
-                        data[i].description = decodeURI(data[i].description);
-
-                        if("switch" === data[i].type) {
-                            data[i].imgValue = ko.observable( Number(data[i].value) );
-                        }
-                        self.devices.push(data[i]);
-                    }
-                }
-            }
-        });
-    };*/
-}
 function SwitchViewModel(code) {
     var self = this;
     // make the variables observable
@@ -448,10 +297,6 @@ function Step2ViewModel(code, group) {
         self.controller[code] = ko.observable(0);
     }
 
-    self.stepValues = group || {
-            "btn1": 1, "btn2": 2, "btn3": 3, "btn4": 4, "btn5": 5,
-            "btn6": 6, "btn7": 7, "btn8": 8, "btn9": 9, "btn10": 10
-        };
     self.loadData = function () {
         $.ajax({
             url: ip + "/devices"
@@ -477,7 +322,7 @@ function Step2ViewModel(code, group) {
             myApp.alert('未请求到设备信息，请检查网络', '智能物联');
         });
     };
-    self.switchChanged = function(id){
+    self.switchChanged = function(id) {
         return function() {
             var index = (Number(id)-1);
             if (self.switch[id]) {
@@ -511,19 +356,30 @@ function Step2ViewModel(code, group) {
             if(togSwitch) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
-                if(target.nodeName.toLocaleLowerCase() == "div") {
+                var nodeName = target.nodeName.toLocaleLowerCase();
+                var targetId;
+                if(nodeName == "div") {
                     return;
                 }
-                var targetId = target.id;
+                if(nodeName == "i" ) {
+                    if(target.parentNode.nodeName.toLocaleLowerCase() == "a")
+                        targetId = target.parentNode.id;
+                    else
+                        return;
+                } else if(nodeName == "a") {
+                    targetId = target.id;
+                } else {
+                    return;
+                }
                 self.controller[id](targetId.slice(3));
-
+                console.log("DEBUG: targetId ", targetId);
                  var controllerNumber = self.controller[id]();
                  var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
                 $.ajax({
                     type: "POST",
                     url: ip + "/devices/" + id,
                     data: JSON.parse(controllerData)
-                }).done(function(){
+                }).done(function() {
                         //myApp.alert('更新成功', '智能物联');
                     console.log("UPDATE: ", target.nodeName, controllerData);
                 }).fail(function () {
@@ -535,17 +391,27 @@ function Step2ViewModel(code, group) {
     self.controllerChanged2 = function (id) {
         return function (dv, e) {
             var togSwitch  = self.switch[id];
-            if(togSwitch) {
+            if(1) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
-                var targetId = target.id;
-                if(target.nodeName.toLocaleLowerCase() == "div") {
+                var nodeName = target.nodeName.toLocaleLowerCase();
+                var targetId;
+                if(nodeName == "i" ) {
+                    if(target.parentNode.nodeName.toLocaleLowerCase() == "a")
+                        targetId = target.parentNode.dataset["code"];
+                    else
+                        return;
+                } else if(nodeName == "a") {
+                    targetId = target.dataset["code"];
+                } else {
                     return;
                 }
-                self.controller[id](targetId.slice(3));
+                self.controller[id](Number(targetId));
+                console.log("DEBUG: targetId ", targetId);
 
                 var controllerNumber = self.controller[id]();
                 var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
+                console.log("DEBUG: targetId ", togSwitch);
                 $.ajax({
                     type: "POST",
                     url: ip + "/devices/" + id,
@@ -559,8 +425,273 @@ function Step2ViewModel(code, group) {
             }
         };
     };
+
+    self.controllerChanged3 = function (id) {
+        return function (dv, e) {
+            var togSwitch  = self.switch[id];
+            if(togSwitch) {
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+                var nodeName = target.nodeName.toLocaleLowerCase();
+                var targetId;
+                var node = target;
+                while(node) {
+                    if(node.nodeName.toLocaleLowerCase() != "input") {
+                        node = node.parentNode;
+                    } else {
+                        targetId = node.dataset["code"];
+                        break;
+                    }
+                }
+                self.controller[id](Number(targetId));
+                console.log("DEBUG: targetId ", targetId);
+
+                var controllerNumber = self.controller[id]();
+                var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
+                $.ajax({
+                    type: "POST",
+                    url: ip + "/devices/" + id,
+                    data: JSON.parse(controllerData)
+                }).done(function() {
+                    //myApp.alert('更新成功', '智能物联');
+                    console.log("UPDATE: ", target.nodeName, controllerData);
+                }).fail(function () {
+                    myApp.alert('不能更新设备信息，请检查网络', '智能物联');
+                });
+            }
+        };
+    };
 }
 
+function AirViewModel(id) {
+    var self = this;
+    self.switch = 0;
+    self.controller = ko.observable(0);
+
+    self.loadData = function () {
+        $.ajax({
+            url: ip + "/devices/" + id
+        }).done(function (data) {
+            var index = (Number(id) - 1);
+            var devValue = JSON.parse(data.value);
+            self.switch = Number(devValue.switch);
+            self.controller(Number(devValue.controller));
+        }).fail(function () {
+            myApp.alert('未接入网络', '系统消息');
+        });
+    };
+    self.options = [
+        { name: '制冷', value: 1, disable: ko.observable(false)},
+        { name: '制热', value: 2, disable: ko.observable(true)},
+        { name: '送风', value: 3, disable: ko.observable(false)}
+    ];
+
+    self.controllerChanged = function () {
+        self.switch = Number($("#air-mode").val());
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        console.log("Air 调整值：switchData: ", switchData);
+        $.ajax({
+            type: "POST",
+            url: ip + "/devices/" + id,
+            data: JSON.parse(switchData)
+        }).done(function () {
+            console.log("更新到设备Air：self.controller()", self.controller());
+        }).fail(function () {
+            myApp.alert('未成功连接设备', '系统消息');
+        });
+    };
+    self.sliderChange = function () {
+
+    };
+}
+
+function mainViewModel() {
+    var self = this;
+    self.showuser = ko.observable(false);
+    self.shownav = ko.observable(false);
+    self.showuinfo = ko.observable(false);
+    self.showback = ko.observable(false);
+    self.uid = ko.observable("");
+    self.pwd = ko.observable("");
+    self.link_addUser = function () {
+        go("web/account_addUser_page.html");
+    };
+    self.link_childUsersManager = function () {
+        go("web/account_usersManager_page.html");
+    };
+
+    self.link_account = function () {
+        go("web/account_page.html");
+    };
+    self.link_accountEditPwd = function () {
+        go("web/account_pwd_page.html");
+    };
+    self.link_user_center = goCenter;
+
+    self.rembme = ko.observable(false);
+    if (typeof (Storage) !== "undefined") {
+        if (localStorage.getItem("uid") !== null) {
+            self.rembme(true);
+            self.uid(localStorage.getItem("uid"));
+            self.pwd(localStorage.getItem("pwd"));
+        }
+    }
+    self.rembme.subscribe(function (val) {
+        if (typeof (Storage) !== "undefined") {
+            if (val) {
+                if (self.uid() !== "" && self.pwd() !== "") {
+                    localStorage.setItem('uid', self.uid());
+                    localStorage.setItem('pwd', self.pwd());
+                    $("#msg").html("账号已记录在本机！");
+                    $('#my-prompt').modal('open');
+                }
+            } else {
+                localStorage.clear();
+                self.uid("");
+                self.pwd("");
+            }
+        } else {
+            $("#msg").html("你的浏览器不支持此功能！");
+            $('#my-prompt').modal('open');
+        }
+    });
+
+
+    self.link_user = function () {
+        if ($.AMUI.utils.cookie.get('uid') !== null)
+        {
+            $("#dialog").html("你确定想退出系统吗？");
+            var $confirm = $('#exit-confirm');
+            var confirm = $confirm.data('am.modal');
+            var onConfirm = function () {
+                $.AMUI.utils.cookie.set('uid', null);
+                $.AMUI.utils.cookie.set('pwd', null);
+                window.location = "/";
+            };
+            var onCancel = function () { };
+
+            if (confirm) {
+                confirm.options.onConfirm = onConfirm;
+                confirm.options.onCancel = onCancel;
+                confirm.toggle(this);
+            } else {
+                $confirm.modal({
+                    relatedElement: this,
+                    onConfirm: onConfirm,
+                    onCancel: onCancel
+                });
+            }
+        }
+    };
+    self.bt_login = function () {
+        if (self.uid() !== "" && self.pwd() !== "") {
+            $.AMUI.progress.start();
+            $.ajax({
+                type:"POST",
+                url: "/user/login",
+                data:{'username' : self.uid(), 'pwd': self.pwd()}
+            }).done(function (data) {
+                if (data) {
+                    $.AMUI.utils.cookie.set('uid', self.uid(), { expires: 7 });
+                    $.AMUI.utils.cookie.set('pwd', self.pwd(), { expires: 7 });
+                    $.AMUI.utils.cookie.set('data', data);
+                    if (data.username === "admin") {
+                        self.showuser(true);
+                    }
+                    self.shownav(true);
+                    //go("web/center_page.html");
+                    goCenter();
+                } else {
+                    $("#msg").html("登陆失败");
+                    $('#my-prompt').modal('open');
+                    self.uid("");
+                    self.pwd("");
+                }
+                $.AMUI.progress.done();
+            }).fail(function (xhr) {
+                self.uid("");
+                self.pwd("");
+                $.AMUI.progress.done();
+            });
+        }
+    };
+
+    self.gopage = goCenter;
+}
+/*ko.applyBindings(new mainViewModel(), document.getElementById("mainModel")) ;
+ mainmodel = ko.dataFor(document.getElementById("mainModel"));
+ function go(url) {
+ $("#render").load(url, null, function (res, status, xhr) {
+ if ( status == "error" ) {
+ var msg = "Sorry but there was an error: ";
+ $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+ }
+ console.log('load success');
+ });
+ $("#menu1").offCanvas('close');
+ }*/
+function centerViewModel() {
+    var self = this;
+    self.disLed2 = function() {
+        $("#render").load("web/dis_led2_page.html");
+    };
+    self.switchChanged = function (dv) {
+        var tempValue;
+        if (dv.value == 1) {
+            dv.value = 0;
+            dv.imgValue(0);
+            tempValue = dv.value;
+            console.log("1 to ",tempValue);
+            $("#msg").html(" 关闭成功 ");
+            $('#my-prompt').modal('open');
+        } else {
+            dv.value = 1;
+            dv.imgValue(1);
+            tempValue = dv.value;
+            console.log("0 to ", tempValue);
+            $("#msg").html(" 开启成功 ");
+            $('#my-prompt').modal('open');
+
+        }
+        var switchData = '{"type":"switch","value":'+ dv.value+'}';
+
+        $.ajax({
+            type: "POST",
+            //url: "/index.php/mqttdevices/"  + dv.id,
+            url: "/devices/"  + dv.id,
+            data: JSON.parse(switchData),
+            success: function () { },
+            error: function (xhr, status, error) {
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    };
+
+    self.devices = ko.observableArray();
+
+    /*self.loaddata = function () {
+     $.ajax({
+     url: "/devices"
+     }).done(function (data) {
+     if (data.length === 0) {
+     goCenter();
+     } else {
+     if(0 === self.devices().length) {
+     for (var i = 0; i < data.length; i++) {
+     data[i].description = decodeURI(data[i].description);
+
+     if("switch" === data[i].type) {
+     data[i].imgValue = ko.observable( Number(data[i].value) );
+     }
+     self.devices.push(data[i]);
+     }
+     }
+     }
+     });
+     };*/
+}
 function led2ViewModel() {
     var self = this;
     // make the variables observable
@@ -650,67 +781,6 @@ function led2ViewModel() {
             setTimeout(animateFunc, 300);
         }
     });
-}
-
-function volumeViewModel() {
-    var self = this;
-    // make the variables observable
-    self.controller = ko.observable(0);
-    self.switchValue = ko.observable(false);
-
-    self.volButtonGroup = [
-        {id : 2, value : 2, name : "↑"},{id : 3, value : 3, name : "↓"},
-        {id : 4, value : 4, name : "="},{id : 5, value : 5, name : "丄"},{id : 6, value : 6, name : "丅"}
-    ];
-
-    self.loaddata = function () {
-        $.ajax({
-            url: "/devices/12"
-        }).done(function (data) {
-            var volumeValue = $.parseJSON(data.value);// = ko.observable();
-            self.switch =  Number(volumeValue.switch) ;
-            self.switchValue(Boolean(self.switch));
-            self.controller(Number( volumeValue.controller ));
-        });
-    };
-    self.togSwitched = function() {
-        if (self.switch) {
-            self.switch = 0;
-            self.switchValue(false);
-            console.log("vol Switched 1 to ",self.switch);
-            $("#msg").html("1 to "+self.switch);
-            $('#my-prompt').modal('open');
-        } else {
-            self.switch = 1;
-            self.switchValue(true);
-            console.log("0 to ",self.switch);
-            $("#msg").html("0 to "+ self.switch);
-            $('#my-prompt').modal('open');
-        }
-
-        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
-        $.ajax({
-            type: "POST",
-            url: "/devices/12",
-            data: JSON.parse(switchData),
-            success: function () { }
-        });
-    };
-    self.controlChanged = function (dv) {
-        var togswitch  = self.switch;
-        if(togswitch) {
-            self.controller(dv.value);
-
-            var controllerNumber = self.controller();
-            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
-            $.ajax({
-                type: "POST",
-                url: "/devices/12",
-                data: JSON.parse(controllerData),
-                success : function (){console.log("post 12 vol controller", controllerNumber );}
-            });
-        }
-    }
 }
 
 function camViewModel() {
@@ -884,124 +954,6 @@ function tvViewModel() {
                 url: "/devices/9",
                 data: JSON.parse(controllerData),
                 success : function (){console.log("post 9 tv controller", controllerNumber );}
-            });
-        }
-    }
-}
-
-function curtainViewModel() {
-    var self = this;
-    // make the variables observable
-    self.controller = ko.observable(0);
-    self.switchValue = ko.observable(false);
-    self.curtainButtonGroup = [
-        {id : 1, value : 1, name : "左"},{id : 2, value : 2, name : "右"},{id : 3, value : 3, name : "停"}
-    ];
-
-    self.loaddata = function () {
-        $.ajax({
-            url: "/devices/10"
-        }).done(function (data) {
-            var tvValue = $.parseJSON(data.value);// = ko.observable();
-            self.switch =  Number(tvValue.switch) ;
-            self.switchValue(Boolean(self.switch));
-            self.controller(Number( tvValue.controller ));
-        });
-    };
-    self.togSwitched = function() {
-        if (self.switch) {
-            self.switch = 0;
-            self.switchValue(false);
-            console.log("tvSwitched 1 to ",self.switch);
-            $("#msg").html("1 to "+self.switch);
-            $('#my-prompt').modal('open');
-        } else {
-            self.switch = 1;
-            self.switchValue(true);
-            console.log("0 to ",self.switch);
-            $("#msg").html("0 to "+ self.switch);
-            $('#my-prompt').modal('open');
-        }
-
-        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
-        $.ajax({
-            type: "POST",
-            url: "/devices/10",
-            data: JSON.parse(switchData),
-            success: function () { }
-        });
-    };
-    self.controlChanged = function (dv) {
-        var togswitch  = self.switch;
-        if(togswitch) {
-            self.controller(dv.value);
-
-            var controllerNumber = self.controller();
-            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
-            $.ajax({
-                type: "POST",
-                url: "/devices/10",
-                data: JSON.parse(controllerData),
-                success : function (){console.log("post 10 curtain controller", controllerNumber );}
-            });
-        }
-    }
-}
-
-function screenViewModel() {
-    var self = this;
-    // make the variables observable
-    self.controller = ko.observable(0);
-    self.switchValue = ko.observable(false);
-    self.screenButtonGroup = [
-        {id : 1, value : 1, name : "上"},{id : 2, value : 2, name : "下"},{id : 3, value : 3, name : "停"}
-    ];
-
-    self.loaddata = function () {
-        $.ajax({
-            url: "/devices/11"
-        }).done(function (data) {
-            var screenValue = $.parseJSON(data.value);// = ko.observable();
-            self.switch =  Number(screenValue.switch) ;
-            self.switchValue(Boolean(self.switch));
-            self.controller(Number( screenValue.controller ));
-        });
-    };
-    self.togSwitched = function() {
-        if (self.switch) {
-            self.switch = 0;
-            self.switchValue(false);
-            console.log("screenSwitched 1 to ",self.switch);
-            $("#msg").html("1 to "+self.switch);
-            $('#my-prompt').modal('open');
-        } else {
-            self.switch = 1;
-            self.switchValue(true);
-            console.log("0 to ",self.switch);
-            $("#msg").html("0 to "+ self.switch);
-            $('#my-prompt').modal('open');
-        }
-
-        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
-        $.ajax({
-            type: "POST",
-            url: "/devices/11",
-            data: JSON.parse(switchData),
-            success: function () { }
-        });
-    };
-    self.controlChanged = function (dv) {
-        var togswitch  = self.switch;
-        if(togswitch) {
-            self.controller(dv.value);
-
-            var controllerNumber = self.controller();
-            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
-            $.ajax({
-                type: "POST",
-                url: "/devices/11",
-                data: JSON.parse(controllerData),
-                success : function (){console.log("post 11 screen controller", controllerNumber );}
             });
         }
     }

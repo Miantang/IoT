@@ -1,10 +1,12 @@
+// We don't need full layout here, because this page will be parsed with Ajax
+// Top Navbar
 .navbar
   .navbar-inner
     .left
       a(href="#").back.link 
         i.icon.icon-back
         span 返回
-    .center.sliding.led-inner 照明
+    .center.sliding.led-inner 智能照明
     .right
       // Right link contains only icon - additional "icon-only" class
       a(href="#").link.icon-only.open-panel 
@@ -15,7 +17,7 @@
     // Scrollable page content
     .page-content
       .list-block
-        ul
+        ul.u2-u2
           li
             .item-content
               .item-media
@@ -23,25 +25,40 @@
               .item-inner.led-inner
                 .item-title.label 客厅开关
           li
-            .btn-pointer
-              input#pointer-yes.btn-pointer-yes(type="radio", name="pointer")
-              input#pointer-no.btn-pointer-no(type="radio", name="pointer")
-              .btn-pointer-inner
-              label.btn-pointer-for-yes(for="pointer-yes") &#24320;
-              label.btn-pointer-for-no(for="pointer-no") &#20851;
+              .switch
+              .switch.demo3
+                input(type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}")
+                label
           li
             .item-content
               .item-media
                 i.icon.icon-form-toggle
               .item-inner.led-inner
                 .item-title.label 书房开关
+                //.item-input
+                  label.label-switch
+                    input(type="checkbox")
+                    .checkbox
           li
-            .btn-pointer1
-              input#pointer1-yes.btn-pointer1-yes(type="radio", name="pointer1")
-              input#pointer1-no.btn-pointer1-no(type="radio", name="pointer1")
-              .btn-pointer1-inner
-              label.btn-pointer1-for-yes(for="pointer1-yes") &#24320;
-              label.btn-pointer1-for-no(for="pointer1-no") &#20851;
+            .switch
+            .switch.demo3
+              input(type='checkbox')
+              label
+          li
+            .item-content
+              .item-media
+                i.icon.icon-form-toggle
+              .item-inner.led-inner
+                .item-title.label 大厅开关
+                //.item-input
+                  label.label-switch
+                    input(type="checkbox")
+                    .checkbox
+          li
+            .switch
+            .switch.demo3
+              input(type='checkbox')
+              label
           li
             .item-content
               .item-media
@@ -50,6 +67,7 @@
                 .item-title.label 亮度调节
           li
             .item-content
+              .item-media
               .item-input
                 .range-slider
                   input(type="range", min="10", max="100", value="40", step="0.1")
