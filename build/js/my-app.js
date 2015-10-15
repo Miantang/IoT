@@ -114,7 +114,7 @@ myApp.onPageInit("camera", function(page) {
 
 myApp.onPageInit("curtain", function(page){
     console.log(page);
-    var curtain = new Step2ViewModel(7);
+    var curtain = new Step2ViewModel(10);
     setTimeout(curtain.loadData, 200);
     ko.applyBindings(curtain, page.container );
 });
@@ -135,7 +135,7 @@ myApp.onPageInit("tv", function(page){
 
 myApp.onPageInit("screen", function(page){
     console.log(page);
-    var screen = new Step2ViewModel(10);
+    var screen = new Step2ViewModel(11);
     setTimeout(screen.loadData, 200);
     ko.applyBindings(screen, page.container );
 });
