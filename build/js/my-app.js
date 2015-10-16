@@ -313,6 +313,7 @@ function Step2ViewModel(code, group) {
             } else {
                 index = (Number(code)-1);
                 devValue = JSON.parse(data[index].value);
+                console.log(data);
                 self.switch[code] =  Number(devValue.switch) ;
                 self.switchValue[code](Boolean(self.switch[code]));
                 self.controller[code](Number(devValue.controller));
@@ -410,7 +411,7 @@ function Step2ViewModel(code, group) {
                 console.log("DEBUG: targetId ", targetId);
 
                 var controllerNumber = self.controller[id]();
-                var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
+                var controllerData = '{"type":"step","switch":' + Number(1) +',"controller":'+controllerNumber +'}';
                 console.log("DEBUG: targetId ", togSwitch);
                 $.ajax({
                     type: "POST",
