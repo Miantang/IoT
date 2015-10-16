@@ -111,14 +111,12 @@ myApp.onPageInit("camera", function(page) {
     setTimeout(screen.loadData, 200);
     ko.applyBindings(screen, page.container );
 });
-
-myApp.onPageInit("curtain", function(page){
+myApp.onPageInit("led2", function(page) {
     console.log(page);
-    var curtain = new Step2ViewModel(10);
-    setTimeout(curtain.loadData, 200);
-    ko.applyBindings(curtain, page.container );
+    var led2 = new Step2ViewModel(7);
+    setTimeout(led2.loadData, 200);
+    ko.applyBindings(led2, page.container );
 });
-
 myApp.onPageInit("air", function(page){
     console.log(page);
     var air = new AirViewModel(8);
@@ -131,6 +129,13 @@ myApp.onPageInit("tv", function(page){
     var tv = new Step2ViewModel(9);
     setTimeout(tv.loadData, 200);
     ko.applyBindings(tv, page.container );
+});
+
+myApp.onPageInit("curtain", function(page){
+    console.log(page);
+    var curtain = new Step2ViewModel(10);
+    setTimeout(curtain.loadData, 200);
+    ko.applyBindings(curtain, page.container );
 });
 
 myApp.onPageInit("screen", function(page){
@@ -318,7 +323,6 @@ function Step2ViewModel(code, group) {
                 self.switchValue[code](Boolean(self.switch[code]));
                 self.controller[code](Number(devValue.controller));
             }
-
         }).fail(function () {
             myApp.alert('未请求到设备信息，请检查网络', '智能物联');
         });
@@ -482,14 +486,16 @@ function AirViewModel(id) {
         });
     };
     self.options = [
-        { name: '制冷', value: 1, disable: ko.observable(false)},
-        { name: '制热', value: 2, disable: ko.observable(true)},
-        { name: '送风', value: 3, disable: ko.observable(false)}
+        { name: '制冷', value: 1},
+        { name: '制热', value: 2},
+        { name: '送风', value: 3}
     ];
 
-    self.controllerChanged = function () {
+    self.sliderChange = function () {
         self.switch = Number($("#air-mode").val());
-
+        if(self.switch == 3) {
+            return;
+        }
         var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
         console.log("Air 调整值：switchData: ", switchData);
         $.ajax({
@@ -502,8 +508,61 @@ function AirViewModel(id) {
             myApp.alert('未成功连接设备', '系统消息');
         });
     };
-    self.sliderChange = function () {
+    self.windChange = function (dv, e) {
+        self.switch = Number($("#air-mode").val());
+        if(self.switch == 3) {
+            e = e || window.event;
+            var target = e.target || e.srcElement;
+            var nodeName = target.nodeName.toLocaleLowerCase();
+            var targetId;
+            if(nodeName == "i" ) {
+                if(target.parentNode.nodeName.toLocaleLowerCase() == "a")
+                    targetId = target.parentNode.dataset["code"];
+                else
+                    return;
+            } else if(nodeName == "a") {
+                targetId = target.dataset["code"];
+            } else {
+                return;
+            }
+            if(Number(targetId) == 0 || Number(targetId) == 1 || Number(targetId) == 2) {
+                self.controller(Number(targetId));
+            } else {
+                return;
+            }
+            console.log("DEBUG: targetId ", targetId);
 
+            var controllerData = '{"type":"step","switch":' + self.switch  +',"controller":'+ self.controller() +'}';
+            $.ajax({
+                type: "POST",
+                url: ip + "/devices/" + id,
+                data: JSON.parse(controllerData)
+            }).done(function(){
+                console.log("UPDATE: ", target.nodeName, controllerData);
+            }).fail(function () {
+                myApp.alert('不能更新设备信息，请检查网络', '智能物联');
+            });
+        }
+    };
+
+    self.powerOff =  function (dv, e) {
+        var controllerData;
+        if(self.switch != 0) {
+            self.switch = 0;
+            controllerData = '{"type":"step","switch":' + self.switch +',"controller":'+ self.controller() +'}';
+        } else {
+            self.switch = Number($("#air-mode").val());
+            controllerData = '{"type":"step","switch":' + self.switch +',"controller":'+ self.controller() +'}';
+        }
+        $.ajax({
+            type: "POST",
+            url: ip + "/devices/" + id,
+            data: JSON.parse(controllerData)
+        }).done(function(){
+            console.log("UPDATE: ", controllerData);
+        }).fail(function () {
+            myApp.alert('不能更新设备信息，请检查网络', '智能物联');
+        });
     };
 }
 

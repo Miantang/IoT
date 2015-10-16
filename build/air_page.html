@@ -19,19 +19,17 @@
           <div data-bind="text: $root.controller" class="air"></div>
         </div>
         <div class="row">
-          <select id="air-mode" data-bind="options: $root.options, optionsText: 'name',optionsValue: 'value' " class="mushi"></select><a id="btn-air-1" data-code="1" data-bind="click: $root.controllerChanged" class="a-content-air-block-icon button button-big button-fill"><i class="fa fa-power-off fa-2x color-red content-block-icon2"></i></a><a id="btn-air-2" data-code="0" class="a-content-air-block-icon button button-big button-fill">风速</a>
+          <select id="air-mode" data-bind="options: $root.options, optionsText: 'name',optionsValue: 'value' " class="mushi"></select><a id="btn-air-1" data-code="9" data-bind="click: $root.powerOff" class="a-content-air-block-icon button button-big button-fill"><i class="fa fa-power-off fa-2x color-red content-block-icon2"></i></a><a id="btn-air-2" data-code="9" class="a-content-air-block-icon button button-big button-fill">风速</a>
         </div>
-        <div class="row"><a id="btn-air-3" data-code="0" class="a-content-air-block-icon button button-big button-fill">摆风</a><a id="btn-air-4" data-code="0" class="a-content-air-block-icon button button-big button-fill">定时开</a><a id="btn-air-5" data-code="0" class="a-content-air-block-icon button button-big button-fill">定时关</a></div>
-        <div class="row"><a id="btn-air-6" data-code="0" class="a-content-air-block-icon button button-big button-fill">经济</a>
-          <div class="item-air-title label">温度</div>
-          <div class="item-input">
-            <div class="air-range-slider range-slider">
-              <input type="range" min="17" max="30" value="24" step="1" data-bind="value: $root.controller, event:{ change: $root.controllerChanged}"/>
-            </div>
+        <div class="row"><a id="btn-air-3" data-code="0" data-bind="click: $root.windChange" class="a-content-air-block-icon button button-big button-fill">高风</a><a id="btn-air-4" data-code="1" data-bind="click: $root.windChange" class="a-content-air-block-icon button button-big button-fill">中风</a><a id="btn-air-5" data-code="2" data-bind="click: $root.windChange" class="a-content-air-block-icon button button-big button-fill">低风</a></div>
+        <div class="item-air-title label slider-title">温度</div>
+        <div class="item-input">
+          <div class="air-range-slider range-slider">
+            <input type="range" min="17" max="30" value="24" step="1" data-bind="value: $root.controller, event:{ change: $root.sliderChange}"/>
           </div>
         </div>
-        <div class="row"><a id="btn-air-7" data-code="0" class="a-content-air-block-icon button button-big button-fill">风向</a><a id="btn-air-8" data-code="0" class="a-content-air-block-icon button button-big button-fill">加水</a></div>
-        <div class="row"><a id="btn-air-9" data-code="0" class="a-content-air-block-icon button button-big button-fill">加湿</a><a id="btn-air-10" data-code="0" class="a-content-air-block-icon button button-big button-fill">电辅热</a></div>
+        <div class="row"><a id="btn-air-7" data-code="9" class="a-content-air-block-icon button button-big button-fill">风向</a><a id="btn-air-8" data-code="9" class="a-content-air-block-icon button button-big button-fill">加水</a></div>
+        <div class="row"><a id="btn-air-9" data-code="9" class="a-content-air-block-icon button button-big button-fill">加湿</a><a id="btn-air-10" data-code="9" class="a-content-air-block-icon button button-big button-fill">电辅热</a></div>
       </div>
     </div>
   </div>

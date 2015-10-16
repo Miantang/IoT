@@ -99,7 +99,6 @@ body {
 #camera-view {
   display: block;
   height: 14em;
-  background: #66ccff;
   margin-top: 2em;
 }
 #camera-title {
@@ -107,11 +106,21 @@ body {
 }
 .button.button-fill.camera-btn {
   background-color: #FFFFFF;
+  border-radius: 1.2em;
 }
 .camera-icon {
   line-height: 1.4;
   background: #FFFFFF;
   color: #009688;
+}
+#camera-view {
+  padding: 2% 0;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+#camera-view img {
+  width: 100%;
 }
 .kic-inner {
   color: #5656ff ;
@@ -645,19 +654,19 @@ body {
   box-shadow: inset -0.15em 0.15em 0 #666666, inset 0.1em -0.1em 0 #cccccc;
   position: relative;
 }
-.fa.fa-arrow-left {
+.curtain-opacity .fa.fa-arrow-left {
   color: black;
   position: relative;
   left: 22px;
   top: 21px;
 }
-.fa.fa-square {
+.curtain-opacity .fa.fa-square {
   color: black;
   position: relative;
   left: 22.5px;
   top: 21px;
 }
-.fa.fa-arrow-right {
+.curtain-opacity .fa.fa-arrow-right {
   color: black;
   position: relative;
   left: 22px;
@@ -695,7 +704,6 @@ blockquote:after,
 q:before,
 q:after {
   content: '';
-  content: none;
 }
 table {
   border-collapse: collapse;
@@ -829,20 +837,21 @@ table {
   left: -1rem;
 }
 .air-range-slider {
-  width: 10rem;
-  right: 1rem;
+  width: 90%;
+  margin: 4.7%;
 }
-.item-air-title.label {
-  color: red;
+.slider-title {
+  color: #39CEB3;
   font-size: 16pt;
   line-height: 3rem;
   font-weight: bold;
-  right: 2rem;
+  margin-left: 2em;
 }
 .air {
   font-size: 10em;
-  color: #15647b;
+  color: #39CEB3;
   font-weight: bold;
+  margin: 6% 6% 10px 15%;
 }
 .mushi {
   width: 6rem;
@@ -878,7 +887,6 @@ table {
   background-color: rgba(255, 255, 255, 0);
   box-shadow: inset -0.1em 0.1em 0 #ffffff, inset 0.1em -0.1em 0 #ffffff;
   position: relative;
-  color: #007aff;
   bottom: -4rem;
 }
 #btn-top {
@@ -893,7 +901,6 @@ table {
 #btn-ok {
   width: 5rem;
   height: 5rem;
-  color: #007aff;
   font-size: 20pt;
   line-height: 5rem;
 }
@@ -936,7 +943,6 @@ table {
   position: relative;
   bottom: -4rem;
   line-height: 4em;
-  color: #007aff;
   font-weight: bold;
 }
 .page-content-projector {
@@ -945,5 +951,19 @@ table {
   margin: auto;
   min-width: 372px;
   background: url(../img/projector.jpg) center 0 no-repeat;
+  background-size: cover;
+}
+.page-content-window {
+  background: url(../img/window.jpg) center 0 no-repeat;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+.page-content-led2 {
+  position: relative;
+  height: 100%;
+  margin: auto;
+  min-width: 372px;
+  background: url(../img/led2.jpg) center 0 no-repeat;
   background-size: cover;
 }

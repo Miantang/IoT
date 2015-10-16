@@ -4,21 +4,21 @@
       a(href="#").back.link 
         i.icon.icon-back
         span 返回
-    .center.sliding 投影仪
+    .center.sliding LED灯带
     .right
       // Right link contains only icon - additional "icon-only" class
       a(href="#").link.icon-only.open-panel 
         i.icon.icon-bars
 .pages
   // Page, data-page contains page name
-  .page(data-page="projector")
+  .page(data-page="led2")
     // Scrollable page content
-    .page-content-projector
-      .projector-img-block(data-bind="click: $root.controllerChanged2(5)")
+    .page-content-led2
+      .projector-img-block(data-bind="click: $root.controllerChanged2(7)")
         .content-block.projector-content-1
           .row
             a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
-              i.fa.fa-bars.fa-2x.content-projector-icon1
+              i.fa.fa-bars.fa-2x.color-blue.content-projector-icon1
             a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
               i.fa.fa-power-off.fa-2x.color-red.content-projector-icon2
         .content-block.projector-content-2
@@ -28,7 +28,6 @@
           .row
             a#btn-left.a-content-projector-icon.button.button-big.button-fill(data-code="3")
               i.fa.fa-caret-left.fa-3x.content-block-icon4
-            a#btn-ok.a-content-projector-icon.button.button-big.button-fill(data-code="4") OK
             a#btn-right.a-content-projector-icon.button.button-big.button-fill(data-code="5")
               i.fa.fa-caret-right.fa-3x.content-block-icon5
           .row
@@ -36,5 +35,6 @@
               i.fa.fa-caret-down.fa-3x.content-block-icon6
         .content-block.projector-content-3
           .row
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="7") 放大
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="8") 缩小
+            a.a-content-projector-icon.button.button-big.button-fill(data-code="7") 闪烁
+            a.a-content-projector-icon.button.button-big.button-fill(data-code="4") 渐隐
+            a.a-content-projector-icon.button.button-big.button-fill(data-code="8") 变化

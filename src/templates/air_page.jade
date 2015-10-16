@@ -20,22 +20,20 @@
          .air(data-bind="text: $root.controller")
        .row
          select(id="air-mode" class="mushi" data-bind="options: $root.options, optionsText: 'name',optionsValue: 'value' ")
-         a#btn-air-1.a-content-air-block-icon.button.button-big.button-fill(data-code="1" data-bind="click: $root.controllerChanged")
+         a#btn-air-1.a-content-air-block-icon.button.button-big.button-fill(data-code="9" data-bind="click: $root.powerOff")
            i.fa.fa-power-off.fa-2x.color-red.content-block-icon2
-         a#btn-air-2.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 风速
+         a#btn-air-2.a-content-air-block-icon.button.button-big.button-fill(data-code="9") 风速
        .row
-         a#btn-air-3.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 摆风
-         a#btn-air-4.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 定时开
-         a#btn-air-5.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 定时关
+         a#btn-air-3.a-content-air-block-icon.button.button-big.button-fill(data-code="0" data-bind="click: $root.windChange") 高风
+         a#btn-air-4.a-content-air-block-icon.button.button-big.button-fill(data-code="1" data-bind="click: $root.windChange") 中风
+         a#btn-air-5.a-content-air-block-icon.button.button-big.button-fill(data-code="2" data-bind="click: $root.windChange") 低风
+       .item-air-title.label.slider-title 温度
+       .item-input
+         .air-range-slider.range-slider
+           input(type="range", min="17", max="30", value="24", step="1" data-bind="value: $root.controller, event:{ change: $root.sliderChange}")
        .row
-         a#btn-air-6.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 经济
-         .item-air-title.label 温度
-         .item-input
-           .air-range-slider.range-slider
-             input(type="range", min="17", max="30", value="24", step="1" data-bind="value: $root.controller, event:{ change: $root.controllerChanged}")
+         a#btn-air-7.a-content-air-block-icon.button.button-big.button-fill(data-code="9") 风向
+         a#btn-air-8.a-content-air-block-icon.button.button-big.button-fill(data-code="9") 加水
        .row
-         a#btn-air-7.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 风向
-         a#btn-air-8.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 加水
-       .row
-         a#btn-air-9.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 加湿
-         a#btn-air-10.a-content-air-block-icon.button.button-big.button-fill(data-code="0") 电辅热
+         a#btn-air-9.a-content-air-block-icon.button.button-big.button-fill(data-code="9") 加湿
+         a#btn-air-10.a-content-air-block-icon.button.button-big.button-fill(data-code="9") 电辅热
