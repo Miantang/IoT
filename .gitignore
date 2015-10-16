@@ -31,6 +31,8 @@ node_modules
 data/devices
 data/users
 
+devices
+users
 
 examples
 views
