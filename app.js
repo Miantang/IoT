@@ -24,9 +24,7 @@ function corsSetting(req, res, next) {
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));  // for  parsing application/x-www-form-urlencoded
 app.use(cookieParser());
-app.use(session({
-    secret: 'iot-cloud'
-}));
+// app.use(session());
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'build')));
