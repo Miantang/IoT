@@ -14,12 +14,7 @@ function defaultContentTypeMiddleware(req, res, next) {
     req.headers['content-type'] = req.headers['content-type'] || 'application/json';
     next();
 }
-function corsSetting(req, res, next) {
-    req.headers['Access-Control-Allow-Origin'] = '*';
-    next();
-}
 
-//app.use(corsSetting);
 //app.use(defaultContentTypeMiddleware);
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));  // for  parsing application/x-www-form-urlencoded
@@ -42,7 +37,7 @@ var mongoose = require('mongoose');
 mongoose.connect(config.mongo);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function callback() {
+db.once('open', function () {
     console.log("Database open ok!!");
 });
 

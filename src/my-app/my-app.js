@@ -78,13 +78,6 @@ myApp.onPageInit("led", function(page){
     ko.applyBindings(led, page.container );
 });
 
-/*myApp.onPageInit("door", function(page){
-    console.log(page);
-    var door = new SwitchViewModel(2);
-    setTimeout(door.loadData, 200);
-    ko.applyBindings(door, page.container );
-});*/
-
 myApp.onPageInit("door", function(page){
     console.log(page);
     var door = new SwitchViewModel(2);
@@ -159,7 +152,15 @@ myApp.onPageInit("window", function(page){
     ko.applyBindings(window, page.container );
 });
 
-// center.js
+var client = mqtt.connect("ws://127.0.0.1:1883"); // you add a ws:// url here
+client.subscribe("demo");
+
+client.on("message", function(topic, payload) {
+    alert([topic, payload].join(": "));
+    client.end();
+});
+
+client.publish("demo", "hello world!");
 
 function SwitchViewModel(code) {
     var self = this;

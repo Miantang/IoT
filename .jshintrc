@@ -4,7 +4,7 @@
   "esnext"       : true,
   "bitwise"      : false,
   "curly"        : false,
-  "eqeqeq"       : true,
+  "eqeqeq"       : false,
   "eqnull"       : true,
   "immed"        : true,
   "latedef"      : true,

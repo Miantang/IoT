@@ -9,7 +9,7 @@ var mqttServer = new mosca.Server(settings);
 mqttServer.on('clientConnected', function (cli) {
     console.log('client connected : ', cli.id);
 });
-mqttServer.on('published', function (packet, cli) {
+mqttServer.on('published', function (packet, client) {
     console.log('Published : ', packet.payload);
 });
 // fired when a client subscribes to a topic
@@ -38,6 +38,11 @@ function setup () {
 }
 
 if(config.mqttServer) {
-    var client = mqtt.createClient(config.mqttPort, '127.0.0.1');
+    // mqtt.createClient(config.mqttPort, '127.0.0.1');
+    var client = mqtt.connect({
+        port: config.mqttPort,
+        host: '127.0.0.1',
+        protocol: 'mqtt'
+    });
 }
 module.exports = client;
