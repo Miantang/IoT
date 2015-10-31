@@ -5,10 +5,9 @@ html
   body
     include includes/header
     include includes/panel
-    // Views
-    .views
+    .views.tabs
       // Your main view, should have "view-main" class
-      .view.view-main
+      .view.view-main.tab1
         // Top Navbar
         .navbar
           .navbar-inner
@@ -16,7 +15,7 @@ html
             .center.sliding 智能物联
             .right
               // Right link contains only icon - additional "icon-only" class
-              a(href="#").link.icon-only.open-panel 
+              a(href="#").link.icon-only.open-panel
                 i.icon.icon-bars
         // Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes
         .pages.navbar-through.toolbar-through
@@ -24,8 +23,10 @@ html
           .page(data-page="index")
             // Scrollable page content
             .page-content
+              .content-image
+                img(src="img/background.jpg")
               .content-block-title 我的设备
-              .list-block
+              .list-block.sortable
                 ul#device-list
                   li
                     a(href="led_page.html").item-link
@@ -33,104 +34,112 @@ html
                         .item-media.index-img
                           img(src="img/icons/led.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 智能照明
-                            .item-subtitle.index-subtile  大厅、客厅、LOGO灯、灯带
-                  li
-                    a(href="kic_page.html").item-link
-                      .item-content
-                        .item-media.index-img
-                          img(src="img/icons/gas.svg")
-                        .item-inner
-                          .inner-title-row
-                            .item-title.index-title 智能厨房
-                            .item-subtitle.index-subtile  燃气控制、自来水开关
+                          .item-title.index-title 智能照明
+                    .sortable-handler
                   li
                     a(href="door_page.html").item-link
                       .item-content
                         .item-media.index-img
                           img(src="img/icons/access.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 门禁
-                            .item-subtitle.index-subtile  前门、后门
+                          .item-title.index-title 门禁
+                    .sortable-handler
+                  li
+                    a(href="kic_page.html").item-link
+                      .item-content
+                        .item-media.index-img
+                          img(src="img/icons/gas.svg")
+                        .item-inner
+                          .item-title.index-title 智能厨房
+                    .sortable-handler
                   li
                     a(href="camera_page.html").item-link
                       .item-content
                         .item-media.index-img
                           img(src="img/icons/camera.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 摄像监控
-                            .item-subtitle.index-subtile  摄像头监控、云台
+                          .item-title.index-title 摄像监控
+                    .sortable-handler
                   li
                     a(href="air_page.html").item-link
                       .item-content
                         .item-media.index-img
                           img(src="img/icons/air.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 空调
-                            .item-subtitle.index-subtile  吸顶空调遥控器
+                          .item-title.index-title 空调
+                    .sortable-handler
+                  li
+                    a(href="led2_page.html").item-link
+                      .item-content
+                        .item-media.index-img
+                          img(src="img/icons/led2.svg")
+                        .item-inner
+                          .item-title.index-title LED灯带
+                  .sortable-handler
                   li
                     a(href="tv_page.html").item-link
                       .item-content
                         .item-media.index-img
-                          img(src="img//icons/tv.png")
+                          img(src="img/icons/tv.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 电视
-                            .item-subtitle.index-subtile  电视遥控器
+                          .item-title.index-title 电视
+                    .sortable-handler
                   li
                     a(href="curtain_page.html").item-link
                       .item-content
                         .item-media.index-img
-                          img(src="img//icons/curtain.svg")
+                          img(src="img/icons/curtain.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 窗帘
-                            .item-subtitle.index-subtile  控制房间内窗帘的开闭
-                  li
-                    a(href="volume_page.html").item-link
-                      .item-content
-                        .item-media.index-img
-                          img(src="img//icons/volume.png")
-                        .item-inner
-                          .inner-title-row
-                            .item-title.index-title 智能音箱
-                            .item-subtitle.index-subtile  享受音乐的惬意
+                          .item-title.index-title 窗帘
+                    .sortable-handler
                   li
                     a(href="projector_page.html").item-link
                       .item-content
                         .item-media.index-img
                           img(src="img/icons/projector.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 投影仪
-                            .item-subtitle.index-subtile  投影仪
+                          .item-title.index-title 投影仪
+                    .sortable-handler
                   li
                     a(href="screen_page.html").item-link
                       .item-content
                         .item-media.index-img
-                          img(src="img//icons/screen.svg")
+                          img(src="img/icons/screen.svg")
                         .item-inner
-                          .inner-title-row
-                            .item-title.index-title 投影幕布
-                            .item-subtitle.index-subtile  幕布的升降
+                          .item-title.index-title 投影幕布
+                    .sortable-handler
                   li
-                    a(href="services.html").item-link
+                    a(href="volume_page.html").item-link
                       .item-content
+                        .item-media.index-img
+                          img(src="img/icons/volume.svg")
                         .item-inner
-                          .item-title.index-title Services
+                          .item-title.index-title 智能音箱
+                    .sortable-handler
                   li
-                    a(href="form.html").item-link
+                    a(href="window_page.html").item-link
                       .item-content
+                        .item-media.index-img
+                          img(src="img/icons/window.svg")
                         .item-inner
-                          .item-title.index-title Form
-              .content-block-title Side panels
-              .content-block
-                .row
-                  .col-50
-                    a(href="#", data-panel="right").button.open-panel Right Panel
-
+                          .item-title.index-title 窗户
+                    .sortable-handler
+      .view.tab2
+        .navbar
+          .navbar-inner
+            .center.sliding 智能物联
+            .right
+              a(href="#").link.icon-only.open-panel
+                i.icon.icon-bars
+        .pages.navbar-through.toolbar-through
+          .page(data-page="ip")
+            .page-content
+    <!-- 带有链接的标签栏 -->
+    <div class="toolbar tabbar">
+    <div class="toolbar-inner">
+    <a href="#tab1" class="tab-link active"><i class="icon demo-icon-1"></i></a>
+    <a href="#tab2" class="tab-link"><i class="icon demo-icon-2"></i></a>
+    </div>
+    </div>
+    </div>
     include includes/scripts

@@ -26,9 +26,9 @@
         <p>Right panel content goes here</p>
       </div>
     </div>
-    <div class="views">
+    <div class="views tabs">
       <!-- Your main view, should have "view-main" class-->
-      <div class="view view-main">
+      <div id="tab1" class="view view-main tab active">
         <!-- Top Navbar-->
         <div class="navbar">
           <div class="navbar-inner">
@@ -161,6 +161,47 @@
             </div>
           </div>
         </div>
+      </div>
+      <div id="tab2" class="view tab">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="center sliding">智能物联</div>
+            <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
+          </div>
+        </div>
+        <div class="pages navbar-through toolbar-through">
+          <div data-page="ip" id="ip-area" class="page"></div>
+          <div class="page-content-screen">
+            <div class="content-block-screen-image-block1">
+              <div class="container">
+                <div class="toggle">
+                  <input type="button" data-code="1" data-bind="click: $root.setLocal"><span class="jj"></span><span class="label">内网</span>
+                </div>
+              </div>
+            </div>
+            <div class="content-block-screen-image-block2">
+              <div data-code="2" class="container">
+                <div class="toggle">
+                  <input type="button" data-code="2" data-bind="click: $root.setZero"><span class="jj"></span><span class="label">外网</span>
+                </div>
+              </div>
+            </div>
+            <div class="content-block-screen-image-block3">
+              <div data-code="3" class="container">
+                <div class="toggle">
+                  <input type="button" data-code="3" data-bind="click: $root.setSelf"><span class="jj"></span><span class="label">自定</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 带有链接的标签栏 -->
+      <div class="toolbar tabbar">
+      <div class="toolbar-inner">
+      <a href="#tab1" class="tab-link active"><i class="icon fa fa-cogs fa-2x"></i></a>
+      <a href="#tab2" class="tab-link"><i class="icon fa fa-info-circle fa-2x"></i></a>
+      </div>
       </div>
     </div>
     <!-- Path to Framework7 Library JS-->

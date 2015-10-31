@@ -87,5 +87,6 @@ module.exports = {
     getUser: getUser,
     postUser: postUser,
     signup: signup,
-    logout: logout
+    logout: logout,
+    login: login
 };

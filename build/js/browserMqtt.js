@@ -55,13 +55,13 @@ var mqtt =
 	if ('browser' !== process.title) {
 	  protocols.mqtt = __webpack_require__(56);
 	  protocols.tcp = __webpack_require__(56);
-	  protocols.ssl = __webpack_require__(57);
-	  protocols.tls = __webpack_require__(57);
-	  protocols.mqtts = __webpack_require__(57);
+	  protocols.ssl = __webpack_require__(58);
+	  protocols.tls = __webpack_require__(58);
+	  protocols.mqtts = __webpack_require__(58);
 	}
 
-	protocols.ws = __webpack_require__(58);
-	protocols.wss = __webpack_require__(58);
+	protocols.ws = __webpack_require__(60);
+	protocols.wss = __webpack_require__(60);
 
 	protocolList = [
 	  'mqtt',
@@ -11456,7 +11456,7 @@ var mqtt =
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var net = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"net\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var net = __webpack_require__(57);
 
 	/*
 	  variables port and host can be removed since
@@ -11478,10 +11478,16 @@ var mqtt =
 
 /***/ },
 /* 57 */
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var tls = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"tls\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var tls = __webpack_require__(59);
 
 	function buildBuilder (mqttClient, opts) {
 	  var connection;
@@ -11538,12 +11544,18 @@ var mqtt =
 
 
 /***/ },
-/* 58 */
+/* 59 */
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var websocket = __webpack_require__(59),
+	var websocket = __webpack_require__(61),
 	  _URL = __webpack_require__(49);
 
 	function buildBuilder (client, opts) {
@@ -11617,12 +11629,12 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process, Buffer) {var through = __webpack_require__(60)
-	var duplexify = __webpack_require__(62)
-	var WS = __webpack_require__(78)
+	/* WEBPACK VAR INJECTION */(function(process, Buffer) {var through = __webpack_require__(62)
+	var duplexify = __webpack_require__(64)
+	var WS = __webpack_require__(80)
 
 	module.exports = WebSocketStream
 
@@ -11706,10 +11718,10 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(11).Buffer))
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var Transform = __webpack_require__(61)
+	/* WEBPACK VAR INJECTION */(function(process) {var Transform = __webpack_require__(63)
 	  , inherits  = __webpack_require__(43).inherits
 	  , xtend     = __webpack_require__(55)
 
@@ -11809,18 +11821,18 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(34)
 
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer, process) {var stream = __webpack_require__(63)
-	var eos = __webpack_require__(75)
+	/* WEBPACK VAR INJECTION */(function(Buffer, process) {var stream = __webpack_require__(65)
+	var eos = __webpack_require__(77)
 	var util = __webpack_require__(43)
 
 	var SIGNAL_FLUSH = new Buffer([0])
@@ -12049,7 +12061,7 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11).Buffer, __webpack_require__(1)))
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Stream = (function (){
@@ -12057,17 +12069,17 @@ var mqtt =
 	    return __webpack_require__(6); // hack to fix a circular dependency issue when used with browserify
 	  } catch(_){}
 	}());
-	exports = module.exports = __webpack_require__(64);
+	exports = module.exports = __webpack_require__(66);
 	exports.Stream = Stream || exports;
 	exports.Readable = exports;
-	exports.Writable = __webpack_require__(70);
-	exports.Duplex = __webpack_require__(69);
-	exports.Transform = __webpack_require__(73);
-	exports.PassThrough = __webpack_require__(74);
+	exports.Writable = __webpack_require__(72);
+	exports.Duplex = __webpack_require__(71);
+	exports.Transform = __webpack_require__(75);
+	exports.PassThrough = __webpack_require__(76);
 
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -12075,12 +12087,12 @@ var mqtt =
 	module.exports = Readable;
 
 	/*<replacement>*/
-	var processNextTick = __webpack_require__(65);
+	var processNextTick = __webpack_require__(67);
 	/*</replacement>*/
 
 
 	/*<replacement>*/
-	var isArray = __webpack_require__(66);
+	var isArray = __webpack_require__(68);
 	/*</replacement>*/
 
 
@@ -12113,14 +12125,14 @@ var mqtt =
 	var Buffer = __webpack_require__(11).Buffer;
 
 	/*<replacement>*/
-	var util = __webpack_require__(67);
+	var util = __webpack_require__(69);
 	util.inherits = __webpack_require__(30);
 	/*</replacement>*/
 
 
 
 	/*<replacement>*/
-	var debug = __webpack_require__(68);
+	var debug = __webpack_require__(70);
 	if (debug && debug.debuglog) {
 	  debug = debug.debuglog('stream');
 	} else {
@@ -12133,7 +12145,7 @@ var mqtt =
 	util.inherits(Readable, Stream);
 
 	function ReadableState(options, stream) {
-	  var Duplex = __webpack_require__(69);
+	  var Duplex = __webpack_require__(71);
 
 	  options = options || {};
 
@@ -12193,14 +12205,14 @@ var mqtt =
 	  this.encoding = null;
 	  if (options.encoding) {
 	    if (!StringDecoder)
-	      StringDecoder = __webpack_require__(72).StringDecoder;
+	      StringDecoder = __webpack_require__(74).StringDecoder;
 	    this.decoder = new StringDecoder(options.encoding);
 	    this.encoding = options.encoding;
 	  }
 	}
 
 	function Readable(options) {
-	  var Duplex = __webpack_require__(69);
+	  var Duplex = __webpack_require__(71);
 
 	  if (!(this instanceof Readable))
 	    return new Readable(options);
@@ -12309,7 +12321,7 @@ var mqtt =
 	// backwards compatibility.
 	Readable.prototype.setEncoding = function(enc) {
 	  if (!StringDecoder)
-	    StringDecoder = __webpack_require__(72).StringDecoder;
+	    StringDecoder = __webpack_require__(74).StringDecoder;
 	  this._readableState.decoder = new StringDecoder(enc);
 	  this._readableState.encoding = enc;
 	  return this;
@@ -13033,7 +13045,7 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 65 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -13053,7 +13065,7 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 66 */
+/* 68 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -13062,7 +13074,7 @@ var mqtt =
 
 
 /***/ },
-/* 67 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
@@ -13175,13 +13187,13 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11).Buffer))
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// a duplex stream is just a stream that is both readable and writable.
@@ -13203,18 +13215,18 @@ var mqtt =
 	module.exports = Duplex;
 
 	/*<replacement>*/
-	var processNextTick = __webpack_require__(65);
+	var processNextTick = __webpack_require__(67);
 	/*</replacement>*/
 
 
 
 	/*<replacement>*/
-	var util = __webpack_require__(67);
+	var util = __webpack_require__(69);
 	util.inherits = __webpack_require__(30);
 	/*</replacement>*/
 
-	var Readable = __webpack_require__(64);
-	var Writable = __webpack_require__(70);
+	var Readable = __webpack_require__(66);
+	var Writable = __webpack_require__(72);
 
 	util.inherits(Duplex, Readable);
 
@@ -13269,7 +13281,7 @@ var mqtt =
 
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// A bit simpler than readable streams.
@@ -13281,7 +13293,7 @@ var mqtt =
 	module.exports = Writable;
 
 	/*<replacement>*/
-	var processNextTick = __webpack_require__(65);
+	var processNextTick = __webpack_require__(67);
 	/*</replacement>*/
 
 
@@ -13293,7 +13305,7 @@ var mqtt =
 
 
 	/*<replacement>*/
-	var util = __webpack_require__(67);
+	var util = __webpack_require__(69);
 	util.inherits = __webpack_require__(30);
 	/*</replacement>*/
 
@@ -13323,7 +13335,7 @@ var mqtt =
 	}
 
 	function WritableState(options, stream) {
-	  var Duplex = __webpack_require__(69);
+	  var Duplex = __webpack_require__(71);
 
 	  options = options || {};
 
@@ -13423,7 +13435,7 @@ var mqtt =
 
 	(function (){try {
 	Object.defineProperty(WritableState.prototype, 'buffer', {
-	  get: __webpack_require__(71)(function() {
+	  get: __webpack_require__(73)(function() {
 	    return this.getBuffer();
 	  }, '_writableState.buffer is deprecated. Use ' +
 	      '_writableState.getBuffer() instead.')
@@ -13432,7 +13444,7 @@ var mqtt =
 
 
 	function Writable(options) {
-	  var Duplex = __webpack_require__(69);
+	  var Duplex = __webpack_require__(71);
 
 	  // Writable ctor is applied to Duplexes, though they're not
 	  // instanceof Writable, they're instanceof Readable.
@@ -13795,7 +13807,7 @@ var mqtt =
 
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -13864,7 +13876,7 @@ var mqtt =
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -14091,7 +14103,7 @@ var mqtt =
 
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// a transform stream is a readable/writable stream where you do
@@ -14140,10 +14152,10 @@ var mqtt =
 
 	module.exports = Transform;
 
-	var Duplex = __webpack_require__(69);
+	var Duplex = __webpack_require__(71);
 
 	/*<replacement>*/
-	var util = __webpack_require__(67);
+	var util = __webpack_require__(69);
 	util.inherits = __webpack_require__(30);
 	/*</replacement>*/
 
@@ -14294,7 +14306,7 @@ var mqtt =
 
 
 /***/ },
-/* 74 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// a passthrough stream.
@@ -14305,10 +14317,10 @@ var mqtt =
 
 	module.exports = PassThrough;
 
-	var Transform = __webpack_require__(73);
+	var Transform = __webpack_require__(75);
 
 	/*<replacement>*/
-	var util = __webpack_require__(67);
+	var util = __webpack_require__(69);
 	util.inherits = __webpack_require__(30);
 	/*</replacement>*/
 
@@ -14327,10 +14339,10 @@ var mqtt =
 
 
 /***/ },
-/* 75 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var once = __webpack_require__(76);
+	var once = __webpack_require__(78);
 
 	var noop = function() {};
 
@@ -14404,10 +14416,10 @@ var mqtt =
 	module.exports = eos;
 
 /***/ },
-/* 76 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var wrappy = __webpack_require__(77)
+	var wrappy = __webpack_require__(79)
 	module.exports = wrappy(once)
 
 	once.proto = once(function () {
@@ -14431,7 +14443,7 @@ var mqtt =
 
 
 /***/ },
-/* 77 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// Returns a wrapper function that returns a wrapped callback
@@ -14470,7 +14482,7 @@ var mqtt =
 
 
 /***/ },
-/* 78 */
+/* 80 */
 /***/ function(module, exports) {
 
 	

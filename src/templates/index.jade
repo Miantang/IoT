@@ -5,9 +5,9 @@ html
   body
     include includes/header
     include includes/panel
-    .views
+    .views.tabs
       // Your main view, should have "view-main" class
-      .view.view-main
+      .view.view-main.tab.active#tab1
         // Top Navbar
         .navbar
           .navbar-inner
@@ -124,4 +124,6 @@ html
                         .item-inner
                           .item-title.index-title 窗户
                     .sortable-handler
+      include includes/ip
+      include includes/toolbar
     include includes/scripts

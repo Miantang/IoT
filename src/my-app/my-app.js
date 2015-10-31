@@ -7,41 +7,6 @@ var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
-// Callbacks to run specific code for specific pages, for example for About page:
-myApp.onPageAfterAnimation('services', function (page) {
-    // run createContentPage func after link was clicked
-    $$('.create-page').on('click', function () {
-        createContentPage();
-    });
-});
-// Generate dynamic page
-var dynamicPageIndex = 0;
-function createContentPage() {
-	mainView.router.loadContent(
-        '<!-- Top Navbar-->' +
-        '<div class="navbar">' +
-        '  <div class="navbar-inner">' +
-        '    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>Back</span></a></div>' +
-        '    <div class="center sliding">Dynamic Page ' + (++dynamicPageIndex) + '</div>' +
-        '  </div>' +
-        '</div>' +
-        '<div class="pages">' +
-        '  <!-- Page, data-page contains page name-->' +
-        '  <div data-page="dynamic-pages" class="page">' +
-        '    <!-- Scrollable page content-->' +
-        '    <div class="page-content">' +
-        '      <div class="content-block">' +
-        '        <div class="content-block-inner">' +
-        '          <p>Here is a dynamic page created on ' + new Date() + ' !</p>' +
-        '          <p>Go <a href="#" class="back">back</a> or go to <a href="services.html">Services</a>.</p>' +
-        '        </div>' +
-        '      </div>' +
-        '    </div>' +
-        '  </div>' +
-        '</div>'
-    );
-	return;
-}
 // app.js
 window.onbeforeunload = function () {
     $.AMUI.utils.cookie.set('ukey', null);
@@ -68,7 +33,29 @@ $.ajaxSetup({
 });
 
 // Init Here
-var ip = 'http://192.168.1.116:8080';
+var ipKO = ko.observable('http://192.168.1.116:8080');//'http://192.168.1.116:8080';
+var ip = ipKO();
+if(!localStorage.getItem('ip')) {
+    localStorage.setItem('ip', 'http://192.168.1.116:8080');
+    ipKO('http://192.168.1.116:8080');
+} else {
+
+}
+ko.applyBindings({
+    setLocal: function() {
+        localStorage.setItem('ip', 'http://192.168.1.116:8080');
+        console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+    },
+    setZero: function() {
+        localStorage.setItem('ip', '');
+        console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+    },
+    setSelf: function() {
+        localStorage.setItem('ip', $('#ip-value').val());
+        console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+    }
+}, document.getElementById('ip-area') );
+
 jQuery.support.cors = true;
 
 myApp.onPageInit("led", function(page){
@@ -152,15 +139,16 @@ myApp.onPageInit("window", function(page){
     ko.applyBindings(window, page.container );
 });
 
-var client = mqtt.connect("ws://127.0.0.1:1883"); // you add a ws:// url here
-client.subscribe("demo");
+var client = mqtt.connect(); // you add a ws:// url here
+client.subscribe("gas");
 
 client.on("message", function(topic, payload) {
-    alert([topic, payload].join(": "));
-    client.end();
+    myApp.addNotification({
+        title: topic,
+        message: payload
+    });
 });
 
-client.publish("demo", "hello world!");
 
 function SwitchViewModel(code) {
     var self = this;

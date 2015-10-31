@@ -569,6 +569,7 @@
         //var express = require('express');
         //app.use(express.static(path.join(__dirname, 'build')));
         var server = app.listen(8080, '0.0.0.0');
+        require('./controllers/mqttServer').attachHttpServer(server);
         console.log('Server running at http://127.0.0.1:8080/');
         return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:8080/'}));
     });

@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'build')));
+//app.use(express.static(path.dirname(require.resolve("mosca")) + "/build"));
 
 
 // 准备数据库
@@ -57,5 +58,7 @@ UserModel.findOne({ uid: "admin" }, function (err, u) {
 });
 
 require('./routes')(app);
+
+app.use(express.static(path.dirname(require.resolve("mosca")) + "/public"));
 
 module.exports = app;
