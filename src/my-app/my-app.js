@@ -33,26 +33,55 @@ $.ajaxSetup({
 });
 
 // Init Here
-var ipKO = ko.observable('http://192.168.1.116:8080');//'http://192.168.1.116:8080';
-var ip = ipKO();
+var ip = ko.observable('http://192.168.1.116:8080');//'http://192.168.1.116:8080';
+//var ip = function(){
+//    return localStorage.getItem('ip');
+//};
 if(!localStorage.getItem('ip')) {
     localStorage.setItem('ip', 'http://192.168.1.116:8080');
-    ipKO('http://192.168.1.116:8080');
+    ip('http://192.168.1.116:8080');
 } else {
 
 }
 ko.applyBindings({
     setLocal: function() {
         localStorage.setItem('ip', 'http://192.168.1.116:8080');
+        ip('http://192.168.1.116:8080');
         console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
     },
     setZero: function() {
-        localStorage.setItem('ip', '');
+        localStorage.setItem('ip', 'http://192.168.1.116:8080');
+        ip('http://192.168.1.116:8080');
         console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
     },
     setSelf: function() {
-        localStorage.setItem('ip', $('#ip-value').val());
-        console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+        myApp.prompt('设置自定义IP地址', '智能物联', function (value){
+            var isURL = function (str_url) {
+                var strRegex = '^((https|http)?://)'
+                    + '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' //ftp的user@
+                    + '(([0-9]{1,3}.){3}[0-9]{1,3}' // IP形式的URL- 199.194.52.184
+                    + '|' // 允许IP和DOMAIN（域名）
+                    + '([0-9a-z_!~*\'()-]+.)*' // 域名- www.
+                    + '([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].' // 二级域名
+                    + '[a-z]{2,6})' // first level domain- .com or .museum
+                    + '(:[0-9]{1,4})?' // 端口- :80
+                    + '((/?)|' // a slash isn't required if there is no file name
+                    + '(/[0-9a-z_!~*\'().;?:@&=+$,%#-]+)+/?)$';
+                var re = new RegExp(strRegex);
+                return re.test(str_url);
+            };
+            value = 'http://' + value + ':8080';
+            if(!isURL(value)) {
+                myApp.alert('IP地址"' + value + '" 格式有误！');
+                console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+            }
+            else {
+                localStorage.setItem('ip', value);
+                ip(value);
+                myApp.alert('设置成功"' + value + '" ！');
+                console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+            }
+        });
     }
 }, document.getElementById('ip-area') );
 
@@ -141,12 +170,24 @@ myApp.onPageInit("window", function(page){
 
 var client = mqtt.connect(); // you add a ws:// url here
 client.subscribe("gas");
+client.subscribe("gas");
 
 client.on("message", function(topic, payload) {
-    myApp.addNotification({
-        title: topic,
-        message: payload
-    });
+    if(topic === 'gas') {
+        if(payload)
+            myApp.alert('煤气可能泄漏，请注意关闭阀门！', '智能物联');
+    } else if(topic === 'heart') {
+        myApp.addNotification({
+            title: topic,
+            message: payload
+        });
+    } else {
+        myApp.addNotification({
+            title: topic,
+            message: payload
+        });
+    }
+
 });
 
 
@@ -164,7 +205,7 @@ function SwitchViewModel(code) {
 
     self.loadData = function () {
         $.ajax({
-            url: ip + "/devices"
+            url: ip() + "/devices"
         }).done(function (data) {
             var index; var devValue;
             if(Object.prototype.toString.call(code) === "[object Array]") {
@@ -201,7 +242,7 @@ function SwitchViewModel(code) {
             var switchData = '{"type":"switch","value":' + Number(self.switch[id]) +'}';//+',"controller":'+Number(self.controller[id]())
             $.ajax({
                 type: "POST",
-                url: ip + "/devices/" + id,
+                url: ip() + "/devices/" + id,
                 data: JSON.parse(switchData)
             }).done(function(){
                 if(self.switch[id])
@@ -293,7 +334,7 @@ function Step2ViewModel(code, group) {
 
     self.loadData = function () {
         $.ajax({
-            url: ip + "/devices"
+            url: ip() + "/devices"
         }).done(function (data) {
             var index; var devValue;
             if(Object.prototype.toString.call(code) === "[object Array]") {
@@ -332,7 +373,7 @@ function Step2ViewModel(code, group) {
             var switchData = '{"type":"switch","value":' + Number(self.switch[id]) +',"controller":'+Number(self.controller[id]()) +'}';//
             $.ajax({
                 type: "POST",
-                url: ip + "/devices/" + id,
+                url: ip() + "/devices/" + id,
                 data: JSON.parse(switchData)
             }).done(function(){
                 if(self.switch[id])
@@ -371,7 +412,7 @@ function Step2ViewModel(code, group) {
                  var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
                 $.ajax({
                     type: "POST",
-                    url: ip + "/devices/" + id,
+                    url: ip() + "/devices/" + id,
                     data: JSON.parse(controllerData)
                 }).done(function() {
                         //myApp.alert('更新成功', '智能物联');
@@ -408,7 +449,7 @@ function Step2ViewModel(code, group) {
                 console.log("DEBUG: targetId ", togSwitch);
                 $.ajax({
                     type: "POST",
-                    url: ip + "/devices/" + id,
+                    url: ip() + "/devices/" + id,
                     data: JSON.parse(controllerData)
                 }).done(function(){
                     //myApp.alert('更新成功', '智能物联');
@@ -444,7 +485,7 @@ function Step2ViewModel(code, group) {
                 var controllerData = '{"type":"step","switch":' + Number(togSwitch) +',"controller":'+controllerNumber +'}';
                 $.ajax({
                     type: "POST",
-                    url: ip + "/devices/" + id,
+                    url: ip() + "/devices/" + id,
                     data: JSON.parse(controllerData)
                 }).done(function() {
                     //myApp.alert('更新成功', '智能物联');
@@ -464,7 +505,7 @@ function AirViewModel(id) {
 
     self.loadData = function () {
         $.ajax({
-            url: ip + "/devices/" + id
+            url: ip() + "/devices/" + id
         }).done(function (data) {
             var index = (Number(id) - 1);
             var devValue = JSON.parse(data.value);
@@ -489,7 +530,7 @@ function AirViewModel(id) {
         console.log("Air 调整值：switchData: ", switchData);
         $.ajax({
             type: "POST",
-            url: ip + "/devices/" + id,
+            url: ip() + "/devices/" + id,
             data: JSON.parse(switchData)
         }).done(function () {
             console.log("更新到设备Air：self.controller()", self.controller());
@@ -524,7 +565,7 @@ function AirViewModel(id) {
             var controllerData = '{"type":"step","switch":' + self.switch  +',"controller":'+ self.controller() +'}';
             $.ajax({
                 type: "POST",
-                url: ip + "/devices/" + id,
+                url: ip() + "/devices/" + id,
                 data: JSON.parse(controllerData)
             }).done(function(){
                 console.log("UPDATE: ", target.nodeName, controllerData);
@@ -545,7 +586,7 @@ function AirViewModel(id) {
         }
         $.ajax({
             type: "POST",
-            url: ip + "/devices/" + id,
+            url: ip() + "/devices/" + id,
             data: JSON.parse(controllerData)
         }).done(function(){
             console.log("UPDATE: ", controllerData);
