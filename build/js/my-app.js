@@ -41,7 +41,6 @@ if(!localStorage.getItem('ip')) {
     localStorage.setItem('ip', 'http://192.168.1.116:8080');
     ip('http://192.168.1.116:8080');
 } else {
-
 }
 ko.applyBindings({
     setLocal: function() {
@@ -170,7 +169,7 @@ myApp.onPageInit("window", function(page){
 
 var client = mqtt.connect(); // you add a ws:// url here
 client.subscribe("gas");
-client.subscribe("gas");
+client.subscribe("heart");
 
 client.on("message", function(topic, payload) {
     if(topic === 'gas') {
@@ -178,7 +177,7 @@ client.on("message", function(topic, payload) {
             myApp.alert('煤气可能泄漏，请注意关闭阀门！', '智能物联');
     } else if(topic === 'heart') {
         myApp.addNotification({
-            title: topic,
+            title: '血糖浓度：',
             message: payload
         });
     } else {

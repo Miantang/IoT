@@ -59,6 +59,6 @@ UserModel.findOne({ uid: "admin" }, function (err, u) {
 
 require('./routes')(app);
 
-app.use(express.static(path.dirname(require.resolve("mosca")) + "/public"));
+//app.use(express.static(path.dirname(require.resolve("mosca")) + "/public"));
 
 module.exports = app;

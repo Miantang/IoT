@@ -18,8 +18,7 @@ var pubsubSettings = {
 var moscaSetting = {
     port: config.mqttPort,
     interfaces: [
-        { type: "mqtt", port: 1883 },
-        { type: "http", port: 8080, bundle: true }
+        { type: "mqtt", port: 1883 }
     ],
     stats: false,
     //logger: { name: 'MoscaServer', level: 'debug' },
@@ -58,7 +57,7 @@ mqttServer.on('clientDisconnected', function (client) {
 
 mqttServer.on('ready', setup);
 function setup () {
-    console.log('mqtt server is ok and running at ' + mqttServer.mqttPort);
+    console.log('mqtt server is ok and running at ' + mqttServer);
 }
 
 module.exports = mqttServer;
