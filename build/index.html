@@ -195,9 +195,36 @@
           </div>
         </div>
       </div>
+      <div id="tab3" class="view tab">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="center sliding">血糖仪</div>
+            <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
+          </div>
+        </div>
+        <div class="pages">
+          <div data-page="blood" class="page">
+            <div class="page-content-air">
+              <div class="content-block-air-title">便携式无创血糖仪</div>
+              <div id="blood" data-bind="text: $root.blood" class="row-air1">0.00</div>
+              <div class="row"><a id="btn-air-1" class="a-content-air-block-icon button button-big button-fill"></a><a id="btn-air-2" class="a-content-air-block-icon button button-big button-fill"></a></div>
+              <div class="row-air2"></div>
+              <div class="row"><a id="btn-air-3" class="a-content-air-block-icon button button-big button-fill"></a><a id="btn-air-4" class="a-content-air-block-icon button button-big button-fill"></a></div>
+              <div class="row-air3">黑龙江智谷科技
+                <!-- a#btn-air-6.a-content-air-block-icon.button.button-big.button-fill 经济-->
+              </div>
+              <!--.item-air-title.label 温度-->
+              <!--.item-input-->
+              <!--  .range-slider-->
+              <!--    input(type="range", min="0", max="100", value="50", step="0.1")-->
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- 带有链接的标签栏 -->
       <div class="toolbar tabbar">
       <div class="toolbar-inner">
+      <a href="#tab3" class="tab-link"><i class="icon fa fa-info-circle fa-2x"></i></a>
       <a href="#tab1" class="tab-link active"><i class="icon fa fa-cogs fa-2x"></i></a>
       <a href="#tab2" class="tab-link"><i class="icon fa fa-info-circle fa-2x"></i></a>
       </div>

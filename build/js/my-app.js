@@ -167,6 +167,11 @@ myApp.onPageInit("window", function(page){
     ko.applyBindings(window, page.container );
 });
 
+var blood = ko.observable('0.00');
+ko.applyBindings({
+    blood: blood
+}, document.getElementById('blood'));
+
 var client = mqtt.connect(); // you add a ws:// url here
 client.subscribe("gas");
 client.subscribe("heart");
@@ -180,6 +185,7 @@ client.on("message", function(topic, payload) {
             title: '血糖浓度：',
             message: payload
         });
+        blood(payload);
     } else {
         myApp.addNotification({
             title: topic,
