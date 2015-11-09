@@ -8,11 +8,11 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 // app.js
-window.onbeforeunload = function () {
-    $.AMUI.utils.cookie.set('ukey', null);
-    $.AMUI.utils.cookie.set('uid', null);
-    $.AMUI.utils.cookie.set('pwd', null);
-};
+//window.onbeforeunload = function () {
+//    $.AMUI.utils.cookie.set('ukey', null);
+//    $.AMUI.utils.cookie.set('uid', null);
+//    $.AMUI.utils.cookie.set('pwd', null);
+//};
 $.ajaxSetup({
     cache: true,
     crossDomain: true,
