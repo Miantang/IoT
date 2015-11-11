@@ -13,7 +13,7 @@
     // Scrollable page content
     .page-content
       #camera-view
-        iframe(src="http://192.168.1.111:8081/javascript_simple.html")
+        iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
       .content-block-title(data-bind="click: $root.controllerChanged2(6)")
         h2#camera-title 云台控制
         .row
