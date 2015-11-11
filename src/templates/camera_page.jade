@@ -1,5 +1,3 @@
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
 .navbar
   .navbar-inner
     .left
@@ -8,29 +6,21 @@
         span 后退
     .center.sliding 摄像监控
     .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel 
+      a(href="#").link.icon-only.open-panel
         i.icon.icon-bars
 .pages
-  // Page, data-page contains page name
-  //.page(data-page="form")
-    // Scrollable page content
-
   .page(data-page="camera")
     // Scrollable page content
     .page-content
       #camera-view
         iframe(src="http://192.168.1.111:8081/javascript_simple.html")
-      //.content-block-title(data-bind="click: $root.controllerChanged2(6)")
-        //h2#camera-title 云台控制
-        //.row
-        //  .col-33
-        //    a(href="#" data-code="1").button.button-big.button-fill.camera-btn
-        //      i.fa.fa-chevron-left.fa-2x.camera-icon
-        //  .col-33
-        //    a(href="#" data-code="2").button.button-big.button-fill.camera-btn
-        //      i.fa.fa-stop.fa-2x.camera-icon
-        //  .col-33
-        //    a(href="#" data-code="3").button.button-big.button-fill.camera-btn
-        //      i.fa.fa-chevron-right.fa-2x.camera-icon
+      .content-block-title(data-bind="click: $root.controllerChanged2(6)")
+        h2#camera-title 云台控制
+        .row
+          .col-50
+            a(href="#" data-code="1").button.button-big.button-fill.camera-btn
+              i.fa.fa-chevron-left.fa-2x.camera-icon
+          .col-50
+            a(href="#" data-code="2").button.button-big.button-fill.camera-btn
+              i.fa.fa-chevron-right.fa-2x.camera-icon
 
