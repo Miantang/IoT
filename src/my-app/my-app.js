@@ -30,7 +30,7 @@ jQuery.support.cors = true;
 
 // Init Here
 var ip = ko.observable('http://192.168.1.116:8080');//'http://192.168.1.116:8080';
-var camIp = ko.observable('http://192.168.1.111:8081');//'http://192.168.1.116:8080';
+var camIp = ko.observable('http://192.168.1.111:8081');
 //var ip = function(){
 //    return localStorage.getItem('ip');
 //};
@@ -50,10 +50,10 @@ ko.applyBindings({
         console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
     },
     setZero: function() {
-        localStorage.setItem('ip', 'http://192.168.1.116:8080');
-        localStorage.setItem('camIp', 'http://192.168.1.111:8081');
-        ip('http://192.168.1.116:8080');
-        camIp('http://192.168.1.111:8081');
+        localStorage.setItem('ip', 'http://shuzitongxin.oicp.net:25214');
+        localStorage.setItem('camIp', 'http://shuzitongxin.oicp.net:25501');
+        ip('http://shuzitongxin.oicp.net:25214');
+        camIp('http://shuzitongxin.oicp.net:25501');
         console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
     },
     setSelf: function() {
@@ -180,7 +180,7 @@ ko.applyBindings({
     blood: blood
 }, document.getElementById('blood'));
 
-var client = mqtt.connect(); // you add a ws:// url here
+var client = mqtt.connect(ip().replace('http', 'ws')); // you add a ws:// url here
 client.subscribe("gas");
 client.subscribe("heart");
 
@@ -189,11 +189,9 @@ client.on("message", function(topic, payload) {
         if(payload)
             myApp.alert('煤气可能泄漏，请注意关闭阀门！', '智能物联');
     } else if(topic === 'heart') {
-        myApp.addNotification({
-            title: '血糖浓度：',
-            message: payload
-        });
+
         blood(payload);
+
     } else {
         myApp.addNotification({
             title: topic,
