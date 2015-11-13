@@ -1,17 +1,3 @@
-/**
- * Framework7 1.2.0
- * Full Featured Mobile HTML Framework For Building iOS & Android Apps
- * 
- * http://www.idangero.us/framework7
- * 
- * Copyright 2015, Vladimir Kharlampidi
- * The iDangero.us
- * http://www.idangero.us/
- * 
- * Licensed under MIT
- * 
- * Released on: November 13, 2015
- */
         (function () {
         
 

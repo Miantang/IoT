@@ -6,7 +6,7 @@
         less = require('gulp-less'),
         jade = require('gulp-jade'),
         rename = require('gulp-rename'),
-        header = require('gulp-header'),
+        //header = require('gulp-header'),
         path = require('path'),
         uglify = require('gulp-uglify'),
         sourcemaps = require('gulp-sourcemaps'),
@@ -16,22 +16,20 @@
         jshint = require('gulp-jshint'),
         stylish = require('jshint-stylish'),
         fs = require('fs'),
+        themeName = 'ios',// ios or material
         paths = {
             root: './',
             build: {
                 root: 'build/',
                 styles: 'build/css/',
-                scripts: 'build/js/'
-            },
-            custom: {
-                root: 'custom/',
-                styles: 'custom/css/',
-                scripts: 'custom/js/'
+                scripts: 'build/js/',
+                fonts: 'build/fonts/'
             },
             dist: {
                 root: 'dist/',
                 styles: 'dist/css/',
-                scripts: 'dist/js/'
+                scripts: 'dist/js/',
+                fonts: 'dist/fonts/'
             },
             source: {
                 root: 'src/',
@@ -40,7 +38,11 @@
                     material: 'src/less/material/'
                 },
                 scripts: 'src/js/*.js',
+                fonts: 'src/fonts/',
+                img: 'src/img/',
                 myApp: {
+                    root: 'src/custom/',
+                    jade: 'src/custom/jade/',
                     js: 'src/custom/js/',
                     less: 'src/custom/less/',
                     ref: 'src/custom/ref/'
@@ -103,50 +105,7 @@
                 'src/js/swiper.js',
                 'src/js/wrap-end.js'
             ],
-            modules: require('./modules.json'),
-            pkg: require('./bower.json'),
-            banner: [
-                '/**',
-                ' * <%= pkg.name %> <%= pkg.version %>',
-                ' * <%= pkg.description %>',
-                '<% if(typeof(theme) !== "undefined") {%> * \n * <%= theme %>\n *<% } else { %> * <% } %>',
-                // ' * ',
-                ' * <%= pkg.homepage %>',
-                ' * ',
-                ' * Copyright <%= date.year %>, <%= pkg.author %>',
-                ' * The iDangero.us',
-                ' * http://www.idangero.us/',
-                ' * ',
-                ' * Licensed under <%= pkg.license.join(" & ") %>',
-                ' * ',
-                ' * Released on: <%= date.month %> <%= date.day %>, <%= date.year %>',
-                ' */',
-                ''].join('\n'),
-            customBanner: [
-                '/**',
-                ' * <%= pkg.name %> <%= pkg.version %> - Custom Build',
-                ' * <%= pkg.description %>',
-                '<% if(typeof(theme) !== "undefined") {%> * \n * <%= theme %>\n *<% } else { %> * <% } %>',
-                ' * ',
-                ' * Included modules: <%= modulesList %>',
-                ' * ',
-                ' * <%= pkg.homepage %>',
-                ' * ',
-                ' * Copyright <%= date.year %>, <%= pkg.author %>',
-                ' * The iDangero.us',
-                ' * http://www.idangero.us/',
-                ' * ',
-                ' * Licensed under <%= pkg.license.join(" & ") %>',
-                ' * ',
-                ' * Released on: <%= date.month %> <%= date.day %>, <%= date.year %>',
-                ' */',
-                ''].join('\n'),
-            date: {
-                year: new Date().getFullYear(),
-                month: ('January February March April May June July August September October November December').split(' ')[new Date().getMonth()],
-                day: new Date().getDate()
-            },
-
+            modules: require('./modules.json')
         };
         
     function addJSIndent (file, t) {
@@ -173,7 +132,7 @@
         }
     }
     /* ==================================================================
-    Build Framework7
+    Build Framework7 框架预构建
     ================================================================== */
     // Build Styles and Scripts
     gulp.task('scripts', function (cb) {
@@ -183,7 +142,7 @@
             }))
             .pipe(sourcemaps.init())
             .pipe(concat(f7.filename + '.js'))
-            .pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date } ))
+            //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date } ))
             .pipe(jshint())
             .pipe(jshint.reporter(stylish))
             .pipe(sourcemaps.write('./'))
@@ -202,7 +161,7 @@
                 .pipe(less({
                     paths: [ path.join(__dirname, 'less', 'includes') ]
                 }))
-                .pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date, theme: 'iOS Theme' }))
+                //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date, theme: 'iOS Theme' }))
                 .pipe(gulp.dest(paths.build.styles))
                 .pipe(connect.reload())
                 .on('end', function () {
@@ -219,7 +178,7 @@
                 .pipe(less({
                     paths: [ path.join(__dirname, 'less', 'includes') ]
                 }))
-                .pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date, theme: 'Google Material Theme' }))
+                //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date, theme: 'Google Material Theme' }))
                 .pipe(gulp.dest(paths.build.styles))
                 .pipe(connect.reload())
                 .on('end', function () {
@@ -227,34 +186,48 @@
                     if (cbs === 3) cb();
                 });
         });
-            
     });
 
     /* ==================================================================
      Build My App
      ================================================================== */
-    gulp.task('custom-less', function(cb){
-        gulp.src(paths.source.myApp.less + 'my-app.less')
+    gulp.task('myApp-less', function(cb){
+        gulp.src(paths.source.myApp.less + 'index.less')
             .pipe(less(/*{paths: [path.join(__dirname, 'src', 'custom', 'less', 'includes'),
                 path.join(__dirname, 'src', 'custom', 'less', 'components')]}*/))
             .pipe(gulp.dest(paths.build.styles));
         cb();
     });
-    gulp.task('custom-js', function(cb){
+
+    gulp.task('myApp-js', function(cb){
         gulp.src(paths.source.myApp.js + '*.js')
             .pipe(gulp.dest(paths.build.scripts));
         cb();
     });
-    gulp.task('custom-copy', function(cb){
-        gulp.src(paths.source.myApp.root + 'ref/*.css')
+
+    gulp.task('myApp-copy:img', function (cb) {
+        gulp.src(paths.source.img + '**/*.*')
+            .pipe(gulp.dest(paths.build.root + 'img/'));
+        cb();
+    });
+    gulp.task('myApp-copy', ['myApp-copy:img'], function(cb){
+        gulp.src(paths.source.myApp.ref + '*.css')
             .pipe(gulp.dest(paths.build.styles));
-        gulp.src(paths.source.myApp.root + 'ref/*.js')
+
+        gulp.src(paths.source.myApp.ref + '*.js')
             .pipe(gulp.dest(paths.build.scripts));
+
+        gulp.src(paths.source.fonts + '*.*')
+            .pipe(gulp.dest(paths.build.fonts));
+
+        gulp.src(paths.source.myApp.root + 'favicon.ico')
+            .pipe(gulp.dest(paths.build.root));
+
         cb();
     });
 
-    gulp.task('demo-app', ['custom-js', "custom-copy", "custom-less"], function (cb) {
-        gulp.src(paths.source.root + 'templates/*.jade')
+    gulp.task('myApp-jade', function(cb) {
+        gulp.src([paths.source.myApp.jade + '**/*.jade', '!' + paths.source.myApp.jade + 'includes/*.jade'])
             .pipe(jade({
                 pretty: true,
                 locals: {
@@ -264,25 +237,19 @@
                 }
             }))
             .pipe(gulp.dest(paths.build.root));
-
-        //gulp.src(paths.source.root + 'my-app/*.js')
-        //    .pipe(gulp.dest(paths.build.scripts));
-        //
-        //gulp.src(paths.source.root + 'my-app/*.css')
-        //    .pipe(gulp.dest(paths.build.styles));
-
-        gulp.src(paths.source.root + 'img/*.*')
-            .pipe(gulp.dest(paths.build.root + 'img/'))
-            .pipe(connect.reload());
         cb();
     });
 
-    gulp.task('build', ['scripts', 'styles-ios', 'styles-material', 'demo-app'], function (cb) {
+    gulp.task('myApp', ['myApp-js', "myApp-copy", "myApp-less", 'myApp-jade'], function (cb) {
+        cb();
+    });
+
+    gulp.task('build', ['scripts', 'styles-' + themeName, 'myApp'], function (cb) {
         cb();
     });
 
     /* =================================
-    Dist Version
+    Dist Version 发行版本
     ================================= */
     gulp.task('dist', function () {
         gulp.src([paths.build.root + '**/*.*'])
@@ -295,7 +262,7 @@
                         locals: {
                             stylesheetFilename: 'framework7.ios.min',
                             stylesheetColorsFilename: 'framework7.ios.colors.min',
-                            scriptFilename: 'framework7.min',
+                            scriptFilename: 'framework7.min'
                         }
                     }))
                     .pipe(gulp.dest(paths.dist.root));
@@ -303,7 +270,7 @@
                 gulp.src([paths.dist.scripts + f7.filename + '.js'])
                     .pipe(sourcemaps.init())
                     .pipe(uglify())
-                    .pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date }))
+                    //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date }))
                     .pipe(rename(function(path) {
                         path.basename = f7.filename + '.min';
                     }))
@@ -324,143 +291,38 @@
                         advanced: false,
                         aggressiveMerging: false,
                     }))
-                    .pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date }))
+                    //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date }))
                     .pipe(rename(function(path) {
                         path.basename = path.basename + '.min';
                     }))
                     .pipe(gulp.dest(paths.dist.styles));
             });
     });
-    
+
     /* =================================
-    Custom Build
-    ================================= */
-    gulp.task('custom', function () {
-        var modules = process.argv.slice(3);
-        modules = modules.toString();
-        if (modules === '') {
-            modules = [];
-        }
-        else {
-            modules = modules.substring(1).replace(/ /g, '').replace(/,,/g, ',');
-            modules = modules.split(',');
-        }
-        var modulesJs = [], modulesLessIOS = [], modulesLessMaterial = [];
-        var i, module;
-        modulesJs.push.apply(modulesJs, f7.modules.core_intro.js);
-        modulesLessIOS.push.apply(modulesLessIOS, f7.modules.core_intro.less.ios);
-        modulesLessMaterial.push.apply(modulesLessMaterial, f7.modules.core_intro.less.material);
-        for (i = 0; i < modules.length; i++) {
-            module = f7.modules[modules[i]];
-            if (module.dependencies.length > 0) {
-                modules.push.apply(modules, module.dependencies);
-            }
-        }
-        for (i = 0; i < modules.length; i++) {
-            module = f7.modules[modules[i]];
-            if (!(module)) continue;
-
-            if (module.js.length > 0) {
-                modulesJs.push.apply(modulesJs, module.js);
-            }
-            if (module.less.ios && module.less.ios.length > 0) {
-                modulesLessIOS.push.apply(modulesLessIOS, module.less.ios);
-            }
-            if (module.less.material && module.less.material.length > 0) {
-                modulesLessMaterial.push.apply(modulesLessMaterial, module.less.material);
-            }
-        }
-        modulesJs.push.apply(modulesJs, f7.modules.core_outro.js);
-        modulesLessIOS.push.apply(modulesLessIOS, f7.modules.core_outro.less.ios);
-        modulesLessMaterial.push.apply(modulesLessMaterial, f7.modules.core_outro.less.material);
-
-        // Unique
-        var customJsList = [];
-        var customLessIOS = [];
-        var customLessMaterial = [];
-        for (i = 0; i < modulesJs.length; i++) {
-            if (customJsList.indexOf(modulesJs[i]) < 0) customJsList.push(modulesJs[i]);
-        }
-        for (i = 0; i < modulesLessIOS.length; i++) {
-            if (customLessIOS.indexOf(modulesLessIOS[i]) < 0) customLessIOS.push(modulesLessIOS[i]);
-        }
-        for (i = 0; i < modulesLessMaterial.length; i++) {
-            if (customLessMaterial.indexOf(modulesLessMaterial[i]) < 0) customLessMaterial.push(modulesLessMaterial[i]);
-        }
-
-        // JS
-        gulp.src(customJsList)
-            .pipe(tap(function (file, t){
-                addJSIndent (file, t);
-            }))
-            .pipe(concat(f7.filename + '.custom.js'))
-            .pipe(header(f7.customBanner, { pkg : f7.pkg, date: f7.date, modulesList: modules.join(',') } ))
-            .pipe(jshint())
-            .pipe(jshint.reporter(stylish))
-            .pipe(gulp.dest(paths.custom.scripts))
-
-            .pipe(uglify())
-            .pipe(header(f7.customBanner, { pkg : f7.pkg, date: f7.date, modulesList: modules.join(',') }))
-            .pipe(rename(function(path) {
-                path.basename = path.basename + '.min';
-            }))
-            .pipe(gulp.dest(paths.custom.scripts));
-        
-        // CSSes
-        [customLessIOS, customLessMaterial].forEach(function (customLessList) {
-            var theme = customLessList === customLessIOS ? 'ios' : 'material';
-            var themeName = theme === 'ios' ? 'iOS Theme' : 'Google Material Theme';
-            gulp.src(customLessList)
-                .pipe(concat(f7.filename + '.' + theme + '.custom.less'))
-                .pipe(less({
-                    paths: [ path.join(__dirname, 'less', 'includes') ]
-                }))
-                .pipe(header(f7.customBanner, { pkg : f7.pkg, date: f7.date, theme: themeName, modulesList: modules.join(',') } ))
-                .pipe(gulp.dest(paths.custom.styles))
-
-                .pipe(minifyCSS({
-                    advanced: false,
-                    aggressiveMerging: false,
-                }))
-                .pipe(header(f7.customBanner, { pkg : f7.pkg, date: f7.date, theme: themeName, modulesList: modules.join(',') }))
-                .pipe(rename(function(path) {
-                    path.basename = path.basename + '.min';
-                }))
-                .pipe(gulp.dest(paths.custom.styles));
-        });
-    });
-    /* =================================
-    Watch
+    Watch 开发调试时，之后刷新
     ================================= */
     gulp.task('watch', function () {
         // F7 styles and scripts
-        //gulp.watch(paths.source.custom.less + "*less", [ 'custom-less' ]);
         gulp.watch(paths.source.scripts, [ 'scripts' ]);
         gulp.watch(paths.source.styles.ios + '*.less', [ 'styles-ios' ]);
         gulp.watch(paths.source.styles.material + '*.less', [ 'styles-material' ]);
-
-        // Demo App
-        gulp.watch([paths.source.root + 'templates/*.jade', paths.source.root + 'my-app/*.*', paths.source.root + 'img/*.*'], ['demo-app']);
+        // My
+        gulp.watch(paths.source.myApp.less + '**/*.less', ['myApp-less']);
+        gulp.watch(paths.source.myApp.js + '*.js', ['myApp-js']);
+        gulp.watch(paths.source.myApp.jade + '**/*.jade', ['myApp-jade']);
+        gulp.watch(paths.source.img + '**/*.*', ['myApp-copy:img']);
     });
 
-    gulp.task('connect', function () {
-        return connect.server({
+    gulp.task('local', ['build' ,'watch'], function () {
+        connect.server({
             root: [ paths.root ],
             livereload: true,
             port:'3000'
         });
+        return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:3000/'}));
     });
     
-    gulp.task('open', function () {
-        return gulp.src('./build/index.html').pipe(open({ uri: 'http://localhost:3000/build'}));
-    });
-
-    gulp.task('server', [ 'watch', 'connect', 'open' ]);
-
-    gulp.task('local', ['build' ,'server' ]);
-    
-    gulp.task('test', [ 'build' ]);
-
     gulp.task('default', ['build', 'watch'], function () {
         var app = require('./app');
         //var express = require('express');
