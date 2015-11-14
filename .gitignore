@@ -28,11 +28,11 @@ node_modules
 
 .idea
 
-data/devices
-data/users
-
-devices
-users
+#data/devices
+#data/users
+#
+#devices
+#users
 
 dist
 views
