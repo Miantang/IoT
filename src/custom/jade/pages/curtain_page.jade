@@ -1,18 +1,7 @@
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
+include ../mixins/utils
++navbar('智能窗帘')
 
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link
-        i.icon.icon-back
-        span 返回
-    .center.sliding 智能窗帘
-    .right
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
 .pages
-    // Page, data-page contains page name
   .page(data-page="curtain")
     .page-content.curtain-background
       .content-block-zong
@@ -26,12 +15,15 @@
               .accordion-item-content
                 .content-block(data-bind="click: $root.controllerChanged(10)")
                   .row
-                    a#btn1.curtain-button-1.button-filling-color-in
-                      i(class="fa fa-arrow-left")
-                    a#btn3.curtain-button-2.button-filling-color-in
-                      i(class="fa fa-square")
-                    a#btn2.curtain-button-3.button-filling-color-in
-                      i(class="fa fa-arrow-right")
+                    .col-33
+                      a#btn1.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-left")
+                    .col-33
+                      a#btn3.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-square")
+                    .col-33
+                      a#btn2.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-right")
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
@@ -39,12 +31,15 @@
               .accordion-item-content
                 .content-block
                   .row
-                   a#btn4.curtain-button-4.button-filling-color-in
-                        i(class="fa fa-arrow-left")
-                    a#btn5.curtain-button-5.button-filling-color-in
-                      i(class="fa fa-square")
-                    a#btn6.curtain-button-6.button-filling-color-in
-                      i(class="fa fa-arrow-right")
+                    .col-33
+                      a#btn4.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-left")
+                    .col-33
+                      a#btn5.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-square")
+                    .col-33
+                      a#btn6.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-right")
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
@@ -52,9 +47,12 @@
               .accordion-item-content
                 .content-block
                   .row
-                    a#btn7.curtain-button-7.button-filling-color-in
-                      i(class="fa fa-arrow-left")
-                    a#btn8.curtain-button-8.button-filling-color-in
-                      i(class="fa fa-square")
-                    a#btn9.curtain-button-9.button-filling-color-in
-                      i(class="fa fa-arrow-right")
+                    .col-33
+                      a#btn7.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-left")
+                    .col-33
+                      a#btn8.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-square")
+                    .col-33
+                      a#btn9.button.button-large.button-plain.button-border.button-box
+                        i.curtain-icon.fa-2x(class="fa fa-arrow-right")

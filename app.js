@@ -7,8 +7,8 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var cors = require('cors');
 app.set('port', process.env.PORT || 8080);
-app.set('views', path.join(__dirname, 'views/jade'));
-app.set('view engine', 'jade');
+//app.set('views', path.join(__dirname, 'views/jade'));
+//app.set('view engine', 'jade');
 
 function defaultContentTypeMiddleware(req, res, next) {
     req.headers['content-type'] = req.headers['content-type'] || 'application/json';

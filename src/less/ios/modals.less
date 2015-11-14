@@ -1,20 +1,14 @@
 /* === Modals === */
-@modalBg: rgba(255,255,255,0.95);
+@modalBgColor:#e8e8e8;
 @modalButonColor : @themeColor;
-@modalButonActiveBg: rgba(230,230,230,0.95);
-@modalHairlineColor: rgba(0,0,0,0.2);
-@modalDuration: 400ms;
-
-@actionsModalBg: rgba(255,255,255,0.95);
-@actionsModalButtonActiveBg: rgba(230,230,230,0.9);
-@actionsModalHairlineColor: rgba(0,0,0,0.2);
-@actionsModalDuration: 300ms;
-
+@modalButonBg: @modalBgColor;
+@modalButonActiveBg:#d4d4d4;
+@modalDuration:400ms;
+@actionsModalDuration:300ms;
+@actionsModalButtonBg: rgba(243,243,243,0.95);
+@actionsModalActiveButtonBg:#dcdcdc;
 @popoverBg: rgba(255,255,255,0.95);
-
 @popupDuration: 400ms;
-
-@actionsPopoverHairline: rgba(0,0,0,0.2);
 .modal-overlay, .preloader-indicator-overlay, .popup-overlay {
     position: absolute;
     left: 0;
@@ -43,8 +37,7 @@
     margin-top: 0;
     top: 50%;
     text-align: center;
-    border-radius: 13px;
-    overflow: hidden;
+    border-radius: 7px;
     opacity: 0;
     .transform(translate3d(0,0,0) scale(1.185));
     -webkit-transition-property: -webkit-transform, opacity;
@@ -54,7 +47,6 @@
     transition-property: transform, opacity;
     color:#000;
     display: none;
-    
     &.modal-in {
         opacity: 1;
         .transition(@modalDuration);
@@ -64,31 +56,27 @@
         opacity: 0;
         z-index: 11000-1;
         .transition(@modalDuration);
-        .transform(translate3d(0,0,0) scale(1));
+        .transform(translate3d(0,0,0) scale(0.815));
     }
 }
 .modal-inner {
     padding: 15px;
-    border-radius: 13px 13px 0 0;
+    .hairline(bottom, #b5b5b5);
+    border-radius: 7px 7px 0 0;
     position: relative;
-    background: @modalBg;
-    .hairline(bottom, @modalHairlineColor);
-        
+    background: @modalBgColor;
 }
 .modal-title {
     font-weight: 500;
     font-size: 18px;
     text-align: center;
-    html.ios-gt-8 & {
-        font-weight: 600;
-    }
     +.modal-text {
         margin-top: 5px;
     }
 }
 .modal-buttons {
     height: 44px;
-    position: relative;
+    overflow: hidden;
     .flexbox();
     .justify-content(center);
     &.modal-buttons-vertical {
@@ -104,6 +92,7 @@
     line-height: 44px;
     text-align: center;
     color: @modalButonColor;
+    background: @modalButonBg;
     display: block;
     position: relative;
     white-space: nowrap;
@@ -111,43 +100,39 @@
     overflow: hidden;
     cursor: pointer;
     box-sizing: border-box;
+    .hairline(right, #b5b5b5);
     -webkit-box-flex:1;
     -ms-flex:1;
-    background: @modalBg;
-    .hairline(right, @modalHairlineColor);
     &:first-child {
-        border-radius: 0 0 0 13px;
+        border-radius: 0 0 0 7px;
     }
     &:last-child {
         .hairline-remove(right);
-        border-radius: 0 0 13px 0;
+        border-radius: 0 0 7px 0;
     }
     &:first-child:last-child {
-        border-radius: 0 0 13px 13px;
+        border-radius: 0 0 7px 7px;
     }
     &.modal-button-bold {
         font-weight: 500;
-        html.ios-gt-8 & {
-            font-weight: 600;
-        }
     }
     html:not(.watch-active-state) &:active, &.active-state {
         background: @modalButonActiveBg;
     }
     .modal-buttons-vertical & {
-        border-radius: 0;
         .hairline-remove(right);
         .hairline-remove(top);
-        .hairline(bottom, @modalHairlineColor);
+        .hairline(bottom, #b5b5b5);
+        border-radius: 0;
         &:last-child {
-            border-radius: 0 0 13px 13px;
+            border-radius: 0 0 7px 7px;
             .hairline-remove(bottom);
         }
     }
 }
 .modal-no-buttons {
     .modal-inner {
-        border-radius: 13px;
+        border-radius: 7px;
         .hairline-remove(bottom);
     }
     .modal-buttons {
@@ -162,11 +147,6 @@
     z-index: 11000;
     width: 100%;
     .transform(translate3d(0,100%,0));
-    @media (min-width:496px) {
-        width: 480px;
-        left: 50%;
-        margin-left: -240px;
-    }
     &.modal-in {
         .transition(@actionsModalDuration);
         .transform(translate3d(0,0,0));
@@ -179,22 +159,17 @@
 }
 .actions-modal-group {
     margin: 8px;
-    position: relative;
-    border-radius: 13px;
-    overflow: hidden;
-    .transform(translate3d(0,0,0));
 }
 .actions-modal-button, .actions-modal-label {
     width: 100%;
     text-align: center;
     font-weight: normal;
     margin: 0;
-    background: @actionsModalBg;
+    background: @actionsModalButtonBg;
     box-sizing: border-box;
     display: block;
     position: relative;
-    overflow: hidden;
-    .hairline(bottom, @actionsModalHairlineColor);
+    .hairline(bottom, #d2d2d6);
     a {
         text-decoration: none;
         color: inherit;
@@ -202,75 +177,57 @@
     }
     b {
         font-weight: 500;
-        html.ios-gt-8 & {
-            font-weight: 600;
-        }
     }
     &.actions-modal-button-bold {
         font-weight: 500;
-        html.ios-gt-8 & {
-            font-weight: 600;
-        }
     }
     &.actions-modal-button-red {
         color: @red;
     }
     &:first-child {
-        border-radius: 13px 13px 0 0;
+        border-radius: 4px 4px 0 0;
     }
     &:last-child {
         .hairline-remove(bottom);
-        border-radius: 0 0 13px 13px;
+        border-radius: 0 0 4px 4px;
     }
     &:first-child:last-child {
-        border-radius: 13px;
+        border-radius: 4px;
     }
     &.disabled {
-        opacity: 0.9;
+        opacity: 0.95;
         color:@gray;
     }
 }
 .actions-modal-button {
     cursor: pointer;
-    height: 57px;
-    line-height: 57px;
+    line-height: 43px;
     font-size: 20px;
     color: @themeColor;
-    white-space: normal;
-    text-overflow: ellipsis;
     html:not(.watch-active-state) &:active, &.active-state {
-        background: @actionsModalButtonActiveBg;
+        background: @actionsModalActiveButtonBg;
     }
 }
 .actions-modal-label {
     font-size: 13px;
     line-height: 1.3;
-    min-height: 57px;
+    min-height: 44px;
     padding: 8px 10px;
     color: #8a8a8a;
     .flexbox();
     .justify-content(center);
     .align-items(center);
 }
-@media (orientation:landscape) {
-    .actions-modal-label {
-        min-height: 44px;
-    }
-    .actions-modal-button {
-        height: 44px;
-        line-height: 44px;
-    }
-}
 // Prompt
 input.modal-text-input {
     box-sizing: border-box;
-    height: 26px;
+    height: 30px;
     background: #fff;
     margin: 0;
     margin-top: 15px;
     padding: 0 5px;
-    border: 1px solid rgba(0,0,0,0.3);
-    border-radius: 0;
+    border: 1px solid #a0a0a0;
+    border-radius: 5px;
     width: 100%;
     font-size: 14px;
     font-family: inherit;
@@ -286,10 +243,12 @@ input.modal-text-input {
 }
 .modal-input-double {
     input.modal-text-input {
+        border-radius: 5px 5px 0 0
     }
     .modal-input-double + & {
         input.modal-text-input {
             border-top: 0;
+            border-radius: 0 0 5px 5px;
             margin-top: 0;
         }
     }
@@ -303,7 +262,7 @@ input.modal-text-input {
     top: 0;
     opacity: 0;
     left: 0;
-    border-radius: 13px;
+    border-radius: 7px;
     position: absolute;
     display: none;
     .transform(none);
@@ -324,24 +283,24 @@ input.modal-text-input {
         &:first-child {
             ul {
                 .hairline-remove(top);
-                border-radius: 13px 13px 0 0;
+                border-radius: 7px 7px 0 0;
             }
             li:first-child a{
-                border-radius: 13px 13px 0 0;
+                border-radius: 7px 7px 0 0;
             }
         }
         &:last-child {
             ul {
                 .hairline-remove(bottom);
-                border-radius: 0 0 13px 13px;
+                border-radius: 0 0 7px 7px;
             }
             li:last-child a{
-                border-radius: 0 0 13px 13px;
+                border-radius: 0 0 7px 7px;
             }
         }
         &:first-child:last-child {
             li:first-child:last-child a, ul:first-child:last-child {
-                border-radius: 13px;
+                border-radius: 7px;
             }
         }
         + .list-block {
@@ -417,7 +376,7 @@ input.modal-text-input {
     line-height: 1.3;
     text-align: center;
     position: relative;
-    .hairline(bottom, @actionsPopoverHairline);
+    .hairline(bottom, #d2d2d6);
     &:last-child {
         .hairline-remove(bottom);
     }
@@ -550,7 +509,6 @@ html.with-statusbar-overlay {
         .hairline(top, #929499);
         position: relative;
         width: 100%;
-        background: #f7f7f8;
         + .picker-modal-inner {
             height: ~"-webkit-calc(100% - @{toolbarSize})";
             height: ~"-moz-calc(100% - @{toolbarSize})";
@@ -572,14 +530,6 @@ html.with-statusbar-overlay {
         width: auto;
         .toolbar {
             background: none;
-        }
-    }
-    &.smart-select-picker {
-        .toolbar {
-            .hairline(bottom, #c4c4c4);
-        }
-        .list-block {
-            margin: 0;
         }
     }
 }

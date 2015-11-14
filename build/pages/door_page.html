@@ -1,8 +1,9 @@
 
+<!-- 小标题栏-->
 <div class="navbar">
   <div class="navbar-inner">
-    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i><span>返回</span></a></div>
-    <div class="center sliding door-inner">门禁</div>
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="center sliding">门禁</div>
     <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
   </div>
 </div>
@@ -10,11 +11,11 @@
   <div data-page="door" class="page">
     <div class="page-content">
       <div class="list-block">
-        <ul>
-          <li>
+        <ul id="door-ul">
+          <li class="switchListBar-li">
             <div class="item-content">
-              <div class="item-media door-media"><i class="icon icon-form-password"></i></div>
-              <div class="item-inner door-inner">
+              <div class="item-media"><i class="icon icon-form-password"></i></div>
+              <div class="item-inner">
                 <div class="item-title label">前门</div>
               </div>
             </div>
@@ -25,9 +26,11 @@
               <input type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}"/>
               <label></label>
             </div>
+          </li>
+          <li class="switchListBar-li">
             <div class="item-content">
               <div class="item-media"><i class="icon icon-form-password"></i></div>
-              <div class="item-inner door-inner">
+              <div class="item-inner">
                 <div class="item-title label">后门</div>
               </div>
             </div>
@@ -37,12 +40,6 @@
             <div class="switch demo2">
               <input type="checkbox"/>
               <label></label>
-            </div>
-          </li>
-          <li>
-            <div class="item-content">
-              <div class="item-media door-media"></div>
-              <div class="item-inner door-inner"></div>
             </div>
           </li>
         </ul>

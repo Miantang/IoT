@@ -23,12 +23,21 @@
     .page-content {
         padding-bottom: @toolbarSize;
     }
+    .page-content-inner {
+        padding-bottom: 44px*2;
+    }
 }
 .tabbar-labels-fixed, .tabbar-labels-through {
     .page-content {
         padding-bottom: @tabbarLabelsSize;
         @media all and (min-width:768px) {
             padding-bottom: @tabbarLabelsSizeTablet;
+        }
+    }
+    .page-content {
+        padding-bottom: 50px*2;
+        @media all and (min-width:768px) {
+            padding-bottom: 56px*2;
         }
     }
 }
@@ -80,6 +89,14 @@
         .translate3d(0,100%,0);
     }
 }
-.page.no-toolbar .page-content, .page.no-tabbar .page-content {
-    padding-bottom: 0;
+.page.no-toolbar,
+.page.no-tabbar {
+    .page-content,
+    .page-content-inner {
+      padding-bottom: 0;
+    }
+}
+
+.page-content.native-scroll .page-content-inner {
+  padding-bottom: 0;
 }

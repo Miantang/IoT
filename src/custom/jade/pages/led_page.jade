@@ -1,16 +1,6 @@
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 返回
-    .center.sliding.led-inner 智能照明
-    .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel 
-        i.icon.icon-bars
+include ../mixins/utils
+
++navbar('智能照明')
 .pages
   // Page, data-page contains page name
   .page(data-page="led")
@@ -18,57 +8,23 @@
     .page-content
       .list-block
         ul.u2-u2
+          +switchListBar('客厅开关', 'icon-form-toggle')
           li
-            .item-content
-              .item-media
-                i.icon.icon-form-toggle
-              .item-inner.led-inner
-                .item-title.label 客厅开关
-          li
-              .switch
-              .switch.demo3
-                input(type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}")
-                label
-          li
-            .item-content
-              .item-media
-                i.icon.icon-form-toggle
-              .item-inner.led-inner
-                .item-title.label 书房开关
-                //.item-input
-                  label.label-switch
-                    input(type="checkbox")
-                    .checkbox
+            .switch
+            .switch.demo3
+              input(type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}")
+              label
+
+          +switchListBar('书房开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3
               input(type='checkbox')
               label
-          li
-            .item-content
-              .item-media
-                i.icon.icon-form-toggle
-              .item-inner.led-inner
-                .item-title.label 大厅开关
-                //.item-input
-                  label.label-switch
-                    input(type="checkbox")
-                    .checkbox
+
+          +switchListBar('大厅开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3
               input(type='checkbox')
               label
-          li
-            .item-content
-              .item-media
-                i.icon.icon-form-settings
-              .item-inner.led-inner
-                .item-title.label 亮度调节
-          li
-            .item-content
-              .item-media
-              .item-input
-                .range-slider
-                  input(type="range", min="10", max="100", value="40", step="0.1")
-      .list-block

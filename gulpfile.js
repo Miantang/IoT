@@ -231,8 +231,8 @@
             .pipe(jade({
                 pretty: true,
                 locals: {
-                    stylesheetFilename: 'framework7.ios',
-                    stylesheetColorsFilename: 'framework7.ios.colors',
+                    stylesheetFilename: 'framework7.'+ themeName,
+                    stylesheetColorsFilename: 'framework7.' + themeName + '.colors',
                     scriptFilename: 'framework7'
                 }
             }))
@@ -260,9 +260,9 @@
                     .pipe(jade({
                         pretty: true,
                         locals: {
-                            stylesheetFilename: 'framework7.ios.min',
-                            stylesheetColorsFilename: 'framework7.ios.colors.min',
-                            scriptFilename: 'framework7.min'
+                            scriptFilename: 'framework7.min',
+                            stylesheetFilename: 'framework7.'+ themeName + '.min',
+                            stylesheetColorsFilename: 'framework7.' + themeName + '.colors.min'
                         }
                     }))
                     .pipe(gulp.dest(paths.dist.root));
@@ -289,7 +289,7 @@
                 gulp.src(minifiedCSS)
                     .pipe(minifyCSS({
                         advanced: false,
-                        aggressiveMerging: false,
+                        aggressiveMerging: false
                     }))
                     //.pipe(header(f7.banner, { pkg : f7.pkg, date: f7.date }))
                     .pipe(rename(function(path) {
@@ -320,7 +320,7 @@
             livereload: true,
             port:'3000'
         });
-        return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:3000/'}));
+        return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:3000/build/'}));
     });
     
     gulp.task('default', ['build', 'watch'], function () {

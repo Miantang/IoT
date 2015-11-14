@@ -1,29 +1,5 @@
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
-//div
-                  a(href="#" class="button")
-                    div
-                      i(class="fa fa-chevron-circle-up")
-                  a(href="#" class="button")
-                    div
-                      i( class="fa fa-stop")
-                  a(href="#" class="button")
-                    div
-                      i(class="fa fa-chevron-circle-down")
-
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link
-        i.icon.icon-back
-        span 返回
-    .center.sliding 投影幕布
-    .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('投影幕布')
 .pages
   // Page, data-page contains page name
   .page(data-page="screen")

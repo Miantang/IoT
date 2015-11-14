@@ -1,15 +1,5 @@
-// Top Navbar
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link
-        i.icon.icon-back
-        span 返回
-    .center.sliding 窗户
-    .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('窗户')
 .pages
   // Page, data-page contains page name
   .page(data-page="window")

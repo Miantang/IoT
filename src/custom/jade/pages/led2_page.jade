@@ -1,40 +1,42 @@
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 返回
-    .center.sliding LED灯带
-    .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel 
-        i.icon.icon-bars
+include ../mixins/utils
+
++navbar('LED灯带')
 .pages
   // Page, data-page contains page name
   .page(data-page="led2")
     // Scrollable page content
-    .page-content-led2
+    .page-content-led2.page-content-projector
       .projector-img-block(data-bind="click: $root.controllerChanged2(7)")
-        .content-block.projector-content-1
+        .content-block.projector-content
           .row
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
-              i.fa.fa-bars.fa-2x.color-blue.content-projector-icon1
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
-              i.fa.fa-power-off.fa-2x.color-red.content-projector-icon2
-        .content-block.projector-content-2
+            .col-100
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="10")
+                i.fa.fa-caret-up.fa-2x.color-blue.content-projector-icon
           .row
-            a#btn-top.a-content-projector-icon.button.button-big.button-fill(data-code="2")
-              i.fa.fa-caret-up.fa-3x.content-block-icon3
+            .col-33
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
+                i.fa.fa-power-off.fa-2x.color-green.content-projector-icon
+            .col-33
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="9")
+                i.fa.fa-caret-down.fa-2x.color-blue.content-projector-icon
+            .col-33
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
+                i.fa.fa-power-off.fa-2x.color-red.content-projector-icon
           .row
-            a#btn-left.a-content-projector-icon.button.button-big.button-fill(data-code="3")
-              i.fa.fa-caret-left.fa-3x.content-block-icon4
-            a#btn-right.a-content-projector-icon.button.button-big.button-fill(data-code="5")
-              i.fa.fa-caret-right.fa-3x.content-block-icon5
+            .col-100
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill.color-green(data-code="2")
           .row
-            a#btn-down.a-content-projector-icon.button.button-big.button-fill(data-code="6")
-              i.fa.fa-caret-down.fa-3x.content-block-icon6
-        .content-block.projector-content-3
+            .col-50
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill.color-red(data-code="3")
+            .col-50
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill.color-blue(data-code="5")
           .row
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="7") 闪烁
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="4") 渐隐
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="8") 变化
+            .col-100
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill.color-gray(data-code="6")
+          .row
+            .col-33
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="7") 闪烁
+            .col-33
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="4") 渐隐
+            .col-33
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="8") 变化

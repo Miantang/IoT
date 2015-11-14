@@ -1,15 +1,5 @@
-// We don't need full layout here, because this page will be parsed with Ajax
-// Top Navbar
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 返回
-    .center.sliding 智能音箱
-    .right
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('智能音箱')
 .pages
   .page(data-page="volume")
     .page-content.volume-block

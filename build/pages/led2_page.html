@@ -1,29 +1,42 @@
 
+<!-- 小标题栏-->
 <div class="navbar">
   <div class="navbar-inner">
-    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
     <div class="center sliding">LED灯带</div>
-    <div class="right">
-      <!-- Right link contains only icon - additional "icon-only" class--><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
-    </div>
+    <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
   </div>
 </div>
 <div class="pages">
   <!-- Page, data-page contains page name-->
   <div data-page="led2" class="page">
     <!-- Scrollable page content-->
-    <div class="page-content-led2">
+    <div class="page-content-led2 page-content-projector">
       <div data-bind="click: $root.controllerChanged2(7)" class="projector-img-block">
-        <div class="content-block projector-content-1">
-          <div class="row"><a data-code="1" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-bars fa-2x color-blue content-projector-icon1"></i></a><a data-code="0" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-power-off fa-2x color-red content-projector-icon2"></i></a></div>
-        </div>
-        <div class="content-block projector-content-2">
-          <div class="row"><a id="btn-top" data-code="2" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-up fa-3x content-block-icon3"></i></a></div>
-          <div class="row"><a id="btn-left" data-code="3" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-left fa-3x content-block-icon4"></i></a><a id="btn-right" data-code="5" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-right fa-3x content-block-icon5"></i></a></div>
-          <div class="row"><a id="btn-down" data-code="6" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-down fa-3x content-block-icon6"></i></a></div>
-        </div>
-        <div class="content-block projector-content-3">
-          <div class="row"><a data-code="7" class="a-content-projector-icon button button-big button-fill">闪烁</a><a data-code="4" class="a-content-projector-icon button button-big button-fill">渐隐</a><a data-code="8" class="a-content-projector-icon button button-big button-fill">变化</a></div>
+        <div class="content-block projector-content">
+          <div class="row">
+            <div class="col-100"><a data-code="10" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-up fa-2x color-blue content-projector-icon"></i></a></div>
+          </div>
+          <div class="row">
+            <div class="col-33"><a data-code="0" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-power-off fa-2x color-green content-projector-icon"></i></a></div>
+            <div class="col-33"><a data-code="9" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-caret-down fa-2x color-blue content-projector-icon"></i></a></div>
+            <div class="col-33"><a data-code="1" class="a-content-projector-icon button button-big button-fill"><i class="fa fa-power-off fa-2x color-red content-projector-icon"></i></a></div>
+          </div>
+          <div class="row">
+            <div class="col-100"><a data-code="2" class="a-content-projector-icon a-content-text-icon button button-big button-fill color-green"></a></div>
+          </div>
+          <div class="row">
+            <div class="col-50"><a data-code="3" class="a-content-projector-icon a-content-text-icon button button-big button-fill color-red"></a></div>
+            <div class="col-50"><a data-code="5" class="a-content-projector-icon a-content-text-icon button button-big button-fill color-blue"></a></div>
+          </div>
+          <div class="row">
+            <div class="col-100"><a data-code="6" class="a-content-projector-icon a-content-text-icon button button-big button-fill color-gray"></a></div>
+          </div>
+          <div class="row">
+            <div class="col-33"><a data-code="7" class="a-content-projector-icon a-content-text-icon button button-big button-fill">闪烁</a></div>
+            <div class="col-33"><a data-code="4" class="a-content-projector-icon a-content-text-icon button button-big button-fill">渐隐</a></div>
+            <div class="col-33"><a data-code="8" class="a-content-projector-icon a-content-text-icon button button-big button-fill">变化</a></div>
+          </div>
         </div>
       </div>
     </div>

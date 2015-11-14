@@ -1,40 +1,41 @@
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 返回
-    .center.sliding 投影仪
-    .right
-      // Right link contains only icon - additional "icon-only" class
-      a(href="#").link.icon-only.open-panel 
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('投影仪')
+
 .pages
   // Page, data-page contains page name
   .page(data-page="projector")
     // Scrollable page content
     .page-content-projector
       .projector-img-block(data-bind="click: $root.controllerChanged2(5)")
-        .content-block.projector-content-1
+        .content-block.projector-content
           .row
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
-              i.fa.fa-bars.fa-2x.content-projector-icon1
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
-              i.fa.fa-power-off.fa-2x.color-red.content-projector-icon2
-        .content-block.projector-content-2
+            .col-50
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
+                i.fa.fa-bars.fa-2x
+            .col-50
+              a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
+                i.fa.fa-power-off.fa-2x.color-red
+        .content-block.projector-content
           .row
-            a#btn-top.a-content-projector-icon.button.button-big.button-fill(data-code="2")
-              i.fa.fa-caret-up.fa-3x.content-block-icon3
+            .col-100
+              a#btn-top.a-content-projector-icon.button.button-big.button-fill(data-code="2")
+                i.fa.fa-caret-up.fa-3x.content-block-icon3
           .row
-            a#btn-left.a-content-projector-icon.button.button-big.button-fill(data-code="3")
-              i.fa.fa-caret-left.fa-3x.content-block-icon4
-            a#btn-ok.a-content-projector-icon.button.button-big.button-fill(data-code="4") OK
-            a#btn-right.a-content-projector-icon.button.button-big.button-fill(data-code="5")
-              i.fa.fa-caret-right.fa-3x.content-block-icon5
+            .col-33
+              a#btn-left.a-content-projector-icon.button.button-big.button-fill(data-code="3")
+                i.fa.fa-caret-left.fa-3x.projector-icon-left
+            .col-33
+              a#btn-ok.a-content-projector-icon.button.button-big.button-fill(data-code="4") OK
+            .col-33
+              a#btn-right.a-content-projector-icon.button.button-big.button-fill(data-code="5")
+                i.fa.fa-caret-right.fa-3x.projector-icon-right
           .row
-            a#btn-down.a-content-projector-icon.button.button-big.button-fill(data-code="6")
-              i.fa.fa-caret-down.fa-3x.content-block-icon6
-        .content-block.projector-content-3
+            .col-100
+              a#btn-down.a-content-projector-icon.button.button-big.button-fill(data-code="6")
+                i.fa.fa-caret-down.fa-3x.content-block-icon6
+        .content-block.projector-content
           .row
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="7") 放大
-            a.a-content-projector-icon.button.button-big.button-fill(data-code="8") 缩小
+            .col-50
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="7") 放大
+            .col-50
+              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="8") 缩小

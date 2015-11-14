@@ -1,13 +1,6 @@
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 后退
-    .center.sliding 摄像监控
-    .right
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('摄像监控')
+
 .pages
   .page(data-page="camera")
     // Scrollable page content

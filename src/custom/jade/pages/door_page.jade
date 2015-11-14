@@ -1,40 +1,20 @@
-.navbar
-  .navbar-inner
-    .left
-      a(href="#").back.link 
-        i.icon.icon-back
-        span 返回
-    .center.sliding.door-inner 门禁
-    .right
-      a(href="#").link.icon-only.open-panel
-        i.icon.icon-bars
+include ../mixins/utils
++navbar('门禁')
 .pages
   .page(data-page="door")
     .page-content
       .list-block
-        ul
-          li
-            .item-content
-              .item-media.door-media
-                i.icon.icon-form-password
-              .item-inner.door-inner
-                .item-title.label 前门
+        ul#door-ul
+          +switchListBar('前门', 'icon-form-password')
           li
             .switch
             .switch.demo2
               input(type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}")
               label
-            .item-content
-              .item-media
-                i.icon.icon-form-password
-              .item-inner.door-inner
-                .item-title.label 后门
+
+          +switchListBar('后门', 'icon-form-password')
           li
             .switch
             .switch.demo2
               input(type="checkbox")
               label
-          li
-            .item-content
-              .item-media.door-media
-              .item-inner.door-inner
