@@ -11,20 +11,75 @@
   <!-- Page, data-page contains page name-->
   <div data-page="tv" class="page">
     <!-- Scrollable page content-->
-    <div class="page-content-tv">
-      <div data-bind="click: $root.controllerChanged2(9)" class="tv-img-block">
-        <div class="content-block tv-content">
-          <div class="row"><a id="btn15" data-code="16" class="a-content-block-icon button button-big button-fill"><i class="fa fa-volume-down a-stack-1x color-blue"></i><i id="ico15" class="fa fa-ban fa-stack-2x color-red"></i></a><a id="btn0" data-code="0" class="a-content-block-icon button button-big button-fill"><i id="ico0" class="fa fa-power-off fa-2x color-red content-block-icon2"></i></a></div>
+    <div class="page-content page-content-tv">
+      <div class="tv-img-block">
+        <div class="content-block">
+          <div class="buttons-row"><a href="#tab-tv" class="tab-link active button">电视</a><a href="#tab-xiaomi" class="tab-link button">小米盒子</a></div>
         </div>
-        <div class="content-block block-btn-2">
-          <div class="row"><a id="btn11" data-code="14" class="a-content-block-icon button button-big button-fill"><i id="ico11" class="fa fa-angle-up fa-3x content-block-icon3"></i></a></div>
-          <div class="row"><a id="btn12" data-code="12" class="a-content-block-icon button button-big button-fill"><i id="ico12" class="fa fa-angle-left fa-3x content-block-icon4"></i></a><a id="btn10" data-code="11" class="a-content-block-icon button button-big button-fill">OK</a><a id="btn13" data-code="13" class="a-content-block-icon button button-big button-fill"><i id="ico13" class="fa fa-angle-right fa-3x content-block-icon6"></i></a></div>
-          <div class="row"><a id="btn14" data-code="15" class="a-content-block-icon button button-big button-fill"><i id="ico14" class="fa fa-angle-down fa-3x content-block-icon7"></i></a></div>
-        </div>
-        <div class="content-block block-btn-3">
-          <div class="row"><a id="btn1" data-code="1" class="a-content-block-icon button button-big button-fill">1</a><a id="btn2" data-code="2" class="a-content-block-icon button button-big button-fill">2</a><a id="btn3" data-code="3" class="a-content-block-icon button button-big button-fill">3</a></div>
-          <div class="row"><a id="btn4" data-code="4" class="a-content-block-icon button button-big button-fill">4</a><a id="btn5" data-code="5" class="a-content-block-icon button button-big button-fill">5</a><a id="btn6" data-code="6" class="a-content-block-icon button button-big button-fill">6</a></div>
-          <div class="row"><a id="btn7" data-code="7" class="a-content-block-icon button button-big button-fill">7</a><a id="btn8" data-code="8" class="a-content-block-icon button button-big button-fill">8</a><a id="btn9" data-code="9" class="a-content-block-icon button button-big button-fill">9</a></div>
+        <div data-bind="click: $root.controllerChanged2(9)" class="tabs">
+          <div id="tab-tv" class="tab active">
+            <div class="content-block tv-content">
+              <div class="row padding-25px">
+                <div class="col-33"><a id="btn-setting" data-code="11" class="a-tv-icon button button-raised"><i class="fa fa-tasks fa-2x"></i></a></div>
+                <div class="col-33"><a id="btn-power" data-code="0" class="a-tv-icon button button-raised"><i class="fa fa-power-off fa-2x color-red"></i></a></div>
+                <div class="col-33"><a id="btn-tv-av" data-code="16" class="a-tv-icon button button-raised">TV/AV</a></div>
+              </div>
+              <div class="row">
+                <div class="col-50"><a data-code="12" class="a-tv-icon tv-channel button button-raised"><i class="fa fa-plus fa-2x"></i></a></div>
+                <div class="col-50"><a data-code="14" class="a-tv-icon tv-channel button button-raised"><i class="fa fa-volume-up fa-2x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-50"><a data-code="13" class="a-tv-icon tv-channel button button-raised"><i class="fa fa-minus fa-2x"></i></a></div>
+                <div class="col-50"><a data-code="15" class="a-tv-icon tv-channel button button-raised"><i class="fa fa-volume-down fa-2x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-100"><a id="btn-up" data-code="18" class="a-tv-icon button button-raised"><i class="fa fa-angle-up fa-3x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-33"><a id="btn-left" data-code="21" class="a-tv-icon button button-raised"><i class="fa fa-angle-left fa-3x"></i></a></div>
+                <div class="col-33"><a id="btn-ok" data-code="17" class="a-tv-icon button button-raised">OK</a></div>
+                <div class="col-33"><a id="btn-right" data-code="19" class="a-tv-icon button button-raised"><i class="fa fa-angle-right fa-3x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-100"><a id="btn-down" data-code="20" class="a-tv-icon button button-raised"><i class="fa fa-angle-down fa-3x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-33"><a data-code="1" class="tv-number-btn a-tv-icon button button-raised">1</a></div>
+                <div class="col-33"><a data-code="2" class="tv-number-btn a-tv-icon button button-raised">2</a></div>
+                <div class="col-33"><a data-code="3" class="tv-number-btn a-tv-icon button button-raised">3</a></div>
+              </div>
+              <div class="row">
+                <div class="col-33"><a data-code="4" class="tv-number-btn a-tv-icon button button-raised">4</a></div>
+                <div class="col-33"><a data-code="5" class="tv-number-btn a-tv-icon button button-raised">5</a></div>
+                <div class="col-33"><a data-code="6" class="tv-number-btn a-tv-icon button button-raised">6</a></div>
+              </div>
+              <div class="row">
+                <div class="col-33"><a data-code="7" class="tv-number-btn a-tv-icon button button-raised">7</a></div>
+                <div class="col-33"><a data-code="8" class="tv-number-btn a-tv-icon button button-raised">8</a></div>
+                <div class="col-33"><a data-code="9" class="tv-number-btn a-tv-icon button button-raised">9</a></div>
+              </div>
+            </div>
+          </div>
+          <div id="tab-xiaomi" class="tab">
+            <div class="content-block tv-content">
+              <div class="row padding-25px">
+                <div class="col-33"><a id="btn-setting-2" data-code="22" class="a-tv-icon button button-raised"><i class="fa fa-bars fa-2x"></i></a></div>
+                <div class="col-33"><a id="btn-power-2" data-code="23" class="a-tv-icon button button-raised"><i class="fa fa-power-off fa-2x color-red"></i></a></div>
+                <div class="col-33"><a id="btn-tv-av-2" data-code="24" class="a-tv-icon button button-raised"><i class="fa fa-undo fa-2x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-100"><a id="btn-up" data-code="25" class="a-tv-icon button button-raised"><i class="fa fa-angle-up fa-3x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-33"><a id="btn-left" data-code="26" class="a-tv-icon button button-raised"><i class="fa fa-angle-left fa-3x"></i></a></div>
+                <div class="col-33"><a id="btn-ok" data-code="27" class="a-tv-icon button button-raised">OK</a></div>
+                <div class="col-33"><a id="btn-right" data-code="28" class="a-tv-icon button button-raised"><i class="fa fa-angle-right fa-3x"></i></a></div>
+              </div>
+              <div class="row">
+                <div class="col-100"><a id="btn-down" data-code="29" class="a-tv-icon button button-raised"><i class="fa fa-angle-down fa-3x"></i></a></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

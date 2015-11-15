@@ -5,37 +5,37 @@ include ../mixins/utils
   // Page, data-page contains page name
   .page(data-page="projector")
     // Scrollable page content
-    .page-content-projector
+    .page-content.page-content-projector
       .projector-img-block(data-bind="click: $root.controllerChanged2(5)")
         .content-block.projector-content
           .row
             .col-50
-              a.a-content-projector-icon.button.button-big.button-fill(data-code="1")
+              a.a-projector-icon.button.button-raised(data-code="1")
                 i.fa.fa-bars.fa-2x
             .col-50
-              a.a-content-projector-icon.button.button-big.button-fill(data-code="0")
+              a.a-projector-icon.button.button-raised(data-code="0")
                 i.fa.fa-power-off.fa-2x.color-red
         .content-block.projector-content
           .row
             .col-100
-              a#btn-top.a-content-projector-icon.button.button-big.button-fill(data-code="2")
-                i.fa.fa-caret-up.fa-3x.content-block-icon3
+              a#btn-top.a-projector-icon.button.button-raised(data-code="2")
+                i.fa.fa-caret-up.fa-3x
           .row
             .col-33
-              a#btn-left.a-content-projector-icon.button.button-big.button-fill(data-code="3")
+              a#btn-left.a-projector-icon.button.button-raised(data-code="3")
                 i.fa.fa-caret-left.fa-3x.projector-icon-left
             .col-33
-              a#btn-ok.a-content-projector-icon.button.button-big.button-fill(data-code="4") OK
+              a#btn-ok.a-projector-icon.button.button-raised(data-code="4") OK
             .col-33
-              a#btn-right.a-content-projector-icon.button.button-big.button-fill(data-code="5")
+              a#btn-right.a-projector-icon.button.button-raised(data-code="5")
                 i.fa.fa-caret-right.fa-3x.projector-icon-right
           .row
             .col-100
-              a#btn-down.a-content-projector-icon.button.button-big.button-fill(data-code="6")
-                i.fa.fa-caret-down.fa-3x.content-block-icon6
+              a#btn-down.a-projector-icon.button.button-raised(data-code="6")
+                i.fa.fa-caret-down.fa-3x
         .content-block.projector-content
           .row
             .col-50
-              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="7") 放大
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="7") 放大
             .col-50
-              a.a-content-projector-icon.a-content-text-icon.button.button-big.button-fill(data-code="8") 缩小
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="8") 缩小
