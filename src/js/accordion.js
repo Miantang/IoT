@@ -29,6 +29,9 @@ app.accordionOpen = function (item) {
             item.trigger('closed');
         }
     });
+    setTimeout(function() {
+      app.refreshScroller();
+    }, 500);
     item.trigger('open');
     item.addClass('accordion-item-expanded');
 };
@@ -56,5 +59,8 @@ app.accordionClose = function (item) {
             item.trigger('closed');
         }
     });
+    setTimeout(function() {
+      app.refreshScroller();
+    }, 500);
     item.trigger('close');
 };

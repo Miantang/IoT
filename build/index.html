@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src ws://127.0.0.1:8080 ws://192.168.1.116:8080">
     <title>智能物联</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.css">
@@ -170,21 +171,17 @@
         </div>
         <div class="pages navbar-through toolbar-through">
           <div data-page="ip" id="ip-area" class="page">
-            <div class="content-block-screen-image-block1">
+            <div class="page-content content-block-screen-image-block1">
               <div class="container">
                 <div class="toggle">
                   <input type="button" data-code="1" data-bind="click: $root.setLocal"><span class="jj"></span><span class="label">内网</span>
                 </div>
               </div>
-            </div>
-            <div class="content-block-screen-image-block2">
               <div data-code="2" class="container">
                 <div class="toggle">
                   <input type="button" data-code="2" data-bind="click: $root.setZero"><span class="jj"></span><span class="label">外网</span>
                 </div>
               </div>
-            </div>
-            <div class="content-block-screen-image-block3">
               <div data-code="3" class="container">
                 <div class="toggle">
                   <input type="button" data-code="3" data-bind="click: $root.setSelf"><span class="jj"></span><span class="label">自定</span>
@@ -203,19 +200,13 @@
         </div>
         <div class="pages">
           <div data-page="blood" class="page">
-            <div class="page-content-air">
+            <div class="page-content page-content-air">
               <div class="content-block-air-title">便携式无创血糖仪</div>
               <div id="blood" data-bind="text: $root.blood" class="row-air1">0.00</div>
               <div class="row"><a id="btn-air-1" class="a-content-air-block-icon button button-big button-fill"></a><a id="btn-air-2" class="a-content-air-block-icon button button-big button-fill"></a></div>
               <div class="row-air2"></div>
               <div class="row"><a id="btn-air-3" class="a-content-air-block-icon button button-big button-fill"></a><a id="btn-air-4" class="a-content-air-block-icon button button-big button-fill"></a></div>
-              <div class="row-air3">黑龙江智谷科技
-                <!-- a#btn-air-6.a-content-air-block-icon.button.button-big.button-fill 经济-->
-              </div>
-              <!--.item-air-title.label 温度-->
-              <!--.item-input-->
-              <!--  .range-slider-->
-              <!--    input(type="range", min="0", max="100", value="50", step="0.1")-->
+              <div class="row-air3">黑龙江智谷科技</div>
             </div>
           </div>
         </div>
@@ -233,8 +224,8 @@
     <!--script(type="text/javascript",src="js/knockout-3.2.0.js")-->
     <!--script(type="text/javascript",src="js/knockout.validation.min.js")-->
     <!--script(type="text/javascript",src="js/knockout.validation.zh-CN.js")-->
-    <script type="text/javascript" src="js/browserMqtt.js"></script>
     <script type="text/javascript" src="js/framework7.js"></script>
+    <script type="text/javascript" src="js/browserMqtt.js"></script>
     <!--script(type="text/javascript",src="js/rangeslider.min.js")-->
     <script data-main="js/main" src="js/require.js"></script>
   </body>

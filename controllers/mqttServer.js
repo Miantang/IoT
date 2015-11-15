@@ -20,9 +20,9 @@ var moscaSetting = {
     interfaces: [
         { type: "mqtt", port: 1883 }
     ],
-    stats: false,
+    stats: false
     //logger: { name: 'MoscaServer', level: 'debug' },
-    http: settings
+    //http: settings
     //persistence: { factory: mosca.persistence.Redis, url: 'localhost:6379', ttl: { subscriptions: 1000 * 60 * 10, packets: 1000 * 60 * 10 } },
 
     //backend: pubsubSettings
@@ -33,16 +33,16 @@ mqttServer.on('clientConnected', function (cli) {
     console.log('client connected : ', cli.id);
 });
 mqttServer.on('published', function (packet, client) {
-    console.log('Published : ', packet.payload);
+    console.log(client + ' Published : ', packet.payload);
 });
 // fired when a client subscribes to a topic
 mqttServer.on('subscribed', function (topic, client) {
-    console.log('subscribed : ', topic);
+    console.log(client + ' subscribed : ', topic);
 });
 
 // fired when a client subscribes to a topic
 mqttServer.on('unsubscribed', function (topic, client) {
-    console.log('unsubscribed : ', topic);
+    console.log(client + ' unsubscribed : ', topic);
 });
 
 // fired when a client is disconnecting

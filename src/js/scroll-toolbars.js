@@ -5,6 +5,7 @@ app.initScrollToolbars = function (pageContainer) {
     pageContainer = $(pageContainer);
     var scrollContent = pageContainer.find('.page-content');
     if (scrollContent.length === 0) return;
+    var scroller = app.getScroller(scrollContent);
     var hideNavbar = (app.params.hideNavbarOnPageScroll || scrollContent.hasClass('hide-navbar-on-scroll') || scrollContent.hasClass('hide-bars-on-scroll')) && !(scrollContent.hasClass('keep-navbar-on-scroll') || scrollContent.hasClass('keep-bars-on-scroll'));
     var hideToolbar = (app.params.hideToolbarOnPageScroll || scrollContent.hasClass('hide-toolbar-on-scroll') || scrollContent.hasClass('hide-bars-on-scroll')) && !(scrollContent.hasClass('keep-toolbar-on-scroll') || scrollContent.hasClass('keep-bars-on-scroll'));
     var hideTabbar = (app.params.hideTabbarOnPageScroll || scrollContent.hasClass('hide-tabbar-on-scroll')) && !(scrollContent.hasClass('keep-tabbar-on-scroll'));
@@ -37,8 +38,8 @@ app.initScrollToolbars = function (pageContainer) {
 
     function handleScroll(e) {
         if (pageContainer.hasClass('page-on-left')) return;
-        currentScroll = scrollContent[0].scrollTop;
-        scrollHeight = scrollContent[0].scrollHeight;
+        currentScroll = scroller.scrollTop();
+        scrollHeight = scroller.scrollHeight();
         offsetHeight = scrollContent[0].offsetHeight;
         reachEnd = app.params.showBarsOnPageScrollEnd && (currentScroll + offsetHeight >= scrollHeight - bottomBarHeight);
         navbarHidden = navbar.hasClass('navbar-hidden');
@@ -102,7 +103,7 @@ app.initScrollToolbars = function (pageContainer) {
             
         previousScroll = currentScroll;
     }
-    scrollContent.on('scroll', handleScroll);
+    scroller.on('scroll', handleScroll);
     scrollContent[0].f7ScrollToolbarsHandler = handleScroll;
 };
 app.destroyScrollToolbars = function (pageContainer) {
@@ -111,5 +112,6 @@ app.destroyScrollToolbars = function (pageContainer) {
     if (scrollContent.length === 0) return;
     var handler = scrollContent[0].f7ScrollToolbarsHandler;
     if (!handler) return;
-    scrollContent.off('scroll', scrollContent[0].f7ScrollToolbarsHandler);
+    var scroller = app.getScroller(scrollContent);
+    scroller.off('scroll', scrollContent[0].f7ScrollToolbarsHandler);
 };

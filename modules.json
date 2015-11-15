@@ -3,6 +3,8 @@
         "js" : [
             "src/js/wrap-start.js",
             "src/js/f7-intro.js",
+            "src/js/iscroll.js",
+            "src/js/scroller.js",
             "src/js/views.js",
             "src/js/navbars.js",
             "src/js/xhr.js",
@@ -150,7 +152,7 @@
         "dependencies" : []
     },
     "pull-to-refresh": {
-        "js" : ["src/js/pull-to-refresh.js"],
+        "js" : ["src/js/pull-to-refresh.js", "src/js/pull-to-refresh-js-scroll.js"],
         "less": {
             "ios": ["src/less/ios/pull-to-refresh.less"],
             "material": ["src/less/material/pull-to-refresh.less"]

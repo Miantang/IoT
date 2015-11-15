@@ -76,10 +76,12 @@ app.triggerPageCallbacks = function (callbackName, pageName, pageData) {
 app.pageInitCallback = function (view, params) {
     var pageContainer = params.pageContainer;
     if (pageContainer.f7PageInitialized && view && !view.params.domCache) return;
+    app.initScroller($(pageContainer).find('.page-content')[0]);    //尽早初始化
 
     // Page Data
     var pageData = {
         container: pageContainer,
+        scroller: pageContainer.scroller,
         url: params.url,
         query: params.query || $.parseUrlQuery(params.url || ''),
         name: $(pageContainer).attr('data-page'),
@@ -201,6 +203,7 @@ app.pageAnimCallback = function (callback, view, params) {
         navbarInnerContainer: pageContainer.f7PageData && pageContainer.f7PageData.navbarInnerContainer,
         fromPage: params.fromPage
     };
+
     var oldPage = params.oldPage,
         newPage = params.newPage;
 
@@ -291,6 +294,7 @@ app.initPage = function (pageContainer) {
     if (app.params.material && app.initPageMaterialInputs) app.initPageMaterialInputs(pageContainer);
     // Init Material Tabbar
     if (app.params.material && app.initPageMaterialTabbar) app.initPageMaterialTabbar(pageContainer);
+    app.refreshScroller($(pageContainer).find('.page-content')[0]);
 };
 app.reinitPage = function (pageContainer) {
     pageContainer = $(pageContainer);

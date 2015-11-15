@@ -91,16 +91,10 @@ Dom7.prototype = {
         if (typeof value === 'undefined') {
             // Get value
             if (this[0]) {
-                if (this[0].dom7ElementDataStorage && (key in this[0].dom7ElementDataStorage)) {
-                    return this[0].dom7ElementDataStorage[key];
-                }
-                else {
-                    var dataKey = this[0].getAttribute('data-' + key);    
-                    if (dataKey) {
-                        return dataKey;
-                    }
-                    else return undefined;
-                }
+                var dataKey = this[0].getAttribute('data-' + key);
+                if (dataKey) return dataKey;
+                else if (this[0].dom7ElementDataStorage && (key in this[0].dom7ElementDataStorage)) return this[0].dom7ElementDataStorage[key];
+                else return undefined;
             }
             else return undefined;
         }
@@ -245,9 +239,9 @@ Dom7.prototype = {
     once: function (eventName, targetSelector, listener, capture) {
         var dom = this;
         if (typeof targetSelector === 'function') {
+            targetSelector = false;
             listener = arguments[1];
             capture = arguments[2];
-            targetSelector = false;
         }
         function proxy(e) {
             listener(e);
@@ -536,10 +530,6 @@ Dom7.prototype = {
         }
         return this;
     },
-    appendTo: function (parent) {
-        $(parent).append(this);
-        return this;
-    },
     prepend: function (newChild) {
         var i, j;
         for (i = 0; i < this.length; i++) {
@@ -560,10 +550,6 @@ Dom7.prototype = {
                 this[i].insertBefore(newChild, this[i].childNodes[0]);
             }
         }
-        return this;
-    },
-    prependTo: function (parent) {
-        $(parent).prepend(this);
         return this;
     },
     insertBefore: function (selector) {
@@ -728,9 +714,9 @@ Dom7.prototype = {
     var shortcuts = ('click blur focus focusin focusout keyup keydown keypress submit change mousedown mousemove mouseup mouseenter mouseleave mouseout mouseover touchstart touchend touchmove resize scroll').split(' ');
     var notTrigger = ('resize scroll').split(' ');
     function createMethod(name) {
-        Dom7.prototype[name] = function (targetSelector, listener, capture) {
+        Dom7.prototype[name] = function (handler) {
             var i;
-            if (typeof targetSelector === 'undefined') {
+            if (typeof handler === 'undefined') {
                 for (i = 0; i < this.length; i++) {
                     if (notTrigger.indexOf(name) < 0) {
                         if (name in this[i]) this[i][name]();
@@ -742,7 +728,7 @@ Dom7.prototype = {
                 return this;
             }
             else {
-                return this.on(name, targetSelector, listener, capture);
+                return this.on(name, handler);
             }
         };
     }

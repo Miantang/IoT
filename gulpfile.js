@@ -51,7 +51,7 @@
         },
         f7 = {
             filename: 'framework7',
-            jsFiles: [
+            /*jsFiles: [
                 'src/js/wrap-start.js',
                 'src/js/f7-intro.js',
                 'src/js/views.js',
@@ -71,6 +71,63 @@
                 'src/js/smart-select.js',
                 'src/js/virtual-list.js',
                 'src/js/pull-to-refresh.js',
+                'src/js/infinite-scroll.js',
+                'src/js/scroll-toolbars.js',
+                'src/js/material-tabbar.js',
+                'src/js/tabs.js',
+                'src/js/accordion.js',
+                'src/js/fast-clicks.js',
+                'src/js/clicks.js',
+                'src/js/resize.js',
+                'src/js/forms-storage.js',
+                'src/js/forms-ajax.js',
+                'src/js/forms-textarea.js',
+                'src/js/material-inputs.js',
+                'src/js/push-state.js',
+                'src/js/swiper-init.js',
+                'src/js/photo-browser.js',
+                'src/js/picker.js',
+                'src/js/calendar.js',
+                'src/js/notifications.js',
+                'src/js/template7-templates.js',
+                'src/js/plugins.js',
+                'src/js/init.js',
+                'src/js/f7-outro.js',
+                'src/js/dom7-intro.js',
+                'src/js/dom7-methods.js',
+                'src/js/dom7-ajax.js',
+                'src/js/dom7-utils.js',
+                'src/js/dom7-outro.js',
+                'src/js/proto-support.js',
+                'src/js/proto-device.js',
+                'src/js/proto-plugins.js',
+                'src/js/template7.js',
+                'src/js/swiper.js',
+                'src/js/wrap-end.js'
+            ],*/
+            jsFiles: [
+                'src/js/wrap-start.js',
+                'src/js/f7-intro.js',
+                'src/js/iscroll.js',
+                'src/js/scroller.js',
+                'src/js/views.js',
+                'src/js/navbars.js',
+                'src/js/searchbar.js',
+                'src/js/messagebar.js',
+                'src/js/xhr.js',
+                'src/js/pages.js',
+                'src/js/router.js',
+                'src/js/modals.js',
+                'src/js/panels.js',
+                'src/js/lazy-load.js',
+                'src/js/material-preloader.js',
+                'src/js/messages.js',
+                'src/js/swipeout.js',
+                'src/js/sortable.js',
+                'src/js/smart-select.js',
+                'src/js/virtual-list.js',
+                'src/js/pull-to-refresh.js',
+                'src/js/pull-to-refresh-js-scroll.js',
                 'src/js/infinite-scroll.js',
                 'src/js/scroll-toolbars.js',
                 'src/js/material-tabbar.js',
@@ -227,7 +284,7 @@
     });
 
     gulp.task('myApp-jade', function(cb) {
-        gulp.src([paths.source.myApp.jade + '**/*.jade', '!' + paths.source.myApp.jade + 'includes/*.jade'])
+        gulp.src([paths.source.myApp.jade + '**/*.jade', '!' + paths.source.myApp.jade + 'includes/*.jade', '!' + paths.source.myApp.jade + 'mixins/*.jade'])
             .pipe(jade({
                 pretty: true,
                 locals: {
