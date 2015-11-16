@@ -1,5 +1,5 @@
 body {
-  font-family: -apple-system, SF UI Text, "Droid Sans Fallback", "Droid Sans", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, SF UI Text, "Droid Sans Fallback", "Droid Sans", Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 @media screen and (min-width: 768px) {
   #device-list {
@@ -522,15 +522,6 @@ body {
 .accordion-item {
   background-color: rgba(255, 255, 255, 0.5);
 }
-.accordion-item-content1 {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.content-block1 {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.item-inner {
-  background-color: rgba(255, 255, 255, 0.5);
-}
 blockquote:before,
 blockquote:after,
 q:before,
@@ -764,7 +755,7 @@ table {
   margin: 4.7%;
 }
 .slider-title {
-  color: #39CEB3;
+  color: #3B9ACA;
   font-size: 16pt;
   line-height: 3rem;
   font-weight: bold;
@@ -772,7 +763,7 @@ table {
 }
 .air {
   font-size: 10em;
-  color: #39CEB3;
+  color: #3B9ACA;
   font-weight: bold;
   margin: 3% 6% 10px 15%;
 }
@@ -780,4 +771,59 @@ table {
   background: url(../img/air_background.jpg) center 0 no-repeat;
   background-size: cover;
   height: 100%;
+}
+.page-content-blood {
+  background-color: #6F009A;
+  background-size: cover;
+  height: 100%;
+  position: relative;
+  margin: auto;
+  min-width: 372px;
+  box-shadow: inset 0.1em 0.1em 0 #fffdfd, inset -0.1em -0.1em 0 #ffffff;
+}
+.page-content-blood .a-content-air-block-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: .5em auto;
+  display: block;
+  border-radius: 3em;
+  background-color: #cca90e;
+  background-image: linear-gradient(45deg, #daac06, #fdd110);
+  box-shadow: inset -0.15em 0.15em 0 #fffdfd, inset 0.1em -0.1em 0 #ffffff;
+  position: relative;
+}
+.page-content-blood .content-block-air-title {
+  font-size: 20pt;
+  margin-top: 50px;
+  color: #fffdfd;
+  text-align: center;
+  height: 6%;
+}
+.page-content-blood .row-air1 {
+  font-size: 100pt;
+  color: #fffdfd;
+  position: relative;
+  top: 16%;
+  left: 12%;
+  text-align: center;
+  font-weight: bold;
+  background-color: #18191B;
+  height: 30%;
+  width: 76%;
+  box-shadow: inset -0.01em 0.01em 0 #fffdfd, inset 0.01em -0.01em 0 #ffffff;
+}
+.page-content-blood .row-air2 {
+  background: url(../img/xiaohui.jpg) center 0 no-repeat;
+  background-size: cover;
+  margin: auto;
+  height: 15em;
+  width: 15em;
+  box-shadow: inset -0.2em 0.2em 0 #060606, inset 0.2em -0.2em 0 #060606;
+}
+.page-content-blood .row-air3 {
+  font-size: 20pt;
+  position: relative;
+  top: 4rem;
+  color: #fffdfd;
+  text-align: center;
 }
