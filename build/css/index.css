@@ -774,6 +774,7 @@ table {
 }
 .page-content-blood {
   background-color: #6F009A;
+  background: url(../img/air_background.jpg) center 0 no-repeat;
   background-size: cover;
   height: 100%;
   position: relative;

@@ -10,7 +10,7 @@ We can do some interesting things ,such as controlling or monitoring the househo
 
 Based on [Node.js](http://nodejs.org), Older version was based on PHP: [IoT-PHP](https://github.com/Miantang/IoT-PHP)
 
-You need [Arduino HardWare SDK](https://github.com/Internet-of-Things/Arduino) to enjoy this platform.
+You need **Arduino HardWare SDK** to enjoy this platform.
 
 ###This is:
 

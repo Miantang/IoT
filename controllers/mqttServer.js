@@ -37,12 +37,12 @@ mqttServer.on('published', function (packet, client) {
 });
 // fired when a client subscribes to a topic
 mqttServer.on('subscribed', function (topic, client) {
-    console.log(client + ' subscribed : ', topic);
+    console.log(client  + ' subscribed : ', topic);
 });
 
 // fired when a client subscribes to a topic
 mqttServer.on('unsubscribed', function (topic, client) {
-    console.log(client + ' unsubscribed : ', topic);
+    console.log(client  + ' unsubscribed : ', topic);
 });
 
 // fired when a client is disconnecting
