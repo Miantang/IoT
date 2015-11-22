@@ -26,7 +26,6 @@ app.initImagesLazyLoad = function (pageContainer) {
         pageContent = pageContainer.find('.page-content');
     }
     if (pageContent.length === 0) return;
-    var scroller = app.getScroller(pageContent);
 
     // Placeholder
     var placeholderSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXCwsK592mkAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==';
@@ -83,6 +82,9 @@ app.initImagesLazyLoad = function (pageContainer) {
         lazyLoadImages = pageContainer.find('.lazy');
         lazyLoadImages.each(function(index, el) {
             el = $(el);
+            if (el.parents('.tab:not(.active)').length > 0) {
+                return;
+            }
             if (isElementInViewport(el[0])) {
                 loadImage(el);
             }
@@ -103,9 +105,10 @@ app.initImagesLazyLoad = function (pageContainer) {
     function attachEvents(destroy) {
         var method = destroy ? 'off' : 'on';
         lazyLoadImages[method]('lazy', lazyHandler);
+        lazyLoadImages.parents('.tab')[method]('show', lazyHandler);
         pageContainer[method]('lazy', lazyHandler);
         pageContent[method]('lazy', lazyHandler);
-        scroller.on('scroll', lazyHandler);
+        pageContent[method]('scroll', lazyHandler);
         $(window)[method]('resize', lazyHandler);
     }
     function detachEvents() {

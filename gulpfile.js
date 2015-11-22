@@ -51,7 +51,7 @@
         },
         f7 = {
             filename: 'framework7',
-            /*jsFiles: [
+            jsFiles: [
                 'src/js/wrap-start.js',
                 'src/js/f7-intro.js',
                 'src/js/views.js',
@@ -104,8 +104,8 @@
                 'src/js/template7.js',
                 'src/js/swiper.js',
                 'src/js/wrap-end.js'
-            ],*/
-            jsFiles: [
+            ],
+            /*jsFiles: [
                 'src/js/wrap-start.js',
                 'src/js/f7-intro.js',
                 'src/js/iscroll.js',
@@ -161,7 +161,7 @@
                 'src/js/template7.js',
                 'src/js/swiper.js',
                 'src/js/wrap-end.js'
-            ],
+            ],*/
             modules: require('./modules.json')
         };
         

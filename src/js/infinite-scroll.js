@@ -4,9 +4,8 @@
 function handleInfiniteScroll() {
     /*jshint validthis:true */
     var inf = $(this);
-    var scroller = app.getScroller(inf);
-    var scrollTop = scroller.scrollTop();
-    var scrollHeight = scroller.scrollHeight();
+    var scrollTop = inf[0].scrollTop;
+    var scrollHeight = inf[0].scrollHeight;
     var height = inf[0].offsetHeight;
     var distance = inf[0].getAttribute('data-distance');
     var virtualListContainer = inf.find('.virtual-list');
@@ -34,10 +33,10 @@ function handleInfiniteScroll() {
         
 }
 app.attachInfiniteScroll = function (infiniteContent) {
-    app.getScroller(infiniteContent).on('scroll', handleInfiniteScroll);
+    $(infiniteContent).on('scroll', handleInfiniteScroll);
 };
 app.detachInfiniteScroll = function (infiniteContent) {
-    app.getScroller(infiniteContent).off('scroll', handleInfiniteScroll);
+    $(infiniteContent).off('scroll', handleInfiniteScroll);
 };
 
 app.initInfiniteScroll = function (pageContainer) {

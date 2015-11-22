@@ -63,9 +63,10 @@ window.Framework7 = function (params) {
         swipeoutActionsNoFold: false,
         swipeoutNoFollow: false,
         // Smart Select Back link template
+        smartSelectOpenIn: 'page', // or 'popup' or 'picker'
         smartSelectBackText: 'Back',
-        smartSelectInPopup: false,
         smartSelectPopupCloseText: 'Close',
+        smartSelectPickerCloseText: 'Done',
         smartSelectSearchbar: false,
         smartSelectBackOnSelect: false,
         // Tap Navbar or Statusbar to scroll to top
@@ -116,7 +117,6 @@ window.Framework7 = function (params) {
         materialRippleElements: '.ripple, a.link, a.item-link, .button, .modal-button, .tab-link, .label-radio, .label-checkbox, .actions-modal-button, a.searchbar-clear, .floating-button',
         // Auto init
         init: true,
-        scroller: 'auto', //auto/js/native
     };
 
     // Extend defaults with parameters

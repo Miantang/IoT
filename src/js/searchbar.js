@@ -382,7 +382,6 @@ var Searchbar = function (container, params) {
         if (s.isVirtualList) {
             virtualList.filterItems(foundItems);
         }
-        app.getScroller(s.pageContainer.find('.page-content')).refresh().scrollTop(0);
     };
 
     // Events

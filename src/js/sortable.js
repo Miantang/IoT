@@ -40,7 +40,6 @@ app.initSortable = function () {
         sortableContainer = sortingEl.parents('.sortable');
         e.preventDefault();
         app.allowPanelOpen = app.allowSwipeout = false;
-        app.getScroller().disable();
     }
     function handleTouchMove(e) {
         if (!isTouched || !sortingEl) return;
@@ -116,7 +115,6 @@ app.initSortable = function () {
         insertAfter = insertBefore = undefined;
         isTouched = false;
         isMoved = false;
-        app.getScroller().enable();
     }
     $(document).on(app.touchEvents.start, '.list-block.sortable .sortable-handler', handleTouchStart);
     if (app.support.touch) {

@@ -66,9 +66,10 @@
                 swipeoutActionsNoFold: false,
                 swipeoutNoFollow: false,
                 // Smart Select Back link template
+                smartSelectOpenIn: 'page', // or 'popup' or 'picker'
                 smartSelectBackText: 'Back',
-                smartSelectInPopup: false,
                 smartSelectPopupCloseText: 'Close',
+                smartSelectPickerCloseText: 'Done',
                 smartSelectSearchbar: false,
                 smartSelectBackOnSelect: false,
                 // Tap Navbar or Statusbar to scroll to top
@@ -119,7 +120,6 @@
                 materialRippleElements: '.ripple, a.link, a.item-link, .button, .modal-button, .tab-link, .label-radio, .label-checkbox, .actions-modal-button, a.searchbar-clear, .floating-button',
                 // Auto init
                 init: true,
-                scroller: 'auto', //auto/js/native
             };
         
             // Extend defaults with parameters
@@ -157,2202 +157,6 @@
             
         
 
-        var rAF = window.requestAnimationFrame  ||
-            window.webkitRequestAnimationFrame  ||
-            window.mozRequestAnimationFrame     ||
-            window.oRequestAnimationFrame       ||
-            window.msRequestAnimationFrame      ||
-            function (callback) { window.setTimeout(callback, 1000 / 60); };
-        var cRAF = window.cancelRequestAnimationFrame  ||
-            window.webkitCancelRequestAnimationFrame  ||
-            window.mozCancelRequestAnimationFrame     ||
-            window.oCancelRequestAnimationFrame       ||
-            window.msCancelRequestAnimationFrame;
-        
-        var utils = (function () {
-            var me = {};
-        
-            var _elementStyle = document.createElement('div').style;
-            var _vendor = (function () {
-                var vendors = ['t', 'webkitT', 'MozT', 'msT', 'OT'],
-                    transform,
-                    i = 0,
-                    l = vendors.length;
-        
-                for ( ; i < l; i++ ) {
-                    transform = vendors[i] + 'ransform';
-                    if ( transform in _elementStyle ) return vendors[i].substr(0, vendors[i].length-1);
-                }
-        
-                return false;
-            })();
-        
-            function _prefixStyle (style) {
-                if ( _vendor === false ) return false;
-                if ( _vendor === '' ) return style;
-                return _vendor + style.charAt(0).toUpperCase() + style.substr(1);
-            }
-        
-            me.getTime = Date.now || function getTime () { return new Date().getTime(); };
-        
-            me.extend = function (target, obj) {
-                for ( var i in obj ) {
-                    target[i] = obj[i];
-                }
-            };
-        
-            me.addEvent = function (el, type, fn, capture) {
-                el.addEventListener(type, fn, !!capture);
-            };
-        
-            me.removeEvent = function (el, type, fn, capture) {
-                el.removeEventListener(type, fn, !!capture);
-            };
-        
-            me.prefixPointerEvent = function (pointerEvent) {
-                return window.MSPointerEvent ? 
-                    'MSPointer' + pointerEvent.charAt(9).toUpperCase() + pointerEvent.substr(10):
-                    pointerEvent;
-            };
-        
-            me.momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration, self) {
-                var distance = current - start,
-                    speed = Math.abs(distance) / time,
-                    destination,
-                    duration;
-        
-                var absDistance = Math.abs(distance);
-                speed = speed / 2; //slowdown
-                speed = speed > 1.5 ? 1.5 : speed;  //set max speed to 1
-                deceleration = deceleration === undefined ? 0.0006 : deceleration;
-        
-                destination = current + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
-                duration = speed / deceleration;
-        
-                if ( destination < lowerMargin ) {
-                    destination = wrapperSize ? lowerMargin - ( wrapperSize / 2.5 * ( speed / 8 ) ) : lowerMargin;
-                    distance = Math.abs(destination - current);
-                    duration = distance / speed;
-                } else if ( destination > 0 ) {
-                    destination = wrapperSize ? wrapperSize / 2.5 * ( speed / 8 ) : 0;
-                    distance = Math.abs(current) + destination;
-                    duration = distance / speed;
-                }
-        
-                //simple trigger, every 50ms
-                var t = + new Date();
-                var l = t;
-                function eventTrigger() {
-                    if( + new Date() - l > 50) {
-                        self._execEvent('scroll');
-                        l = + new Date();
-                    }
-                    if(+ new Date() - t < duration) {
-                        rAF(eventTrigger);
-                    }
-                }
-                rAF(eventTrigger);
-        
-                return {
-                    destination: Math.round(destination),
-                    duration: duration
-                };
-            };
-        
-            var _transform = _prefixStyle('transform');
-        
-            me.extend(me, {
-                hasTransform: _transform !== false,
-                hasPerspective: _prefixStyle('perspective') in _elementStyle,
-                hasTouch: 'ontouchstart' in window,
-                hasPointer: window.PointerEvent || window.MSPointerEvent, // IE10 is prefixed
-                hasTransition: _prefixStyle('transition') in _elementStyle
-            });
-        
-            // This should find all Android browsers lower than build 535.19 (both stock browser and webview)
-            me.isBadAndroid = /Android /.test(window.navigator.appVersion) && !(/Chrome\/\d/.test(window.navigator.appVersion)) && false;   //this will cause many android device scroll flash; so set it to false!
-        
-            me.extend(me.style = {}, {
-                transform: _transform,
-                transitionTimingFunction: _prefixStyle('transitionTimingFunction'),
-                transitionDuration: _prefixStyle('transitionDuration'),
-                transitionDelay: _prefixStyle('transitionDelay'),
-                transformOrigin: _prefixStyle('transformOrigin')
-            });
-        
-            me.hasClass = function (e, c) {
-                var re = new RegExp('(^|\\s)' + c + '(\\s|$)');
-                return re.test(e.className);
-            };
-        
-            me.addClass = function (e, c) {
-                if ( me.hasClass(e, c) ) {
-                    return;
-                }
-        
-                var newclass = e.className.split(' ');
-                newclass.push(c);
-                e.className = newclass.join(' ');
-            };
-        
-            me.removeClass = function (e, c) {
-                if ( !me.hasClass(e, c) ) {
-                    return;
-                }
-        
-                var re = new RegExp('(^|\\s)' + c + '(\\s|$)', 'g');
-                e.className = e.className.replace(re, ' ');
-            };
-        
-            me.offset = function (el) {
-                var left = -el.offsetLeft,
-                    top = -el.offsetTop;
-        
-                // jshint -W084
-                while (el = el.offsetParent) {
-                    left -= el.offsetLeft;
-                    top -= el.offsetTop;
-                }
-                // jshint +W084
-        
-                return {
-                    left: left,
-                    top: top
-                };
-            };
-        
-            me.preventDefaultException = function (el, exceptions) {
-                for ( var i in exceptions ) {
-                    if ( exceptions[i].test(el[i]) ) {
-                        return true;
-                    }
-                }
-        
-                return false;
-            };
-        
-            me.extend(me.eventType = {}, {
-                touchstart: 1,
-                touchmove: 1,
-                touchend: 1,
-        
-                mousedown: 2,
-                mousemove: 2,
-                mouseup: 2,
-        
-                pointerdown: 3,
-                pointermove: 3,
-                pointerup: 3,
-        
-                MSPointerDown: 3,
-                MSPointerMove: 3,
-                MSPointerUp: 3
-            });
-        
-            me.extend(me.ease = {}, {
-                quadratic: {
-                    style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                    fn: function (k) {
-                        return k * ( 2 - k );
-                    }
-                },
-                circular: {
-                    style: 'cubic-bezier(0.1, 0.57, 0.1, 1)',   // Not properly 'circular' but this looks better, it should be (0.075, 0.82, 0.165, 1)
-                    fn: function (k) {
-                        return Math.sqrt( 1 - ( --k * k ) );
-                    }
-                },
-                back: {
-                    style: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                    fn: function (k) {
-                        var b = 4;
-                        return ( k = k - 1 ) * k * ( ( b + 1 ) * k + b ) + 1;
-                    }
-                },
-                bounce: {
-                    style: '',
-                    fn: function (k) {
-                        if ( ( k /= 1 ) < ( 1 / 2.75 ) ) {
-                            return 7.5625 * k * k;
-                        } else if ( k < ( 2 / 2.75 ) ) {
-                            return 7.5625 * ( k -= ( 1.5 / 2.75 ) ) * k + 0.75;
-                        } else if ( k < ( 2.5 / 2.75 ) ) {
-                            return 7.5625 * ( k -= ( 2.25 / 2.75 ) ) * k + 0.9375;
-                        } else {
-                            return 7.5625 * ( k -= ( 2.625 / 2.75 ) ) * k + 0.984375;
-                        }
-                    }
-                },
-                elastic: {
-                    style: '',
-                    fn: function (k) {
-                        var f = 0.22,
-                            e = 0.4;
-        
-                        if ( k === 0 ) { return 0; }
-                        if ( k === 1 ) { return 1; }
-        
-                        return ( e * Math.pow( 2, - 10 * k ) * Math.sin( ( k - f / 4 ) * ( 2 * Math.PI ) / f ) + 1 );
-                    }
-                }
-            });
-        
-            me.tap = function (e, eventName) {
-                var ev = document.createEvent('Event');
-                ev.initEvent(eventName, true, true);
-                ev.pageX = e.pageX;
-                ev.pageY = e.pageY;
-                e.target.dispatchEvent(ev);
-            };
-        
-            me.click = function (e) {
-                var target = e.target,
-                    ev;
-        
-                if ( !(/(SELECT|INPUT|TEXTAREA)/i).test(target.tagName) ) {
-                    ev = document.createEvent('MouseEvents');
-                    ev.initMouseEvent('click', true, true, e.view, 1,
-                        target.screenX, target.screenY, target.clientX, target.clientY,
-                        e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
-                        0, null);
-        
-                    ev._constructed = true;
-                    target.dispatchEvent(ev);
-                }
-            };
-        
-            return me;
-        })();
-        
-        function IScroll (el, options) {
-            this.wrapper = typeof el === 'string' ? document.querySelector(el) : el;
-            this.scroller = $(this.wrapper).find('.page-content-inner')[0];
-            this.scrollerStyle = this.scroller.style;       // cache style for better performance
-        
-            this.options = {
-        
-                resizeScrollbars: true,
-        
-                mouseWheelSpeed: 20,
-        
-                snapThreshold: 0.334,
-        
-        // INSERT POINT: OPTIONS 
-        
-                startX: 0,
-                startY: 0,
-                scrollY: true,
-                directionLockThreshold: 5,
-                momentum: true,
-        
-                bounce: true,
-                bounceTime: 600,
-                bounceEasing: '',
-        
-                preventDefault: true,
-                preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
-        
-                HWCompositing: true,
-                useTransition: true,
-                useTransform: true,
-        
-                //other options
-                eventPassthrough: undefined,    //if you  want to use native scroll, you can set to: true or horizontal
-            };
-        
-            for ( var i in options ) {
-                this.options[i] = options[i];
-            }
-        
-            // Normalize options
-            this.translateZ = this.options.HWCompositing && utils.hasPerspective ? ' translateZ(0)' : '';
-        
-            this.options.useTransition = utils.hasTransition && this.options.useTransition;
-            this.options.useTransform = utils.hasTransform && this.options.useTransform;
-        
-            this.options.eventPassthrough = this.options.eventPassthrough === true ? 'vertical' : this.options.eventPassthrough;
-            this.options.preventDefault = !this.options.eventPassthrough && this.options.preventDefault;
-        
-            // If you want eventPassthrough I have to lock one of the axes
-            this.options.scrollY = this.options.eventPassthrough === 'vertical' ? false : this.options.scrollY;
-            this.options.scrollX = this.options.eventPassthrough === 'horizontal' ? false : this.options.scrollX;
-        
-            // With eventPassthrough we also need lockDirection mechanism
-            this.options.freeScroll = this.options.freeScroll && !this.options.eventPassthrough;
-            this.options.directionLockThreshold = this.options.eventPassthrough ? 0 : this.options.directionLockThreshold;
-        
-            this.options.bounceEasing = typeof this.options.bounceEasing === 'string' ? utils.ease[this.options.bounceEasing] || utils.ease.circular : this.options.bounceEasing;
-        
-            this.options.resizePolling = this.options.resizePolling === undefined ? 60 : this.options.resizePolling;
-        
-            if ( this.options.tap === true ) {
-                this.options.tap = 'tap';
-            }
-        
-            if ( this.options.shrinkScrollbars === 'scale' ) {
-                this.options.useTransition = false;
-            }
-        
-            this.options.invertWheelDirection = this.options.invertWheelDirection ? -1 : 1;
-        
-            if ( this.options.probeType === 3 ) {
-                this.options.useTransition = false; }
-        
-        // INSERT POINT: NORMALIZATION
-        
-            // Some defaults    
-            this.x = 0;
-            this.y = 0;
-            this.directionX = 0;
-            this.directionY = 0;
-            this._events = {};
-        
-        // INSERT POINT: DEFAULTS
-        
-            this._init();
-            this.refresh();
-        
-            this.scrollTo(this.options.startX, this.options.startY);
-            this.enable();
-        }
-        
-        IScroll.prototype = {
-            version: '5.1.3',
-        
-            _init: function () {
-                this._initEvents();
-        
-                if ( this.options.scrollbars || this.options.indicators ) {
-                    this._initIndicators();
-                }
-        
-                if ( this.options.mouseWheel ) {
-                    this._initWheel();
-                }
-        
-                if ( this.options.snap ) {
-                    this._initSnap();
-                }
-        
-                if ( this.options.keyBindings ) {
-                    this._initKeys();
-                }
-        
-        // INSERT POINT: _init
-        
-            },
-        
-            destroy: function () {
-                this._initEvents(true);
-        
-                this._execEvent('destroy');
-            },
-        
-            _transitionEnd: function (e) {
-                if ( e.target !== this.scroller || !this.isInTransition ) {
-                    return;
-                }
-        
-                this._transitionTime();
-                if ( !this.resetPosition(this.options.bounceTime) ) {
-                    this.isInTransition = false;
-                    this._execEvent('scrollEnd');
-                }
-            },
-        
-            _start: function (e) {
-                // React to left mouse button only
-                if ( utils.eventType[e.type] !== 1 ) {
-                    if ( e.button !== 0 ) {
-                        return;
-                    }
-                }
-        
-                if ( !this.enabled || (this.initiated && utils.eventType[e.type] !== this.initiated) ) {
-                    return;
-                }
-        
-                if ( this.options.preventDefault && !utils.isBadAndroid && !utils.preventDefaultException(e.target, this.options.preventDefaultException) ) {
-                    e.preventDefault();
-                }
-        
-                var point = e.touches ? e.touches[0] : e,
-                    pos;
-        
-                this.initiated  = utils.eventType[e.type];
-                this.moved      = false;
-                this.distX      = 0;
-                this.distY      = 0;
-                this.directionX = 0;
-                this.directionY = 0;
-                this.directionLocked = 0;
-        
-                this._transitionTime();
-        
-                this.startTime = utils.getTime();
-        
-                if ( this.options.useTransition && this.isInTransition ) {
-                    this.isInTransition = false;
-                    pos = this.getComputedPosition();
-                    this._translate(Math.round(pos.x), Math.round(pos.y));
-                    this._execEvent('scrollEnd');
-                } else if ( !this.options.useTransition && this.isAnimating ) {
-                    this.isAnimating = false;
-                    this._execEvent('scrollEnd');
-                }
-        
-                this.startX    = this.x;
-                this.startY    = this.y;
-                this.absStartX = this.x;
-                this.absStartY = this.y;
-                this.pointX    = point.pageX;
-                this.pointY    = point.pageY;
-        
-                this._execEvent('beforeScrollStart');
-            },
-        
-            _move: function (e) {
-                if ( !this.enabled || utils.eventType[e.type] !== this.initiated ) {
-                    return;
-                }
-        
-                if ( this.options.preventDefault ) {    // increases performance on Android? TODO: check!
-                    e.preventDefault();
-                }
-        
-                var point       = e.touches ? e.touches[0] : e,
-                    deltaX      = point.pageX - this.pointX,
-                    deltaY      = point.pageY - this.pointY,
-                    timestamp   = utils.getTime(),
-                    newX, newY,
-                    absDistX, absDistY;
-        
-                this.pointX     = point.pageX;
-                this.pointY     = point.pageY;
-        
-                this.distX      += deltaX;
-                this.distY      += deltaY;
-                absDistX        = Math.abs(this.distX);
-                absDistY        = Math.abs(this.distY);
-        
-                // We need to move at least 10 pixels for the scrolling to initiate
-                if ( timestamp - this.endTime > 300 && (absDistX < 10 && absDistY < 10) ) {
-                    return;
-                }
-        
-                // If you are scrolling in one direction lock the other
-                if ( !this.directionLocked && !this.options.freeScroll ) {
-                    if ( absDistX > absDistY + this.options.directionLockThreshold ) {
-                        this.directionLocked = 'h';     // lock horizontally
-                    } else if ( absDistY >= absDistX + this.options.directionLockThreshold ) {
-                        this.directionLocked = 'v';     // lock vertically
-                    } else {
-                        this.directionLocked = 'n';     // no lock
-                    }
-                }
-        
-                if ( this.directionLocked === 'h' ) {
-                    if ( this.options.eventPassthrough === 'vertical' ) {
-                        e.preventDefault();
-                    } else if ( this.options.eventPassthrough === 'horizontal' ) {
-                        this.initiated = false;
-                        return;
-                    }
-        
-                    deltaY = 0;
-                } else if ( this.directionLocked === 'v' ) {
-                    if ( this.options.eventPassthrough === 'horizontal' ) {
-                        e.preventDefault();
-                    } else if ( this.options.eventPassthrough === 'vertical' ) {
-                        this.initiated = false;
-                        return;
-                    }
-        
-                    deltaX = 0;
-                }
-        
-                deltaX = this.hasHorizontalScroll ? deltaX : 0;
-                deltaY = this.hasVerticalScroll ? deltaY : 0;
-        
-                newX = this.x + deltaX;
-                newY = this.y + deltaY;
-        
-                // Slow down if outside of the boundaries
-                if ( newX > 0 || newX < this.maxScrollX ) {
-                    newX = this.options.bounce ? this.x + deltaX / 3 : newX > 0 ? 0 : this.maxScrollX;
-                }
-                if ( newY > 0 || newY < this.maxScrollY ) {
-                    newY = this.options.bounce ? this.y + deltaY / 3 : newY > 0 ? 0 : this.maxScrollY;
-                }
-        
-                this.directionX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;
-                this.directionY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;
-        
-                if ( !this.moved ) {
-                    this._execEvent('scrollStart');
-                }
-        
-                this.moved = true;
-        
-                this._translate(newX, newY);
-        
-        /* REPLACE START: _move */
-                if ( timestamp - this.startTime > 300 ) {
-                    this.startTime = timestamp;
-                    this.startX = this.x;
-                    this.startY = this.y;
-        
-                    if ( this.options.probeType === 1 ) {
-                        this._execEvent('scroll');
-                    }
-                }
-        
-                if ( this.options.probeType > 1 ) {
-                    this._execEvent('scroll');
-                }
-        /* REPLACE END: _move */
-        
-            },
-        
-            _end: function (e) {
-                if ( !this.enabled || utils.eventType[e.type] !== this.initiated ) {
-                    return;
-                }
-        
-                if ( this.options.preventDefault && !utils.preventDefaultException(e.target, this.options.preventDefaultException) ) {
-                    e.preventDefault();
-                }
-        
-                var point = e.changedTouches ? e.changedTouches[0] : e,
-                    momentumX,
-                    momentumY,
-                    duration = utils.getTime() - this.startTime,
-                    newX = Math.round(this.x),
-                    newY = Math.round(this.y),
-                    distanceX = Math.abs(newX - this.startX),
-                    distanceY = Math.abs(newY - this.startY),
-                    time = 0,
-                    easing = '';
-        
-                this.isInTransition = 0;
-                this.initiated = 0;
-                this.endTime = utils.getTime();
-        
-                // reset if we are outside of the boundaries
-                if ( this.resetPosition(this.options.bounceTime) ) {
-                    return;
-                }
-        
-                this.scrollTo(newX, newY);  // ensures that the last position is rounded
-        
-                // we scrolled less than 10 pixels
-                if ( !this.moved ) {
-                    if ( this.options.tap ) {
-                        utils.tap(e, this.options.tap);
-                    }
-        
-                    if ( this.options.click ) {
-                        utils.click(e);
-                    }
-        
-                    this._execEvent('scrollCancel');
-                    return;
-                }
-        
-                if ( this._events.flick && duration < 200 && distanceX < 100 && distanceY < 100 ) {
-                    this._execEvent('flick');
-                    return;
-                }
-        
-                // start momentum animation if needed
-                if ( this.options.momentum && duration < 300 ) {
-                    momentumX = this.hasHorizontalScroll ? utils.momentum(this.x, this.startX, duration, this.maxScrollX, this.options.bounce ? this.wrapperWidth : 0, this.options.deceleration, this) : { destination: newX, duration: 0 };
-                    momentumY = this.hasVerticalScroll ? utils.momentum(this.y, this.startY, duration, this.maxScrollY, this.options.bounce ? this.wrapperHeight : 0, this.options.deceleration, this) : { destination: newY, duration: 0 };
-                    newX = momentumX.destination;
-                    newY = momentumY.destination;
-                    time = Math.max(momentumX.duration, momentumY.duration);
-                    this.isInTransition = 1;
-                }
-        
-        
-                if ( this.options.snap ) {
-                    var snap = this._nearestSnap(newX, newY);
-                    this.currentPage = snap;
-                    time = this.options.snapSpeed || Math.max(
-                            Math.max(
-                                Math.min(Math.abs(newX - snap.x), 1000),
-                                Math.min(Math.abs(newY - snap.y), 1000)
-                            ), 300);
-                    newX = snap.x;
-                    newY = snap.y;
-        
-                    this.directionX = 0;
-                    this.directionY = 0;
-                    easing = this.options.bounceEasing;
-                }
-        
-        // INSERT POINT: _end
-        
-                if ( newX !== this.x || newY !== this.y ) {
-                    // change easing function when scroller goes out of the boundaries
-                    if ( newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY ) {
-                        easing = utils.ease.quadratic;
-                    }
-        
-                    this.scrollTo(newX, newY, time, easing);
-                    return;
-                }
-        
-                this._execEvent('scrollEnd');
-            },
-        
-            _resize: function () {
-                var that = this;
-        
-                clearTimeout(this.resizeTimeout);
-        
-                this.resizeTimeout = setTimeout(function () {
-                    that.refresh();
-                }, this.options.resizePolling);
-            },
-        
-            resetPosition: function (time) {
-                var x = this.x,
-                    y = this.y;
-        
-                time = time || 0;
-        
-                if ( !this.hasHorizontalScroll || this.x > 0 ) {
-                    x = 0;
-                } else if ( this.x < this.maxScrollX ) {
-                    x = this.maxScrollX;
-                }
-        
-                if ( !this.hasVerticalScroll || this.y > 0 ) {
-                    y = 0;
-                } else if ( this.y < this.maxScrollY ) {
-                    y = this.maxScrollY;
-                }
-        
-                if ( x === this.x && y === this.y ) {
-                    return false;
-                }
-        
-                if(this.options.ptr && this.y > 44 && this.startY * -1 < $(window).height() && !this.ptrLock) {
-                    // not trigger ptr when user want to scroll to top
-                    y = this.options.ptrOffset || 44;
-                    this._execEvent('ptr');
-                    // 防止返回的过程中再次触发了 ptr ，导致被定位到 44px（因为可能done事件触发很快，在返回到44px以前就触发done
-                    this.ptrLock = true;
-                    var self = this;
-                    setTimeout(function() {
-                      self.ptrLock = false;
-                    }, 500);
-                }
-                
-                this.scrollTo(x, y, time, this.options.bounceEasing);
-        
-                return true;
-            },
-        
-            disable: function () {
-                this.enabled = false;
-            },
-        
-            enable: function () {
-                this.enabled = true;
-            },
-        
-            refresh: function () {
-                var rf = this.wrapper.offsetHeight;     // Force reflow
-        
-                this.wrapperWidth   = this.wrapper.clientWidth;
-                this.wrapperHeight  = this.wrapper.clientHeight;
-        
-        /* REPLACE START: refresh */
-        
-                this.scrollerWidth  = this.scroller.offsetWidth;
-                this.scrollerHeight = this.scroller.offsetHeight;
-        
-                this.maxScrollX     = this.wrapperWidth - this.scrollerWidth;
-                this.maxScrollY     = this.wrapperHeight - this.scrollerHeight;
-        
-        /* REPLACE END: refresh */
-        
-                this.hasHorizontalScroll    = this.options.scrollX && this.maxScrollX < 0;
-                this.hasVerticalScroll      = this.options.scrollY && this.maxScrollY < 0;
-        
-                if ( !this.hasHorizontalScroll ) {
-                    this.maxScrollX = 0;
-                    this.scrollerWidth = this.wrapperWidth;
-                }
-        
-                if ( !this.hasVerticalScroll ) {
-                    this.maxScrollY = 0;
-                    this.scrollerHeight = this.wrapperHeight;
-                }
-        
-                this.endTime = 0;
-                this.directionX = 0;
-                this.directionY = 0;
-        
-                this.wrapperOffset = utils.offset(this.wrapper);
-        
-                this._execEvent('refresh');
-        
-                this.resetPosition();
-        
-        // INSERT POINT: _refresh
-        
-            },
-        
-            on: function (type, fn) {
-                if ( !this._events[type] ) {
-                    this._events[type] = [];
-                }
-        
-                this._events[type].push(fn);
-            },
-        
-            off: function (type, fn) {
-                if ( !this._events[type] ) {
-                    return;
-                }
-        
-                var index = this._events[type].indexOf(fn);
-        
-                if ( index > -1 ) {
-                    this._events[type].splice(index, 1);
-                }
-            },
-        
-            _execEvent: function (type) {
-                if ( !this._events[type] ) {
-                    return;
-                }
-        
-                var i = 0,
-                    l = this._events[type].length;
-        
-                if ( !l ) {
-                    return;
-                }
-        
-                for ( ; i < l; i++ ) {
-                    this._events[type][i].apply(this, [].slice.call(arguments, 1));
-                }
-            },
-        
-            scrollBy: function (x, y, time, easing) {
-                x = this.x + x;
-                y = this.y + y;
-                time = time || 0;
-        
-                this.scrollTo(x, y, time, easing);
-            },
-        
-            scrollTo: function (x, y, time, easing) {
-                easing = easing || utils.ease.circular;
-        
-                this.isInTransition = this.options.useTransition && time > 0;
-        
-                if ( !time || (this.options.useTransition && easing.style) ) {
-                    this._transitionTimingFunction(easing.style);
-                    this._transitionTime(time);
-                    this._translate(x, y);
-                } else {
-                    this._animate(x, y, time, easing.fn);
-                }
-            },
-        
-            scrollToElement: function (el, time, offsetX, offsetY, easing) {
-                el = el.nodeType ? el : this.scroller.querySelector(el);
-        
-                if ( !el ) {
-                    return;
-                }
-        
-                var pos = utils.offset(el);
-        
-                pos.left -= this.wrapperOffset.left;
-                pos.top  -= this.wrapperOffset.top;
-        
-                // if offsetX/Y are true we center the element to the screen
-                if ( offsetX === true ) {
-                    offsetX = Math.round(el.offsetWidth / 2 - this.wrapper.offsetWidth / 2);
-                }
-                if ( offsetY === true ) {
-                    offsetY = Math.round(el.offsetHeight / 2 - this.wrapper.offsetHeight / 2);
-                }
-        
-                pos.left -= offsetX || 0;
-                pos.top  -= offsetY || 0;
-        
-                pos.left = pos.left > 0 ? 0 : pos.left < this.maxScrollX ? this.maxScrollX : pos.left;
-                pos.top  = pos.top  > 0 ? 0 : pos.top  < this.maxScrollY ? this.maxScrollY : pos.top;
-        
-                time = time === undefined || time === null || time === 'auto' ? Math.max(Math.abs(this.x-pos.left), Math.abs(this.y-pos.top)) : time;
-        
-                this.scrollTo(pos.left, pos.top, time, easing);
-            },
-        
-            _transitionTime: function (time) {
-                time = time || 0;
-        
-                this.scrollerStyle[utils.style.transitionDuration] = time + 'ms';
-        
-                if ( !time && utils.isBadAndroid ) {
-                    this.scrollerStyle[utils.style.transitionDuration] = '0.001s';
-                }
-        
-        
-                if ( this.indicators ) {
-                    for ( var i = this.indicators.length; i--; ) {
-                        this.indicators[i].transitionTime(time);
-                    }
-                }
-        
-        
-        // INSERT POINT: _transitionTime
-        
-            },
-        
-            _transitionTimingFunction: function (easing) {
-                this.scrollerStyle[utils.style.transitionTimingFunction] = easing;
-        
-        
-                if ( this.indicators ) {
-                    for ( var i = this.indicators.length; i--; ) {
-                        this.indicators[i].transitionTimingFunction(easing);
-                    }
-                }
-        
-        
-        // INSERT POINT: _transitionTimingFunction
-        
-            },
-        
-            _translate: function (x, y) {
-                if ( this.options.useTransform ) {
-        
-        /* REPLACE START: _translate */
-        
-                    this.scrollerStyle[utils.style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
-        
-        /* REPLACE END: _translate */
-        
-                } else {
-                    x = Math.round(x);
-                    y = Math.round(y);
-                    this.scrollerStyle.left = x + 'px';
-                    this.scrollerStyle.top = y + 'px';
-                }
-        
-                this.x = x;
-                this.y = y;
-        
-        
-            if ( this.indicators ) {
-                for ( var i = this.indicators.length; i--; ) {
-                    this.indicators[i].updatePosition();
-                }
-            }
-        
-        
-        // INSERT POINT: _translate
-        
-            },
-        
-            _initEvents: function (remove) {
-                var eventType = remove ? utils.removeEvent : utils.addEvent,
-                    target = this.options.bindToWrapper ? this.wrapper : window;
-        
-                eventType(window, 'orientationchange', this);
-                eventType(window, 'resize', this);
-        
-                if ( this.options.click ) {
-                    eventType(this.wrapper, 'click', this, true);
-                }
-        
-                if ( !this.options.disableMouse ) {
-                    eventType(this.wrapper, 'mousedown', this);
-                    eventType(target, 'mousemove', this);
-                    eventType(target, 'mousecancel', this);
-                    eventType(target, 'mouseup', this);
-                }
-        
-                if ( utils.hasPointer && !this.options.disablePointer ) {
-                    eventType(this.wrapper, utils.prefixPointerEvent('pointerdown'), this);
-                    eventType(target, utils.prefixPointerEvent('pointermove'), this);
-                    eventType(target, utils.prefixPointerEvent('pointercancel'), this);
-                    eventType(target, utils.prefixPointerEvent('pointerup'), this);
-                }
-        
-                if ( utils.hasTouch && !this.options.disableTouch ) {
-                    eventType(this.wrapper, 'touchstart', this);
-                    eventType(target, 'touchmove', this);
-                    eventType(target, 'touchcancel', this);
-                    eventType(target, 'touchend', this);
-                }
-        
-                eventType(this.scroller, 'transitionend', this);
-                eventType(this.scroller, 'webkitTransitionEnd', this);
-                eventType(this.scroller, 'oTransitionEnd', this);
-                eventType(this.scroller, 'MSTransitionEnd', this);
-            },
-        
-            getComputedPosition: function () {
-                var matrix = window.getComputedStyle(this.scroller, null),
-                    x, y;
-        
-                if ( this.options.useTransform ) {
-                    matrix = matrix[utils.style.transform].split(')')[0].split(', ');
-                    x = +(matrix[12] || matrix[4]);
-                    y = +(matrix[13] || matrix[5]);
-                } else {
-                    x = +matrix.left.replace(/[^-\d.]/g, '');
-                    y = +matrix.top.replace(/[^-\d.]/g, '');
-                }
-        
-                return { x: x, y: y };
-            },
-        
-            _initIndicators: function () {
-                var interactive = this.options.interactiveScrollbars,
-                    customStyle = typeof this.options.scrollbars !== 'string',
-                    indicators = [],
-                    indicator;
-        
-                var that = this;
-        
-                this.indicators = [];
-        
-                if ( this.options.scrollbars ) {
-                    // Vertical scrollbar
-                    if ( this.options.scrollY ) {
-                        indicator = {
-                            el: createDefaultScrollbar('v', interactive, this.options.scrollbars),
-                            interactive: interactive,
-                            defaultScrollbars: true,
-                            customStyle: customStyle,
-                            resize: this.options.resizeScrollbars,
-                            shrink: this.options.shrinkScrollbars,
-                            fade: this.options.fadeScrollbars,
-                            listenX: false
-                        };
-        
-                        this.wrapper.appendChild(indicator.el);
-                        indicators.push(indicator);
-                    }
-        
-                    // Horizontal scrollbar
-                    if ( this.options.scrollX ) {
-                        indicator = {
-                            el: createDefaultScrollbar('h', interactive, this.options.scrollbars),
-                            interactive: interactive,
-                            defaultScrollbars: true,
-                            customStyle: customStyle,
-                            resize: this.options.resizeScrollbars,
-                            shrink: this.options.shrinkScrollbars,
-                            fade: this.options.fadeScrollbars,
-                            listenY: false
-                        };
-        
-                        this.wrapper.appendChild(indicator.el);
-                        indicators.push(indicator);
-                    }
-                }
-        
-                if ( this.options.indicators ) {
-                    // TODO: check concat compatibility
-                    indicators = indicators.concat(this.options.indicators);
-                }
-        
-                for ( var i = indicators.length; i--; ) {
-                    this.indicators.push( new Indicator(this, indicators[i]) );
-                }
-        
-                // TODO: check if we can use array.map (wide compatibility and performance issues)
-                function _indicatorsMap (fn) {
-                    for ( var i = that.indicators.length; i--; ) {
-                        fn.call(that.indicators[i]);
-                    }
-                }
-        
-                if ( this.options.fadeScrollbars ) {
-                    this.on('scrollEnd', function () {
-                        _indicatorsMap(function () {
-                            this.fade();
-                        });
-                    });
-        
-                    this.on('scrollCancel', function () {
-                        _indicatorsMap(function () {
-                            this.fade();
-                        });
-                    });
-        
-                    this.on('scrollStart', function () {
-                        _indicatorsMap(function () {
-                            this.fade(1);
-                        });
-                    });
-        
-                    this.on('beforeScrollStart', function () {
-                        _indicatorsMap(function () {
-                            this.fade(1, true);
-                        });
-                    });
-                }
-        
-        
-                this.on('refresh', function () {
-                    _indicatorsMap(function () {
-                        this.refresh();
-                    });
-                });
-        
-                this.on('destroy', function () {
-                    _indicatorsMap(function () {
-                        this.destroy();
-                    });
-        
-                    delete this.indicators;
-                });
-            },
-        
-            _initWheel: function () {
-                utils.addEvent(this.wrapper, 'wheel', this);
-                utils.addEvent(this.wrapper, 'mousewheel', this);
-                utils.addEvent(this.wrapper, 'DOMMouseScroll', this);
-        
-                this.on('destroy', function () {
-                    utils.removeEvent(this.wrapper, 'wheel', this);
-                    utils.removeEvent(this.wrapper, 'mousewheel', this);
-                    utils.removeEvent(this.wrapper, 'DOMMouseScroll', this);
-                });
-            },
-        
-            _wheel: function (e) {
-                if ( !this.enabled ) {
-                    return;
-                }
-        
-                e.preventDefault();
-                e.stopPropagation();
-        
-                var wheelDeltaX, wheelDeltaY,
-                    newX, newY,
-                    that = this;
-        
-                if ( this.wheelTimeout === undefined ) {
-                    that._execEvent('scrollStart');
-                }
-        
-                // Execute the scrollEnd event after 400ms the wheel stopped scrolling
-                clearTimeout(this.wheelTimeout);
-                this.wheelTimeout = setTimeout(function () {
-                    that._execEvent('scrollEnd');
-                    that.wheelTimeout = undefined;
-                }, 400);
-        
-                if ( 'deltaX' in e ) {
-                    if (e.deltaMode === 1) {
-                        wheelDeltaX = -e.deltaX * this.options.mouseWheelSpeed;
-                        wheelDeltaY = -e.deltaY * this.options.mouseWheelSpeed;
-                    } else {
-                        wheelDeltaX = -e.deltaX;
-                        wheelDeltaY = -e.deltaY;
-                    }
-                } else if ( 'wheelDeltaX' in e ) {
-                    wheelDeltaX = e.wheelDeltaX / 120 * this.options.mouseWheelSpeed;
-                    wheelDeltaY = e.wheelDeltaY / 120 * this.options.mouseWheelSpeed;
-                } else if ( 'wheelDelta' in e ) {
-                    wheelDeltaX = wheelDeltaY = e.wheelDelta / 120 * this.options.mouseWheelSpeed;
-                } else if ( 'detail' in e ) {
-                    wheelDeltaX = wheelDeltaY = -e.detail / 3 * this.options.mouseWheelSpeed;
-                } else {
-                    return;
-                }
-        
-                wheelDeltaX *= this.options.invertWheelDirection;
-                wheelDeltaY *= this.options.invertWheelDirection;
-        
-                if ( !this.hasVerticalScroll ) {
-                    wheelDeltaX = wheelDeltaY;
-                    wheelDeltaY = 0;
-                }
-        
-                if ( this.options.snap ) {
-                    newX = this.currentPage.pageX;
-                    newY = this.currentPage.pageY;
-        
-                    if ( wheelDeltaX > 0 ) {
-                        newX--;
-                    } else if ( wheelDeltaX < 0 ) {
-                        newX++;
-                    }
-        
-                    if ( wheelDeltaY > 0 ) {
-                        newY--;
-                    } else if ( wheelDeltaY < 0 ) {
-                        newY++;
-                    }
-        
-                    this.goToPage(newX, newY);
-        
-                    return;
-                }
-        
-                newX = this.x + Math.round(this.hasHorizontalScroll ? wheelDeltaX : 0);
-                newY = this.y + Math.round(this.hasVerticalScroll ? wheelDeltaY : 0);
-        
-                if ( newX > 0 ) {
-                    newX = 0;
-                } else if ( newX < this.maxScrollX ) {
-                    newX = this.maxScrollX;
-                }
-        
-                if ( newY > 0 ) {
-                    newY = 0;
-                } else if ( newY < this.maxScrollY ) {
-                    newY = this.maxScrollY;
-                }
-        
-                this.scrollTo(newX, newY, 0);
-        
-                this._execEvent('scroll');
-        
-        // INSERT POINT: _wheel
-            },
-        
-            _initSnap: function () {
-                this.currentPage = {};
-        
-                if ( typeof this.options.snap === 'string' ) {
-                    this.options.snap = this.scroller.querySelectorAll(this.options.snap);
-                }
-        
-                this.on('refresh', function () {
-                    var i = 0, l,
-                        m = 0, n,
-                        cx, cy,
-                        x = 0, y,
-                        stepX = this.options.snapStepX || this.wrapperWidth,
-                        stepY = this.options.snapStepY || this.wrapperHeight,
-                        el;
-        
-                    this.pages = [];
-        
-                    if ( !this.wrapperWidth || !this.wrapperHeight || !this.scrollerWidth || !this.scrollerHeight ) {
-                        return;
-                    }
-        
-                    if ( this.options.snap === true ) {
-                        cx = Math.round( stepX / 2 );
-                        cy = Math.round( stepY / 2 );
-        
-                        while ( x > -this.scrollerWidth ) {
-                            this.pages[i] = [];
-                            l = 0;
-                            y = 0;
-        
-                            while ( y > -this.scrollerHeight ) {
-                                this.pages[i][l] = {
-                                    x: Math.max(x, this.maxScrollX),
-                                    y: Math.max(y, this.maxScrollY),
-                                    width: stepX,
-                                    height: stepY,
-                                    cx: x - cx,
-                                    cy: y - cy
-                                };
-        
-                                y -= stepY;
-                                l++;
-                            }
-        
-                            x -= stepX;
-                            i++;
-                        }
-                    } else {
-                        el = this.options.snap;
-                        l = el.length;
-                        n = -1;
-        
-                        for ( ; i < l; i++ ) {
-                            if ( i === 0 || el[i].offsetLeft <= el[i-1].offsetLeft ) {
-                                m = 0;
-                                n++;
-                            }
-        
-                            if ( !this.pages[m] ) {
-                                this.pages[m] = [];
-                            }
-        
-                            x = Math.max(-el[i].offsetLeft, this.maxScrollX);
-                            y = Math.max(-el[i].offsetTop, this.maxScrollY);
-                            cx = x - Math.round(el[i].offsetWidth / 2);
-                            cy = y - Math.round(el[i].offsetHeight / 2);
-        
-                            this.pages[m][n] = {
-                                x: x,
-                                y: y,
-                                width: el[i].offsetWidth,
-                                height: el[i].offsetHeight,
-                                cx: cx,
-                                cy: cy
-                            };
-        
-                            if ( x > this.maxScrollX ) {
-                                m++;
-                            }
-                        }
-                    }
-        
-                    this.goToPage(this.currentPage.pageX || 0, this.currentPage.pageY || 0, 0);
-        
-                    // Update snap threshold if needed
-                    if ( this.options.snapThreshold % 1 === 0 ) {
-                        this.snapThresholdX = this.options.snapThreshold;
-                        this.snapThresholdY = this.options.snapThreshold;
-                    } else {
-                        this.snapThresholdX = Math.round(this.pages[this.currentPage.pageX][this.currentPage.pageY].width * this.options.snapThreshold);
-                        this.snapThresholdY = Math.round(this.pages[this.currentPage.pageX][this.currentPage.pageY].height * this.options.snapThreshold);
-                    }
-                });
-        
-                this.on('flick', function () {
-                    var time = this.options.snapSpeed || Math.max(
-                            Math.max(
-                                Math.min(Math.abs(this.x - this.startX), 1000),
-                                Math.min(Math.abs(this.y - this.startY), 1000)
-                            ), 300);
-        
-                    this.goToPage(
-                        this.currentPage.pageX + this.directionX,
-                        this.currentPage.pageY + this.directionY,
-                        time
-                    );
-                });
-            },
-        
-            _nearestSnap: function (x, y) {
-                if ( !this.pages.length ) {
-                    return { x: 0, y: 0, pageX: 0, pageY: 0 };
-                }
-        
-                var i = 0,
-                    l = this.pages.length,
-                    m = 0;
-        
-                // Check if we exceeded the snap threshold
-                if ( Math.abs(x - this.absStartX) < this.snapThresholdX &&
-                    Math.abs(y - this.absStartY) < this.snapThresholdY ) {
-                    return this.currentPage;
-                }
-        
-                if ( x > 0 ) {
-                    x = 0;
-                } else if ( x < this.maxScrollX ) {
-                    x = this.maxScrollX;
-                }
-        
-                if ( y > 0 ) {
-                    y = 0;
-                } else if ( y < this.maxScrollY ) {
-                    y = this.maxScrollY;
-                }
-        
-                for ( ; i < l; i++ ) {
-                    if ( x >= this.pages[i][0].cx ) {
-                        x = this.pages[i][0].x;
-                        break;
-                    }
-                }
-        
-                l = this.pages[i].length;
-        
-                for ( ; m < l; m++ ) {
-                    if ( y >= this.pages[0][m].cy ) {
-                        y = this.pages[0][m].y;
-                        break;
-                    }
-                }
-        
-                if ( i === this.currentPage.pageX ) {
-                    i += this.directionX;
-        
-                    if ( i < 0 ) {
-                        i = 0;
-                    } else if ( i >= this.pages.length ) {
-                        i = this.pages.length - 1;
-                    }
-        
-                    x = this.pages[i][0].x;
-                }
-        
-                if ( m === this.currentPage.pageY ) {
-                    m += this.directionY;
-        
-                    if ( m < 0 ) {
-                        m = 0;
-                    } else if ( m >= this.pages[0].length ) {
-                        m = this.pages[0].length - 1;
-                    }
-        
-                    y = this.pages[0][m].y;
-                }
-        
-                return {
-                    x: x,
-                    y: y,
-                    pageX: i,
-                    pageY: m
-                };
-            },
-        
-            goToPage: function (x, y, time, easing) {
-                easing = easing || this.options.bounceEasing;
-        
-                if ( x >= this.pages.length ) {
-                    x = this.pages.length - 1;
-                } else if ( x < 0 ) {
-                    x = 0;
-                }
-        
-                if ( y >= this.pages[x].length ) {
-                    y = this.pages[x].length - 1;
-                } else if ( y < 0 ) {
-                    y = 0;
-                }
-        
-                var posX = this.pages[x][y].x,
-                    posY = this.pages[x][y].y;
-        
-                time = time === undefined ? this.options.snapSpeed || Math.max(
-                    Math.max(
-                        Math.min(Math.abs(posX - this.x), 1000),
-                        Math.min(Math.abs(posY - this.y), 1000)
-                    ), 300) : time;
-        
-                this.currentPage = {
-                    x: posX,
-                    y: posY,
-                    pageX: x,
-                    pageY: y
-                };
-        
-                this.scrollTo(posX, posY, time, easing);
-            },
-        
-            next: function (time, easing) {
-                var x = this.currentPage.pageX,
-                    y = this.currentPage.pageY;
-        
-                x++;
-        
-                if ( x >= this.pages.length && this.hasVerticalScroll ) {
-                    x = 0;
-                    y++;
-                }
-        
-                this.goToPage(x, y, time, easing);
-            },
-        
-            prev: function (time, easing) {
-                var x = this.currentPage.pageX,
-                    y = this.currentPage.pageY;
-        
-                x--;
-        
-                if ( x < 0 && this.hasVerticalScroll ) {
-                    x = 0;
-                    y--;
-                }
-        
-                this.goToPage(x, y, time, easing);
-            },
-        
-            _initKeys: function (e) {
-                // default key bindings
-                var keys = {
-                    pageUp: 33,
-                    pageDown: 34,
-                    end: 35,
-                    home: 36,
-                    left: 37,
-                    up: 38,
-                    right: 39,
-                    down: 40
-                };
-                var i;
-        
-                // if you give me characters I give you keycode
-                if ( typeof this.options.keyBindings === 'object' ) {
-                    for ( i in this.options.keyBindings ) {
-                        if ( typeof this.options.keyBindings[i] === 'string' ) {
-                            this.options.keyBindings[i] = this.options.keyBindings[i].toUpperCase().charCodeAt(0);
-                        }
-                    }
-                } else {
-                    this.options.keyBindings = {};
-                }
-        
-                for ( i in keys ) {
-                    this.options.keyBindings[i] = this.options.keyBindings[i] || keys[i];
-                }
-        
-                utils.addEvent(window, 'keydown', this);
-        
-                this.on('destroy', function () {
-                    utils.removeEvent(window, 'keydown', this);
-                });
-            },
-        
-            _key: function (e) {
-                if ( !this.enabled ) {
-                    return;
-                }
-        
-                var snap = this.options.snap,   // we are using this alot, better to cache it
-                    newX = snap ? this.currentPage.pageX : this.x,
-                    newY = snap ? this.currentPage.pageY : this.y,
-                    now = utils.getTime(),
-                    prevTime = this.keyTime || 0,
-                    acceleration = 0.250,
-                    pos;
-        
-                if ( this.options.useTransition && this.isInTransition ) {
-                    pos = this.getComputedPosition();
-        
-                    this._translate(Math.round(pos.x), Math.round(pos.y));
-                    this.isInTransition = false;
-                }
-        
-                this.keyAcceleration = now - prevTime < 200 ? Math.min(this.keyAcceleration + acceleration, 50) : 0;
-        
-                switch ( e.keyCode ) {
-                    case this.options.keyBindings.pageUp:
-                        if ( this.hasHorizontalScroll && !this.hasVerticalScroll ) {
-                            newX += snap ? 1 : this.wrapperWidth;
-                        } else {
-                            newY += snap ? 1 : this.wrapperHeight;
-                        }
-                        break;
-                    case this.options.keyBindings.pageDown:
-                        if ( this.hasHorizontalScroll && !this.hasVerticalScroll ) {
-                            newX -= snap ? 1 : this.wrapperWidth;
-                        } else {
-                            newY -= snap ? 1 : this.wrapperHeight;
-                        }
-                        break;
-                    case this.options.keyBindings.end:
-                        newX = snap ? this.pages.length-1 : this.maxScrollX;
-                        newY = snap ? this.pages[0].length-1 : this.maxScrollY;
-                        break;
-                    case this.options.keyBindings.home:
-                        newX = 0;
-                        newY = 0;
-                        break;
-                    case this.options.keyBindings.left:
-                        newX += snap ? -1 : 5 + this.keyAcceleration>>0;
-                        break;
-                    case this.options.keyBindings.up:
-                        newY += snap ? 1 : 5 + this.keyAcceleration>>0;
-                        break;
-                    case this.options.keyBindings.right:
-                        newX -= snap ? -1 : 5 + this.keyAcceleration>>0;
-                        break;
-                    case this.options.keyBindings.down:
-                        newY -= snap ? 1 : 5 + this.keyAcceleration>>0;
-                        break;
-                    default:
-                        return;
-                }
-        
-                if ( snap ) {
-                    this.goToPage(newX, newY);
-                    return;
-                }
-        
-                if ( newX > 0 ) {
-                    newX = 0;
-                    this.keyAcceleration = 0;
-                } else if ( newX < this.maxScrollX ) {
-                    newX = this.maxScrollX;
-                    this.keyAcceleration = 0;
-                }
-        
-                if ( newY > 0 ) {
-                    newY = 0;
-                    this.keyAcceleration = 0;
-                } else if ( newY < this.maxScrollY ) {
-                    newY = this.maxScrollY;
-                    this.keyAcceleration = 0;
-                }
-        
-                this.scrollTo(newX, newY, 0);
-        
-                this.keyTime = now;
-            },
-        
-            _animate: function (destX, destY, duration, easingFn) {
-                var that = this,
-                    startX = this.x,
-                    startY = this.y,
-                    startTime = utils.getTime(),
-                    destTime = startTime + duration;
-        
-                function step () {
-                    var now = utils.getTime(),
-                        newX, newY,
-                        easing;
-        
-                    if ( now >= destTime ) {
-                        that.isAnimating = false;
-                        that._translate(destX, destY);
-                        
-                        if ( !that.resetPosition(that.options.bounceTime) ) {
-                            that._execEvent('scrollEnd');
-                        }
-        
-                        return;
-                    }
-        
-                    now = ( now - startTime ) / duration;
-                    easing = easingFn(now);
-                    newX = ( destX - startX ) * easing + startX;
-                    newY = ( destY - startY ) * easing + startY;
-                    that._translate(newX, newY);
-        
-                    if ( that.isAnimating ) {
-                        rAF(step);
-                    }
-        
-                    if ( that.options.probeType === 3 ) {
-                        that._execEvent('scroll');
-                    }
-                }
-        
-                this.isAnimating = true;
-                step();
-            },
-        
-            handleEvent: function (e) {
-                switch ( e.type ) {
-                    case 'touchstart':
-                    case 'pointerdown':
-                    case 'MSPointerDown':
-                    case 'mousedown':
-                        this._start(e);
-                        break;
-                    case 'touchmove':
-                    case 'pointermove':
-                    case 'MSPointerMove':
-                    case 'mousemove':
-                        this._move(e);
-                        break;
-                    case 'touchend':
-                    case 'pointerup':
-                    case 'MSPointerUp':
-                    case 'mouseup':
-                    case 'touchcancel':
-                    case 'pointercancel':
-                    case 'MSPointerCancel':
-                    case 'mousecancel':
-                        this._end(e);
-                        break;
-                    case 'orientationchange':
-                    case 'resize':
-                        this._resize();
-                        break;
-                    case 'transitionend':
-                    case 'webkitTransitionEnd':
-                    case 'oTransitionEnd':
-                    case 'MSTransitionEnd':
-                        this._transitionEnd(e);
-                        break;
-                    case 'wheel':
-                    case 'DOMMouseScroll':
-                    case 'mousewheel':
-                        this._wheel(e);
-                        break;
-                    case 'keydown':
-                        this._key(e);
-                        break;
-                    case 'click':
-                        if ( !e._constructed ) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
-                        break;
-                }
-            }
-        };
-        function createDefaultScrollbar (direction, interactive, type) {
-            var scrollbar = document.createElement('div'),
-                indicator = document.createElement('div');
-        
-            if ( type === true ) {
-                scrollbar.style.cssText = 'position:absolute;z-index:9999';
-                indicator.style.cssText = '-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;position:absolute;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);border-radius:3px';
-            }
-        
-            indicator.className = 'iScrollIndicator';
-        
-            if ( direction === 'h' ) {
-                if ( type === true ) {
-                    scrollbar.style.cssText += ';height:5px;left:2px;right:2px;bottom:0';
-                    indicator.style.height = '100%';
-                }
-                scrollbar.className = 'iScrollHorizontalScrollbar';
-            } else {
-                if ( type === true ) {
-                    scrollbar.style.cssText += ';width:5px;bottom:2px;top:2px;right:1px';
-                    indicator.style.width = '100%';
-                }
-                scrollbar.className = 'iScrollVerticalScrollbar';
-            }
-        
-            scrollbar.style.cssText += ';overflow:hidden';
-        
-            if ( !interactive ) {
-                scrollbar.style.pointerEvents = 'none';
-            }
-        
-            scrollbar.appendChild(indicator);
-        
-            return scrollbar;
-        }
-        
-        function Indicator (scroller, options) {
-            this.wrapper = typeof options.el === 'string' ? document.querySelector(options.el) : options.el;
-            this.wrapperStyle = this.wrapper.style;
-            this.indicator = this.wrapper.children[0];
-            this.indicatorStyle = this.indicator.style;
-            this.scroller = scroller;
-        
-            this.options = {
-                listenX: true,
-                listenY: true,
-                interactive: false,
-                resize: true,
-                defaultScrollbars: false,
-                shrink: false,
-                fade: false,
-                speedRatioX: 0,
-                speedRatioY: 0
-            };
-        
-            for ( var i in options ) {
-                this.options[i] = options[i];
-            }
-        
-            this.sizeRatioX = 1;
-            this.sizeRatioY = 1;
-            this.maxPosX = 0;
-            this.maxPosY = 0;
-        
-            if ( this.options.interactive ) {
-                if ( !this.options.disableTouch ) {
-                    utils.addEvent(this.indicator, 'touchstart', this);
-                    utils.addEvent(window, 'touchend', this);
-                }
-                if ( !this.options.disablePointer ) {
-                    utils.addEvent(this.indicator, utils.prefixPointerEvent('pointerdown'), this);
-                    utils.addEvent(window, utils.prefixPointerEvent('pointerup'), this);
-                }
-                if ( !this.options.disableMouse ) {
-                    utils.addEvent(this.indicator, 'mousedown', this);
-                    utils.addEvent(window, 'mouseup', this);
-                }
-            }
-        
-            if ( this.options.fade ) {
-                this.wrapperStyle[utils.style.transform] = this.scroller.translateZ;
-                this.wrapperStyle[utils.style.transitionDuration] = utils.isBadAndroid ? '0.001s' : '0ms';
-                this.wrapperStyle.opacity = '0';
-            }
-        }
-        
-        Indicator.prototype = {
-            handleEvent: function (e) {
-                switch ( e.type ) {
-                    case 'touchstart':
-                    case 'pointerdown':
-                    case 'MSPointerDown':
-                    case 'mousedown':
-                        this._start(e);
-                        break;
-                    case 'touchmove':
-                    case 'pointermove':
-                    case 'MSPointerMove':
-                    case 'mousemove':
-                        this._move(e);
-                        break;
-                    case 'touchend':
-                    case 'pointerup':
-                    case 'MSPointerUp':
-                    case 'mouseup':
-                    case 'touchcancel':
-                    case 'pointercancel':
-                    case 'MSPointerCancel':
-                    case 'mousecancel':
-                        this._end(e);
-                        break;
-                }
-            },
-        
-            destroy: function () {
-                if ( this.options.interactive ) {
-                    utils.removeEvent(this.indicator, 'touchstart', this);
-                    utils.removeEvent(this.indicator, utils.prefixPointerEvent('pointerdown'), this);
-                    utils.removeEvent(this.indicator, 'mousedown', this);
-        
-                    utils.removeEvent(window, 'touchmove', this);
-                    utils.removeEvent(window, utils.prefixPointerEvent('pointermove'), this);
-                    utils.removeEvent(window, 'mousemove', this);
-        
-                    utils.removeEvent(window, 'touchend', this);
-                    utils.removeEvent(window, utils.prefixPointerEvent('pointerup'), this);
-                    utils.removeEvent(window, 'mouseup', this);
-                }
-        
-                if ( this.options.defaultScrollbars ) {
-                    this.wrapper.parentNode.removeChild(this.wrapper);
-                }
-            },
-        
-            _start: function (e) {
-                var point = e.touches ? e.touches[0] : e;
-        
-                e.preventDefault();
-                e.stopPropagation();
-        
-                this.transitionTime();
-        
-                this.initiated = true;
-                this.moved = false;
-                this.lastPointX = point.pageX;
-                this.lastPointY = point.pageY;
-        
-                this.startTime  = utils.getTime();
-        
-                if ( !this.options.disableTouch ) {
-                    utils.addEvent(window, 'touchmove', this);
-                }
-                if ( !this.options.disablePointer ) {
-                    utils.addEvent(window, utils.prefixPointerEvent('pointermove'), this);
-                }
-                if ( !this.options.disableMouse ) {
-                    utils.addEvent(window, 'mousemove', this);
-                }
-        
-                this.scroller._execEvent('beforeScrollStart');
-            },
-        
-            _move: function (e) {
-                var point = e.touches ? e.touches[0] : e,
-                    deltaX, deltaY,
-                    newX, newY,
-                    timestamp = utils.getTime();
-        
-                if ( !this.moved ) {
-                    this.scroller._execEvent('scrollStart');
-                }
-        
-                this.moved = true;
-        
-                deltaX = point.pageX - this.lastPointX;
-                this.lastPointX = point.pageX;
-        
-                deltaY = point.pageY - this.lastPointY;
-                this.lastPointY = point.pageY;
-        
-                newX = this.x + deltaX;
-                newY = this.y + deltaY;
-        
-                this._pos(newX, newY);
-        
-        
-                if ( this.scroller.options.probeType === 1 && timestamp - this.startTime > 300 ) {
-                    this.startTime = timestamp;
-                    this.scroller._execEvent('scroll');
-                } else if ( this.scroller.options.probeType > 1 ) {
-                    this.scroller._execEvent('scroll');
-                }
-        
-        
-        // INSERT POINT: indicator._move
-        
-                e.preventDefault();
-                e.stopPropagation();
-            },
-        
-            _end: function (e) {
-                if ( !this.initiated ) {
-                    return;
-                }
-        
-                this.initiated = false;
-        
-                e.preventDefault();
-                e.stopPropagation();
-        
-                utils.removeEvent(window, 'touchmove', this);
-                utils.removeEvent(window, utils.prefixPointerEvent('pointermove'), this);
-                utils.removeEvent(window, 'mousemove', this);
-        
-                if ( this.scroller.options.snap ) {
-                    var snap = this.scroller._nearestSnap(this.scroller.x, this.scroller.y);
-        
-                    var time = this.options.snapSpeed || Math.max(
-                            Math.max(
-                                Math.min(Math.abs(this.scroller.x - snap.x), 1000),
-                                Math.min(Math.abs(this.scroller.y - snap.y), 1000)
-                            ), 300);
-        
-                    if ( this.scroller.x !== snap.x || this.scroller.y !== snap.y ) {
-                        this.scroller.directionX = 0;
-                        this.scroller.directionY = 0;
-                        this.scroller.currentPage = snap;
-                        this.scroller.scrollTo(snap.x, snap.y, time, this.scroller.options.bounceEasing);
-                    }
-                }
-        
-                if ( this.moved ) {
-                    this.scroller._execEvent('scrollEnd');
-                }
-            },
-        
-            transitionTime: function (time) {
-                time = time || 0;
-                this.indicatorStyle[utils.style.transitionDuration] = time + 'ms';
-        
-                if ( !time && utils.isBadAndroid ) {
-                    this.indicatorStyle[utils.style.transitionDuration] = '0.001s';
-                }
-            },
-        
-            transitionTimingFunction: function (easing) {
-                this.indicatorStyle[utils.style.transitionTimingFunction] = easing;
-            },
-        
-            refresh: function () {
-                this.transitionTime();
-        
-                if ( this.options.listenX && !this.options.listenY ) {
-                    this.indicatorStyle.display = this.scroller.hasHorizontalScroll ? 'block' : 'none';
-                } else if ( this.options.listenY && !this.options.listenX ) {
-                    this.indicatorStyle.display = this.scroller.hasVerticalScroll ? 'block' : 'none';
-                } else {
-                    this.indicatorStyle.display = this.scroller.hasHorizontalScroll || this.scroller.hasVerticalScroll ? 'block' : 'none';
-                }
-        
-                if ( this.scroller.hasHorizontalScroll && this.scroller.hasVerticalScroll ) {
-                    utils.addClass(this.wrapper, 'iScrollBothScrollbars');
-                    utils.removeClass(this.wrapper, 'iScrollLoneScrollbar');
-        
-                    if ( this.options.defaultScrollbars && this.options.customStyle ) {
-                        if ( this.options.listenX ) {
-                            this.wrapper.style.right = '8px';
-                        } else {
-                            this.wrapper.style.bottom = '8px';
-                        }
-                    }
-                } else {
-                    utils.removeClass(this.wrapper, 'iScrollBothScrollbars');
-                    utils.addClass(this.wrapper, 'iScrollLoneScrollbar');
-        
-                    if ( this.options.defaultScrollbars && this.options.customStyle ) {
-                        if ( this.options.listenX ) {
-                            this.wrapper.style.right = '2px';
-                        } else {
-                            this.wrapper.style.bottom = '2px';
-                        }
-                    }
-                }
-        
-                var r = this.wrapper.offsetHeight;  // force refresh
-        
-                if ( this.options.listenX ) {
-                    this.wrapperWidth = this.wrapper.clientWidth;
-                    if ( this.options.resize ) {
-                        this.indicatorWidth = Math.max(Math.round(this.wrapperWidth * this.wrapperWidth / (this.scroller.scrollerWidth || this.wrapperWidth || 1)), 8);
-                        this.indicatorStyle.width = this.indicatorWidth + 'px';
-                    } else {
-                        this.indicatorWidth = this.indicator.clientWidth;
-                    }
-        
-                    this.maxPosX = this.wrapperWidth - this.indicatorWidth;
-        
-                    if ( this.options.shrink === 'clip' ) {
-                        this.minBoundaryX = -this.indicatorWidth + 8;
-                        this.maxBoundaryX = this.wrapperWidth - 8;
-                    } else {
-                        this.minBoundaryX = 0;
-                        this.maxBoundaryX = this.maxPosX;
-                    }
-        
-                    this.sizeRatioX = this.options.speedRatioX || (this.scroller.maxScrollX && (this.maxPosX / this.scroller.maxScrollX));  
-                }
-        
-                if ( this.options.listenY ) {
-                    this.wrapperHeight = this.wrapper.clientHeight;
-                    if ( this.options.resize ) {
-                        this.indicatorHeight = Math.max(Math.round(this.wrapperHeight * this.wrapperHeight / (this.scroller.scrollerHeight || this.wrapperHeight || 1)), 8);
-                        this.indicatorStyle.height = this.indicatorHeight + 'px';
-                    } else {
-                        this.indicatorHeight = this.indicator.clientHeight;
-                    }
-        
-                    this.maxPosY = this.wrapperHeight - this.indicatorHeight;
-        
-                    if ( this.options.shrink === 'clip' ) {
-                        this.minBoundaryY = -this.indicatorHeight + 8;
-                        this.maxBoundaryY = this.wrapperHeight - 8;
-                    } else {
-                        this.minBoundaryY = 0;
-                        this.maxBoundaryY = this.maxPosY;
-                    }
-        
-                    this.maxPosY = this.wrapperHeight - this.indicatorHeight;
-                    this.sizeRatioY = this.options.speedRatioY || (this.scroller.maxScrollY && (this.maxPosY / this.scroller.maxScrollY));
-                }
-        
-                this.updatePosition();
-            },
-        
-            updatePosition: function () {
-                var x = this.options.listenX && Math.round(this.sizeRatioX * this.scroller.x) || 0,
-                    y = this.options.listenY && Math.round(this.sizeRatioY * this.scroller.y) || 0;
-        
-                if ( !this.options.ignoreBoundaries ) {
-                    if ( x < this.minBoundaryX ) {
-                        if ( this.options.shrink === 'scale' ) {
-                            this.width = Math.max(this.indicatorWidth + x, 8);
-                            this.indicatorStyle.width = this.width + 'px';
-                        }
-                        x = this.minBoundaryX;
-                    } else if ( x > this.maxBoundaryX ) {
-                        if ( this.options.shrink === 'scale' ) {
-                            this.width = Math.max(this.indicatorWidth - (x - this.maxPosX), 8);
-                            this.indicatorStyle.width = this.width + 'px';
-                            x = this.maxPosX + this.indicatorWidth - this.width;
-                        } else {
-                            x = this.maxBoundaryX;
-                        }
-                    } else if ( this.options.shrink === 'scale' && this.width !== this.indicatorWidth ) {
-                        this.width = this.indicatorWidth;
-                        this.indicatorStyle.width = this.width + 'px';
-                    }
-        
-                    if ( y < this.minBoundaryY ) {
-                        if ( this.options.shrink === 'scale' ) {
-                            this.height = Math.max(this.indicatorHeight + y * 3, 8);
-                            this.indicatorStyle.height = this.height + 'px';
-                        }
-                        y = this.minBoundaryY;
-                    } else if ( y > this.maxBoundaryY ) {
-                        if ( this.options.shrink === 'scale' ) {
-                            this.height = Math.max(this.indicatorHeight - (y - this.maxPosY) * 3, 8);
-                            this.indicatorStyle.height = this.height + 'px';
-                            y = this.maxPosY + this.indicatorHeight - this.height;
-                        } else {
-                            y = this.maxBoundaryY;
-                        }
-                    } else if ( this.options.shrink === 'scale' && this.height !== this.indicatorHeight ) {
-                        this.height = this.indicatorHeight;
-                        this.indicatorStyle.height = this.height + 'px';
-                    }
-                }
-        
-                this.x = x;
-                this.y = y;
-        
-                if ( this.scroller.options.useTransform ) {
-                    this.indicatorStyle[utils.style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.scroller.translateZ;
-                } else {
-                    this.indicatorStyle.left = x + 'px';
-                    this.indicatorStyle.top = y + 'px';
-                }
-            },
-        
-            _pos: function (x, y) {
-                if ( x < 0 ) {
-                    x = 0;
-                } else if ( x > this.maxPosX ) {
-                    x = this.maxPosX;
-                }
-        
-                if ( y < 0 ) {
-                    y = 0;
-                } else if ( y > this.maxPosY ) {
-                    y = this.maxPosY;
-                }
-        
-                x = this.options.listenX ? Math.round(x / this.sizeRatioX) : this.scroller.x;
-                y = this.options.listenY ? Math.round(y / this.sizeRatioY) : this.scroller.y;
-        
-                this.scroller.scrollTo(x, y);
-            },
-        
-            fade: function (val, hold) {
-                if ( hold && !this.visible ) {
-                    return;
-                }
-        
-                clearTimeout(this.fadeTimeout);
-                this.fadeTimeout = null;
-        
-                var time = val ? 250 : 500,
-                    delay = val ? 0 : 300;
-        
-                val = val ? '1' : '0';
-        
-                this.wrapperStyle[utils.style.transitionDuration] = time + 'ms';
-        
-                this.fadeTimeout = setTimeout((function (val) {
-                    this.wrapperStyle.opacity = val;
-                    this.visible = +val;
-                }).bind(this, val), delay);
-            }
-        };
-        
-        IScroll.utils = utils;
-        
-
-        //比较一个字符串版本号
-        //a > b === 1
-        //a = b === 0
-        //a < b === -1
-        app.compareVersion = function(a, b) {
-          if(a === b) return 0;
-          var as = a.split('.');
-          var bs = b.split('.');
-          for(var i=0;i<as.length;i++) {
-            var x = parseInt(as[i]);
-            if(!bs[i]) return 1;
-            var y = parseInt(bs[i]);
-            if(x<y) return -1;
-            if(x>y) return 1;
-          }
-          return 1;
-        };
-        
-        //自定义的滚动条
-        var Scroller = function(pageContent, type) {
-          var $pageContent = this.$pageContent = $(pageContent);
-          var useJSScroller = (type === 'auto' && (app.device.android && app.compareVersion('4.4.0', app.device.osVersion) > -1) || (app.device.ios && app.compareVersion('6.0.0', app.device.osVersion) > -1)) || type === 'js';
-          if(useJSScroller) {
-            var ptr = $(pageContent).hasClass('pull-to-refresh-content');
-            var options = {
-              probeType: 1,
-              mouseWheel: true,
-            };
-            if(ptr) {
-              options.ptr = true;
-              options.ptrOffset = 44;
-            }
-            this.scroller = new IScroll(pageContent, options);
-            app.initPullToRefresh = app.initPullToRefreshJS;
-            app.pullToRefreshDone = app.pullToRefreshDoneJS;
-            app.pullToRefreshTrigger = app.pullToRefreshTriggerJS;
-            app.destroyToRefresh = app.destroyToRefreshJS;
-          } else {
-            $pageContent.addClass('native-scroll');
-          }
-        };
-        
-        //如果没有传入参数，则返回当前滚动距离
-        Scroller.prototype.scrollTop = function(top, dur) {
-          if(this.scroller) {
-            if(top !== undefined) {
-              this.scroller.scrollTo(0, -1 * top, dur);
-            } else {
-              return this.scroller.getComputedPosition().y * -1;
-            }
-          } else {
-            return this.$pageContent.scrollTop(top, dur);
-          }
-          return this;
-        };
-        //scroll, scrollEnd, scrollStart
-        Scroller.prototype.on = function(event, callback) {
-          if(this.scroller) {
-            this.scroller.on(event, function() {
-              callback.call(this.wrapper);
-            });
-          } else {
-            this.$pageContent.on(event, callback);
-          }
-          return this;
-        };
-        Scroller.prototype.off = function(event, callback) {
-          if(this.scroller) {
-            this.scroller.off(event, callback);
-          } else {
-            this.$pageContent.off(event, callback);
-          }
-          return this;
-        };
-        //刷新滚动条
-        Scroller.prototype.refresh = function() {
-          if(this.scroller) this.scroller.refresh();
-          return this;
-        };
-        Scroller.prototype.scrollHeight = function() {
-          if(this.scroller) {
-            return this.scroller.scrollerHeight;
-          } else {
-            return this.$pageContent[0].scrollHeight;
-          }
-        };
-        
-        //在JS 滚动条下启用/禁用滚动功能
-        Scroller.prototype.enable = function() {
-          if(this.scroller) {
-            this.scroller.enable();
-          }
-          return this;
-        };
-        Scroller.prototype.disable = function() {
-          if(this.scroller) {
-            this.scroller.disable();
-          }
-          return this;
-        };
-        
-        app.initScroller = function(pageContent) {
-            if(!pageContent) return;
-            var $pageContent = $(pageContent);
-            var $pageContentInner = $pageContent.find('.page-content-inner');
-            if(!$pageContentInner[0]) {
-              $pageContent.html('<div class="page-content-inner">'+ $pageContent.html() + '</div>');
-            }
-            if($pageContent.hasClass('pull-to-refresh-content')) {
-              //因为iscroll 当页面高度不足 100% 时无法滑动，所以无法触发下拉动作，这里改动一下高度
-              $pageContent.find('.page-content-inner').css('min-height', ($(window).height()+20)+'px');
-            }
-            
-            var scroller = new Scroller(pageContent, app.params.scroller);
-            pageContent.scroller = scroller;
-        };
-        app.refreshScroller = function(content) { //如果未传入container，则取当前显示的page
-            var $content = $(content || $(app.mainView.activePage.container).find('.page-content')[0]);
-            if($content[0] && $content[0].scroller) {
-                $content[0].scroller.refresh();
-            }
-        };
-        app.getScroller = function(content) {
-          if(content) {
-            return $(content)[0].scroller;
-          } else {
-            return $(app.mainView.activePage.container).find('.page-content')[0].scroller;
-          }
-        };
-        
-
         /*======================================================
         ************   Views   ************
         ======================================================*/
@@ -2376,7 +180,13 @@
             };
             var i;
         
+            // Params
             params = params || {};
+        
+            // Disable dynamic navbar for material theme
+            if (params.dynamicNavbar && app.params.material) params.dynamicNavbar = false;
+        
+            // Extend params with defaults
             for (var def in defaults) {
                 if (typeof params[def] === 'undefined') {
                     params[def] = defaults[def];
@@ -3556,7 +1366,6 @@
                 if (s.isVirtualList) {
                     virtualList.filterItems(foundItems);
                 }
-                app.getScroller(s.pageContainer.find('.page-content')).refresh().scrollTop(0);
             };
         
             // Events
@@ -3615,7 +1424,6 @@
                 container.once('navbarBeforeRemove', onBeforeRemove);
             }
         };
-        
 
         /*======================================================
         ************   Messagebar   ************
@@ -3675,9 +1483,10 @@
                     }
                     m.textarea.css('height', newAreaHeight + 'px');
                     m.container.css('height', newBarHeight + 'px');
+                    var onBottom = (m.pageContent[0].scrollTop === m.pageContent[0].scrollHeight - m.pageContent[0].offsetHeight);
                     if (m.pageContent.length > 0) {
                         m.pageContent.css('padding-bottom', newBarHeight + 'px');
-                        if (m.pageContent.find('.messages-new-first').length === 0) {
+                        if (m.pageContent.find('.messages-new-first').length === 0 && onBottom) {
                             m.pageContent.scrollTop(m.pageContent[0].scrollHeight - m.pageContent[0].offsetHeight);
                         }
                     }
@@ -3902,12 +1711,10 @@
         app.pageInitCallback = function (view, params) {
             var pageContainer = params.pageContainer;
             if (pageContainer.f7PageInitialized && view && !view.params.domCache) return;
-            app.initScroller($(pageContainer).find('.page-content')[0]);    //尽早初始化
         
             // Page Data
             var pageData = {
                 container: pageContainer,
-                scroller: pageContainer.scroller,
                 url: params.url,
                 query: params.query || $.parseUrlQuery(params.url || ''),
                 name: $(pageContainer).attr('data-page'),
@@ -4029,7 +1836,6 @@
                 navbarInnerContainer: pageContainer.f7PageData && pageContainer.f7PageData.navbarInnerContainer,
                 fromPage: params.fromPage
             };
-        
             var oldPage = params.oldPage,
                 newPage = params.newPage;
         
@@ -4120,7 +1926,6 @@
             if (app.params.material && app.initPageMaterialInputs) app.initPageMaterialInputs(pageContainer);
             // Init Material Tabbar
             if (app.params.material && app.initPageMaterialTabbar) app.initPageMaterialTabbar(pageContainer);
-            app.refreshScroller($(pageContainer).find('.page-content')[0]);
         };
         app.reinitPage = function (pageContainer) {
             pageContainer = $(pageContainer);
@@ -4143,7 +1948,6 @@
             }
             app.pageInitCallback(view, {pageContainer: pageContainer[0], url: url, position: 'center'});
         };
-        
 
         /*======================================================
         ************   Navigation / Router   ************
@@ -4314,7 +2118,7 @@
                 var t7_ctx, t7_template;
                 if (typeof content === 'string') {
                     if (url) {
-                        if (app.template7Cache[url]) t7_template = t7.cache[url];
+                        if (app.template7Cache[url] && !options.ignoreCache) t7_template = t7.cache[url];
                         else {
                             t7_template = t7.compile(content);
                             t7.cache[url] = t7_template;
@@ -5312,8 +3116,8 @@
                 var textHTML = params.text ? '<div class="modal-text">' + params.text + '</div>' : '';
                 var afterTextHTML = params.afterText ? params.afterText : '';
                 var noButtons = !params.buttons || params.buttons.length === 0 ? 'modal-no-buttons' : '';
-                var verticalButtons = params.verticalButtons ? 'modal-buttons-vertical' : '';
-                modalHTML = '<div class="modal ' + noButtons + ' ' + (params.cssClass || '') + '"><div class="modal-inner">' + (titleHTML + textHTML + afterTextHTML) + '</div><div class="modal-buttons ' + verticalButtons + '">' + buttonsHTML + '</div></div>';
+                var verticalButtons = params.verticalButtons ? 'modal-buttons-vertical': '';
+                modalHTML = '<div class="modal ' + noButtons + ' ' + (params.cssClass || '') + '"><div class="modal-inner">' + (titleHTML + textHTML + afterTextHTML) + '</div><div class="modal-buttons modal-buttons-' + params.buttons.length + ' ' + verticalButtons + '">' + buttonsHTML + '</div></div>';
             }
         
             _modalTemplateTempDiv.innerHTML = modalHTML;
@@ -5682,7 +3486,7 @@
                         }
                         diff = diff - modalLeft;
                         modalAngleLeft = (modalWidth / 2 - modalAngleSize + diff);
-                        modalAngleLeft = Math.max(Math.min(modalAngleLeft, modalWidth - modalAngleSize * 2 - 6), 6);
+                        modalAngleLeft = Math.max(Math.min(modalAngleLeft, modalWidth - modalAngleSize * 2 - 13), 13);
                         modalAngle.css({left: modalAngleLeft + 'px'});
         
                     }
@@ -5695,7 +3499,7 @@
                             modalAngle.removeClass('on-right').addClass('on-left');
                         }
                         modalAngleTop = (modalHeight / 2 - modalAngleSize + diff);
-                        modalAngleTop = Math.max(Math.min(modalAngleTop, modalHeight - modalAngleSize * 2 - 6), 6);
+                        modalAngleTop = Math.max(Math.min(modalAngleTop, modalHeight - modalAngleSize * 2 - 13), 13);
                         modalAngle.css({top: modalAngleTop + 'px'});
                     }
                 }
@@ -5731,7 +3535,6 @@
             modal.show();
             
             app.openModal(modal);
-            app.refreshScroller(modal.find('.page-content'));
             return modal[0];
         };
         app.pickerModal = function (pickerModal, removeOnClose) {
@@ -6194,11 +3997,13 @@
                         }
                         else {
                             var target = effect === 'reveal' ? views : panel;
+                            panel.trigger('close');
                             $('body').addClass('panel-closing');
                             target.transitionEnd(function () {
-                                app.allowPanelOpen = true;
+                                panel.trigger('closed');
                                 panel.css({display: ''});
                                 $('body').removeClass('panel-closing');
+                                app.allowPanelOpen = true;
                             });
                         }
                     }
@@ -6244,7 +4049,6 @@
                 pageContent = pageContainer.find('.page-content');
             }
             if (pageContent.length === 0) return;
-            var scroller = app.getScroller(pageContent);
         
             // Placeholder
             var placeholderSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXCwsK592mkAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==';
@@ -6301,6 +4105,9 @@
                 lazyLoadImages = pageContainer.find('.lazy');
                 lazyLoadImages.each(function(index, el) {
                     el = $(el);
+                    if (el.parents('.tab:not(.active)').length > 0) {
+                        return;
+                    }
                     if (isElementInViewport(el[0])) {
                         loadImage(el);
                     }
@@ -6321,9 +4128,10 @@
             function attachEvents(destroy) {
                 var method = destroy ? 'off' : 'on';
                 lazyLoadImages[method]('lazy', lazyHandler);
+                lazyLoadImages.parents('.tab')[method]('show', lazyHandler);
                 pageContainer[method]('lazy', lazyHandler);
                 pageContent[method]('lazy', lazyHandler);
-                scroller.on('scroll', lazyHandler);
+                pageContent[method]('scroll', lazyHandler);
                 $(window)[method]('resize', lazyHandler);
             }
             function detachEvents() {
@@ -6359,7 +4167,6 @@
                 pageContainer.trigger('lazy');
             }
         };
-        
 
         /*======================================================
         ************   Material Preloader   ************
@@ -6739,6 +4546,12 @@
                         $button = $(buttonsRight[i]);
                         if (overswipeRightButton.length > 0 && $button.hasClass('swipeout-overswipe')) {
                             $button.css({left: (overswipeRight ? -buttonOffset : 0) + 'px'});
+                            if (overswipeRight) {
+                                $button.addClass('swipeout-overswipe-active');
+                            }
+                            else {
+                                $button.removeClass('swipeout-overswipe-active');   
+                            }
                         }
                         $button.transform('translate3d(' + (translate - buttonOffset * (1 + Math.max(progress, -1))) + 'px,0,0)');
                     }
@@ -6760,6 +4573,12 @@
                         $button = $(buttonsLeft[i]);
                         if (overswipeLeftButton.length > 0 && $button.hasClass('swipeout-overswipe')) {
                             $button.css({left: (overswipeLeft ? buttonOffset : 0) + 'px'});
+                            if (overswipeLeft) {
+                                $button.addClass('swipeout-overswipe-active');
+                            }
+                            else {
+                                $button.removeClass('swipeout-overswipe-active');   
+                            }
                         }
                         if (buttonsLeft.length > 1) {
                             $button.css('z-index', buttonsLeft.length - i); 
@@ -6932,12 +4751,14 @@
             var closeTO;
             function onSwipeoutClose() {
                 app.allowSwipeout = true;
+                if (el.hasClass('swipeout-opened')) return;
+                el.removeClass('transitioning');
                 buttons.transform('');
                 el.trigger('closed');
                 if (callback) callback.call(el[0]);
                 if (closeTO) clearTimeout(closeTO);
             }
-            el.find('.swipeout-content').transform('translate3d(' + 0 + 'px,0,0)').transitionEnd(onSwipeoutClose);
+            el.find('.swipeout-content').transform('').transitionEnd(onSwipeoutClose);
             closeTO = setTimeout(onSwipeoutClose, 500);
             
             for (var i = 0; i < buttons.length; i++) {
@@ -6947,7 +4768,7 @@
                 else {
                     $(buttons[i]).transform('translate3d(' + (swipeOutActionsWidth - buttons[i].offsetWidth - buttons[i].offsetLeft) + 'px,0,0)');
                 }
-                $(buttons[i]).css({left:0 + 'px'});
+                $(buttons[i]).css({left:0 + 'px'}).removeClass('swipeout-overswipe-active');
             }
             if (app.swipeoutOpenedEl && app.swipeoutOpenedEl[0] === el[0]) app.swipeoutOpenedEl = undefined;
         };
@@ -7018,7 +4839,6 @@
                 sortableContainer = sortingEl.parents('.sortable');
                 e.preventDefault();
                 app.allowPanelOpen = app.allowSwipeout = false;
-                app.getScroller().disable();
             }
             function handleTouchMove(e) {
                 if (!isTouched || !sortingEl) return;
@@ -7094,7 +4914,6 @@
                 insertAfter = insertBefore = undefined;
                 isTouched = false;
                 isMoved = false;
-                app.getScroller().enable();
             }
             $(document).on(app.touchEvents.start, '.list-block.sortable .sortable-handler', handleTouchStart);
             if (app.support.touch) {
@@ -7181,10 +5000,15 @@
             view = view[0].f7View;
         
             // Parameters
-            var openIn = smartSelect.attr('data-open-in');
-            if (!openIn) openIn = app.params.smartSelectInPopup ? 'popup' : 'page';
+            var openIn = smartSelect.attr('data-open-in') || app.params.smartSelectOpenIn;
             if (openIn === 'popup') {
                 if ($('.popup.smart-select-popup').length > 0) return;
+            }
+            else if (openIn === 'picker') {
+                if ($('.picker-modal.modal-in').length > 0 && !reLayout){
+                    if (smartSelect[0].f7SmartSelectPicker !== $('.picker-modal.modal-in:not(.modal-out)')[0]) app.closeModal($('.picker-modal.modal-in:not(.modal-out)'));
+                    else return;
+                }
             }
             else {
                 if (!view) return;
@@ -7193,10 +5017,17 @@
             var smartSelectData = smartSelect.dataset();
             var pageTitle = smartSelectData.pageTitle || smartSelect.find('.item-title').text();
             var backText = smartSelectData.backText || app.params.smartSelectBackText;
-            var closeText = smartSelectData.popupCloseText || smartSelectData.backText || app.params.smartSelectPopupCloseText ;
+            var closeText;
+            if (openIn === 'picker') {
+                closeText = smartSelectData.pickerCloseText || smartSelectData.backText || app.params.smartSelectPickerCloseText ;   
+            }
+            else {
+                closeText = smartSelectData.popupCloseText || smartSelectData.backText || app.params.smartSelectPopupCloseText ;      
+            }
             var backOnSelect = smartSelectData.backOnSelect !== undefined ? smartSelectData.backOnSelect : app.params.smartSelectBackOnSelect;
             var formTheme = smartSelectData.formTheme || app.params.smartSelectFormTheme;
             var navbarTheme = smartSelectData.navbarTheme || app.params.smartSelectNavbarTheme;
+            var toolbarTheme = smartSelectData.toolbarTheme || app.params.smartSelectToolbarTheme;
             var virtualList = smartSelectData.virtualList;
             var virtualListHeight = smartSelectData.virtualListHeight;
             var material = app.params.material;
@@ -7215,7 +5046,6 @@
             var option, optionHasMedia, optionImage, optionIcon, optionGroup, optionGroupLabel, optionPreviousGroup, optionIsLabel, previousGroup, optionColor, optionClassName, optionData;
             for (var i = 0; i < select.length; i++) {
                 option = $(select[i]);
-                if (option[0].disabled) continue;
                 optionData = option.dataset();
                 optionImage = optionData.optionImage || $selectData.optionImage;
                 optionIcon = optionData.optionIcon || $selectData.optionIcon;
@@ -7223,6 +5053,7 @@
                 if (material) optionHasMedia = optionImage || optionIcon;
                 optionColor = optionData.optionColor;
                 optionClassName = optionData.optionClass;
+                if (option[0].disabled) optionClassName += ' disabled';
                 optionGroup = option.parent('optgroup')[0];
                 optionGroupLabel = optionGroup && optionGroup.label;
                 optionIsLabel = false;
@@ -7312,41 +5143,65 @@
                 }
             }
         
-            // Navbar HTML
-            if (!app._compiledTemplates.smartSelectNavbar) {
-                app._compiledTemplates.smartSelectNavbar = t7.compile(app.params.smartSelectNavbarTemplate || 
-                    '<div class="navbar {{#if navbarTheme}}theme-{{navbarTheme}}{{/if}}">' +
-                        '<div class="navbar-inner">' +
-                            '{{leftTemplate}}' +
-                            '<div class="center sliding">{{pageTitle}}</div>' +
-                        '</div>' +
-                    '</div>'
-                );
-            }
-            var navbarHTML = app._compiledTemplates.smartSelectNavbar({
-                pageTitle: pageTitle,
-                backText: backText,
-                closeText: closeText,
-                openIn: openIn,
-                navbarTheme: navbarTheme,
-                inPopup: openIn === 'popup',
-                inPage: openIn === 'page',
-                leftTemplate: openIn === 'popup' ? 
-                    (app.params.smartSelectPopupCloseTemplate || (material ? '<div class="left"><a href="#" class="link close-popup icon-only"><i class="icon icon-back"></i></a></div>' : '<div class="left"><a href="#" class="link close-popup"><i class="icon icon-back"></i><span>{{closeText}}</span></a></div>')).replace(/{{closeText}}/g, closeText) :
-                    (app.params.smartSelectBackTemplate || (material ? '<div class="left"><a href="#" class="back link icon-only"><i class="icon icon-back"></i></a></div>' : '<div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><span>{{backText}}</span></a></div>')).replace(/{{backText}}/g, backText)
-            });
-            
-            // Determine navbar layout type - static/fixed/through
+            // Toolbar / Navbar
+            var toolbarHTML = '', navbarHTML;
             var noNavbar = '', noToolbar = '', navbarLayout;
-            if (openIn === 'page') {
-                navbarLayout = 'static';
-                if (smartSelect.parents('.navbar-through').length > 0) navbarLayout = 'through';
-                if (smartSelect.parents('.navbar-fixed').length > 0) navbarLayout = 'fixed';
-                noToolbar = smartSelect.parents('.page').hasClass('no-toolbar') ? 'no-toolbar' : '';
-                noNavbar  = smartSelect.parents('.page').hasClass('no-navbar')  ? 'no-navbar'  : 'navbar-' + navbarLayout;
+        
+            if (openIn === 'picker') {
+                if (!app._compiledTemplates.smartSelectToolbar) {
+                    app._compiledTemplates.smartSelectToolbar = t7.compile(app.params.smartSelectToolbarTemplate || 
+                        '<div class="toolbar {{#if toolbarTheme}}theme-{{toolbarTheme}}{{/if}}">' +
+                          '<div class="toolbar-inner">' +
+                            '<div class="left"></div>' +
+                            '<div class="right"><a href="#" class="link close-picker"><span>{{closeText}}</span></a></div>' +
+                        '</div>' +
+                      '</div>'
+                    );
+                }
+        
+                toolbarHTML = app._compiledTemplates.smartSelectToolbar({
+                    pageTitle: pageTitle,
+                    closeText: closeText,
+                    openIn: openIn,
+                    toolbarTheme: toolbarTheme,
+                    inPicker: openIn === 'picker'              
+                });
             }
             else {
-                navbarLayout = 'fixed';
+                // Navbar HTML
+                if (!app._compiledTemplates.smartSelectNavbar) {
+                    app._compiledTemplates.smartSelectNavbar = t7.compile(app.params.smartSelectNavbarTemplate || 
+                        '<div class="navbar {{#if navbarTheme}}theme-{{navbarTheme}}{{/if}}">' +
+                            '<div class="navbar-inner">' +
+                                '{{leftTemplate}}' +
+                                '<div class="center sliding">{{pageTitle}}</div>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                }
+                navbarHTML = app._compiledTemplates.smartSelectNavbar({
+                    pageTitle: pageTitle,
+                    backText: backText,
+                    closeText: closeText,
+                    openIn: openIn,
+                    navbarTheme: navbarTheme,
+                    inPopup: openIn === 'popup',
+                    inPage: openIn === 'page',
+                    leftTemplate: openIn === 'popup' ? 
+                        (app.params.smartSelectPopupCloseTemplate || (material ? '<div class="left"><a href="#" class="link close-popup icon-only"><i class="icon icon-back"></i></a></div>' : '<div class="left"><a href="#" class="link close-popup"><i class="icon icon-back"></i><span>{{closeText}}</span></a></div>')).replace(/{{closeText}}/g, closeText) :
+                        (app.params.smartSelectBackTemplate || (material ? '<div class="left"><a href="#" class="back link icon-only"><i class="icon icon-back"></i></a></div>' : '<div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><span>{{backText}}</span></a></div>')).replace(/{{backText}}/g, backText)
+                });
+                // Determine navbar layout type - static/fixed/through
+                if (openIn === 'page') {
+                    navbarLayout = 'static';
+                    if (smartSelect.parents('.navbar-through').length > 0) navbarLayout = 'through';
+                    if (smartSelect.parents('.navbar-fixed').length > 0) navbarLayout = 'fixed';
+                    noToolbar = smartSelect.parents('.page').hasClass('no-toolbar') ? 'no-toolbar' : '';
+                    noNavbar  = smartSelect.parents('.page').hasClass('no-navbar')  ? 'no-navbar'  : 'navbar-' + navbarLayout;
+                }
+                else {
+                    navbarLayout = 'fixed';
+                }
             }
                 
         
@@ -7371,13 +5226,13 @@
                                   '<div class="searchbar-overlay"></div>';
         
             var pageHTML =
-                (navbarLayout === 'through' ? navbarHTML : '') +
+                (openIn !== 'picker' && navbarLayout === 'through' ? navbarHTML : '') +
                 '<div class="pages">' +
                 '  <div data-page="' + pageName + '" data-select-name="' + selectName + '" class="page smart-select-page ' + noNavbar + ' ' + noToolbar + '">' +
-                     (navbarLayout === 'fixed' ? navbarHTML : '') +
+                     (openIn !== 'picker' && navbarLayout === 'fixed' ? navbarHTML : '') +
                      (useSearchbar ? searchbarHTML : '') +
                 '    <div class="page-content">' +
-                       (navbarLayout === 'static' ? navbarHTML : '') +
+                       (openIn !== 'picker' && navbarLayout === 'static' ? navbarHTML : '') +
                 '      <div class="list-block ' + (virtualList ? 'virtual-list' : '') + ' smart-select-list-' + id + ' ' + (formTheme ? 'theme-' + formTheme : '') + '">' +
                 '        <ul>' +
                             (virtualList ? '' : inputsHTML) +
@@ -7387,8 +5242,44 @@
                 '  </div>' +
                 '</div>';
         
-            // Define popup
-            var popup;
+            // Define popup and picker
+            var popup, picker;
+        
+            // Scroll SS Picker To Input
+            function scrollToInput() {
+                var pageContent = smartSelect.parents('.page-content');
+                if (pageContent.length === 0) return;
+                var paddingTop = parseInt(pageContent.css('padding-top'), 10),
+                    paddingBottom = parseInt(pageContent.css('padding-bottom'), 10),
+                    pageHeight = pageContent[0].offsetHeight - paddingTop - picker.height(),
+                    pageScrollHeight = pageContent[0].scrollHeight - paddingTop - picker.height(),
+                    newPaddingBottom;
+                var inputTop = smartSelect.offset().top - paddingTop + smartSelect[0].offsetHeight;
+                if (inputTop > pageHeight) {
+                    var scrollTop = pageContent.scrollTop() + inputTop - pageHeight;
+                    if (scrollTop + pageHeight > pageScrollHeight) {
+                        newPaddingBottom = scrollTop + pageHeight - pageScrollHeight + paddingBottom;
+                        if (pageHeight === pageScrollHeight) {
+                            newPaddingBottom = picker.height();
+                        }
+                        pageContent.css({'padding-bottom': (newPaddingBottom) + 'px'});
+                    }
+                    pageContent.scrollTop(scrollTop, 300);
+                }
+            }
+            // Close SS Picker on HTML Click
+            function closeOnHTMLClick(e) {
+                var close = true;
+                if (e.target === smartSelect[0] || $(e.target).parents(smartSelect[0]).length > 0) {
+                    close = false;
+                }
+                if ($(e.target).parents('.picker-modal').length > 0) {
+                    close = false;
+                }
+                if (close) {
+                    app.closeModal('.smart-select-picker.modal-in');   
+                }
+            }
         
             // Event Listeners on new page
             function handleInputs(container) {
@@ -7402,10 +5293,11 @@
                             return false;
                         }
                     });
-                    $(container).once(openIn === 'popup' ? 'closed': 'pageBeforeRemove', function () {
+                    $(container).once(openIn === 'popup' || openIn === 'picker' ? 'closed': 'pageBeforeRemove', function () {
                         if (virtualListInstance && virtualListInstance.destroy) virtualListInstance.destroy();
                     });
                 }
+                
                 $(container).on('change', 'input[name="' + inputName + '"]', function () {
                     var input = this;
                     var value = input.value;
@@ -7431,6 +5323,7 @@
                     smartSelect.find('.item-after').text(optionText.join(', '));
                     if (backOnSelect && inputType === 'radio') {
                         if (openIn === 'popup') app.closeModal(popup);
+                        else if (openIn === 'picker') app.closeModal(picker);
                         else view.router.back();
                     }
                 });
@@ -7458,6 +5351,52 @@
                 }
                 app.initPage(popup.find('.page'));
                 handleInputs(popup);
+            }
+            else if (openIn === 'picker') {
+                if (reLayout) {
+                    picker = $('.picker-modal.smart-select-picker .view');
+                    picker.html(pageHTML);
+                }
+                else {
+                    picker = app.pickerModal(
+                        '<div class="picker-modal smart-select-picker smart-select-picker-' + inputName + '">' +
+                            toolbarHTML +
+                            '<div class="picker-modal-inner">' +
+                                '<div class="view">' +
+                                    pageHTML +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'
+                        );
+                    picker = $(picker);
+        
+                    // Scroll To Input
+                    scrollToInput();
+        
+                    // Close On Click
+                    $('html').on('click', closeOnHTMLClick);
+        
+                    // On Close
+                    picker.once('close', function () {
+                        // Reset linked picker
+                        smartSelect[0].f7SmartSelectPicker = undefined;
+                        
+                        // Detach html click
+                        $('html').off('click', closeOnHTMLClick);    
+                        
+                        // Restore page padding bottom
+                        smartSelect.parents('.page-content').css({paddingBottom: ''});
+                    });
+        
+                    // Link Picker
+                    smartSelect[0].f7SmartSelectPicker = picker[0];
+                }
+        
+                // Init Page
+                app.initPage(picker.find('.page'));
+        
+                // Attach events
+                handleInputs(picker);
             }
             else {
                 $(document).once('pageInit', '.smart-select-page', pageInit);
@@ -7496,7 +5435,6 @@
                 else if (typeof params.template === 'function') vl.template = params.template;
             }
             vl.pageContent = vl.listBlock.parents('.page-content');
-            var scroller = app.getScroller(vl.pageContent);
         
             // Bad scroll
             var updatableScroll;
@@ -7587,7 +5525,7 @@
                 var scrollTop = -(vl.listBlock[0].getBoundingClientRect().top + vl.pageContent[0].getBoundingClientRect().top);
                 if (typeof forceScrollTop !== 'undefined') scrollTop = forceScrollTop;
         
-                if (vl.lastRepaintY === null || Math.abs(scrollTop - vl.lastRepaintY) > maxBufferHeight || (!updatableScroll && (scroller.scrollTop() + pageHeight >= scroller.scrollHeight()))) {
+                if (vl.lastRepaintY === null || Math.abs(scrollTop - vl.lastRepaintY) > maxBufferHeight || (!updatableScroll && (vl.pageContent[0].scrollTop + pageHeight >= vl.pageContent[0].scrollHeight))) {
                     vl.lastRepaintY = scrollTop;
                 }
                 else {
@@ -7691,7 +5629,6 @@
                 if (vl.params.onItemsBeforeInsert) vl.params.onItemsBeforeInsert(vl, vl.fragment);
                 vl.ul[0].appendChild(vl.fragment);
                 if (vl.params.onItemsAfterInsert) vl.params.onItemsAfterInsert(vl, vl.fragment);
-                app.getScroller().refresh();
         
                 if (typeof forceScrollTop !== 'undefined' && force) {
                     vl.pageContent.scrollTop(forceScrollTop, 0);
@@ -7727,7 +5664,7 @@
         
             vl.attachEvents = function (detach) {
                 var action = detach ? 'off' : 'on';
-                app.getScroller()[action]('scroll', vl.handleScroll);
+                vl.pageContent[action]('scroll', vl.handleScroll);
                 $(window)[action]('resize', vl.handleResize);
             };
         
@@ -7923,7 +5860,6 @@
                 }
             }
         };
-        
 
         /*======================================================
         ************   Pull To Refresh   ************
@@ -7960,6 +5896,13 @@
                     else return;
                 }
                 
+                /*jshint validthis:true */
+                container = $(this);
+        
+                if (container.hasClass('refreshing')) {
+                    return;
+                }
+                
                 isMoved = false;
                 isTouched = true;
                 isScrolling = undefined;
@@ -7968,8 +5911,7 @@
                 touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
                 touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
                 touchStartTime = (new Date()).getTime();
-                /*jshint validthis:true */
-                container = $(this);
+                
             }
             
             function handleTouchMove(e) {
@@ -8023,7 +5965,6 @@
                     else {
                         useTranslate = false;
                     }
-                    useTranslate = true;
                 }
                 isMoved = true;
                 touchesDiff = pageY - touchesStart.y;
@@ -8133,108 +6074,14 @@
         };
         
 
-        /*======================================================
-        ************   Pull To Refresh   ************
-        ======================================================*/
-        var refreshTime = 0;
-        app.initPullToRefreshJS = function (pageContainer) {
-            var eventsTarget = $(pageContainer);
-            if (!eventsTarget.hasClass('pull-to-refresh-content')) {
-                eventsTarget = eventsTarget.find('.pull-to-refresh-content');
-            }
-            if (!eventsTarget || eventsTarget.length === 0) return;
-        
-            var page = eventsTarget.hasClass('page') ? eventsTarget : eventsTarget.parents('.page');
-            var scroller = app.getScroller(page.find('.page-content')[0]);
-            var hasNavbar = false;
-            if (page.find('.navbar').length > 0 || page.parents('.navbar-fixed, .navbar-through').length > 0 || page.hasClass('navbar-fixed') || page.hasClass('navbar-through')) hasNavbar = true;
-            if (page.hasClass('no-navbar')) hasNavbar = false;
-            if (!hasNavbar) eventsTarget.addClass('pull-to-refresh-no-navbar');
-        
-            var container = eventsTarget;
-        
-            function handleScroll() {
-                if(container.hasClass('refreshing')) return;
-                if(scroller.scrollTop() * -1 >= 44) {
-                    container.removeClass('pull-down').addClass('pull-up');
-                } else {
-                    container.removeClass('pull-up').addClass('pull-down');
-                }
-            }
-            function handleRefresh() {
-                if(container.hasClass('refreshing')) return;
-                container.removeClass('pull-down pull-up');
-                container.addClass('refreshing');
-                container.trigger('refresh', {
-                    done: function () {
-                      app.pullToRefreshDone(container);
-                    }
-                });
-                refreshTime = + new Date();
-            }
-            scroller.on('scroll', handleScroll);
-            scroller.scroller.on('ptr', handleRefresh);
-        
-            // Detach Events on page remove
-            function destroyPullToRefresh() {
-                scroller.off('scroll', handleScroll);
-                scroller.scroller.off('ptr', handleRefresh);
-            }
-            eventsTarget[0].f7DestroyPullToRefresh = destroyPullToRefresh; 
-        
-            // Detach Events on page remove
-            if (page.length === 0) return;
-            function detachEvents() {
-                destroyPullToRefresh();
-                page.off('pageBeforeRemove', detachEvents);
-            }
-            page.on('pageBeforeRemove', detachEvents);
-        
-        };
-        
-        app.pullToRefreshDoneJS = function (container) {
-            container = $(container);
-            if (container.length === 0) container = $('.pull-to-refresh-content.refreshing');
-            if (container.length === 0) return;
-            var interval = (+ new Date()) - refreshTime;
-            var timeOut = interval > 1000 ? 0 : 1000 - interval;  //long than bounce time
-            var scroller = app.getScroller(container);
-            setTimeout(function() {
-              scroller.refresh();
-              container.removeClass('refreshing');
-            }, timeOut);
-        };
-        app.pullToRefreshTriggerJS = function (container) {
-            container = $(container);
-            if (container.length === 0) container = $('.pull-to-refresh-content');
-            if (container.hasClass('refreshing')) return;
-            container.addClass('refreshing');
-            var scroller = app.getScroller(container);
-            scroller.scrollTop(44 + 1, 200);
-            container.trigger('refresh', {
-                done: function () {
-                    app.pullToRefreshDone(container);
-                }
-            });
-        };
-        
-        app.destroyPullToRefreshJS = function (pageContainer) {
-            pageContainer = $(pageContainer);
-            var pullToRefreshContent = pageContainer.hasClass('pull-to-refresh-content') ? pageContainer : pageContainer.find('.pull-to-refresh-content');
-            if (pullToRefreshContent.length === 0) return;
-            if (pullToRefreshContent[0].f7DestroyPullToRefresh) pullToRefreshContent[0].f7DestroyPullToRefresh();
-        };
-        
-
         /* ===============================================================================
         ************   Infinite Scroll   ************
         =============================================================================== */
         function handleInfiniteScroll() {
             /*jshint validthis:true */
             var inf = $(this);
-            var scroller = app.getScroller(inf);
-            var scrollTop = scroller.scrollTop();
-            var scrollHeight = scroller.scrollHeight();
+            var scrollTop = inf[0].scrollTop;
+            var scrollHeight = inf[0].scrollHeight;
             var height = inf[0].offsetHeight;
             var distance = inf[0].getAttribute('data-distance');
             var virtualListContainer = inf.find('.virtual-list');
@@ -8262,10 +6109,10 @@
                 
         }
         app.attachInfiniteScroll = function (infiniteContent) {
-            app.getScroller(infiniteContent).on('scroll', handleInfiniteScroll);
+            $(infiniteContent).on('scroll', handleInfiniteScroll);
         };
         app.detachInfiniteScroll = function (infiniteContent) {
-            app.getScroller(infiniteContent).off('scroll', handleInfiniteScroll);
+            $(infiniteContent).off('scroll', handleInfiniteScroll);
         };
         
         app.initInfiniteScroll = function (pageContainer) {
@@ -8279,7 +6126,6 @@
             }
             pageContainer.on('pageBeforeRemove', detachEvents);
         };
-        
 
         /*=============================================================
         ************   Hide/show Toolbar/Navbar on scroll   ************
@@ -8288,7 +6134,6 @@
             pageContainer = $(pageContainer);
             var scrollContent = pageContainer.find('.page-content');
             if (scrollContent.length === 0) return;
-            var scroller = app.getScroller(scrollContent);
             var hideNavbar = (app.params.hideNavbarOnPageScroll || scrollContent.hasClass('hide-navbar-on-scroll') || scrollContent.hasClass('hide-bars-on-scroll')) && !(scrollContent.hasClass('keep-navbar-on-scroll') || scrollContent.hasClass('keep-bars-on-scroll'));
             var hideToolbar = (app.params.hideToolbarOnPageScroll || scrollContent.hasClass('hide-toolbar-on-scroll') || scrollContent.hasClass('hide-bars-on-scroll')) && !(scrollContent.hasClass('keep-toolbar-on-scroll') || scrollContent.hasClass('keep-bars-on-scroll'));
             var hideTabbar = (app.params.hideTabbarOnPageScroll || scrollContent.hasClass('hide-tabbar-on-scroll')) && !(scrollContent.hasClass('keep-tabbar-on-scroll'));
@@ -8321,8 +6166,8 @@
         
             function handleScroll(e) {
                 if (pageContainer.hasClass('page-on-left')) return;
-                currentScroll = scroller.scrollTop();
-                scrollHeight = scroller.scrollHeight();
+                currentScroll = scrollContent[0].scrollTop;
+                scrollHeight = scrollContent[0].scrollHeight;
                 offsetHeight = scrollContent[0].offsetHeight;
                 reachEnd = app.params.showBarsOnPageScrollEnd && (currentScroll + offsetHeight >= scrollHeight - bottomBarHeight);
                 navbarHidden = navbar.hasClass('navbar-hidden');
@@ -8386,7 +6231,7 @@
                     
                 previousScroll = currentScroll;
             }
-            scroller.on('scroll', handleScroll);
+            scrollContent.on('scroll', handleScroll);
             scrollContent[0].f7ScrollToolbarsHandler = handleScroll;
         };
         app.destroyScrollToolbars = function (pageContainer) {
@@ -8395,10 +6240,8 @@
             if (scrollContent.length === 0) return;
             var handler = scrollContent[0].f7ScrollToolbarsHandler;
             if (!handler) return;
-            var scroller = app.getScroller(scrollContent);
-            scroller.off('scroll', scrollContent[0].f7ScrollToolbarsHandler);
+            scrollContent.off('scroll', scrollContent[0].f7ScrollToolbarsHandler);
         };
-        
 
         /*======================================================
         ************   Material Preloader   ************
@@ -8406,12 +6249,14 @@
         app.initPageMaterialTabbar = function (pageContainer) {
             pageContainer = $(pageContainer);
             var tabbar = $(pageContainer).find('.tabbar');
-            if (tabbar.find('.tab-link-highlight').length === 0) {
+        
+            if (tabbar.length > 0 && tabbar.find('.tab-link-highlight').length === 0) {
                 tabbar.find('.toolbar-inner').append('<span class="tab-link-highlight"></span>');
                 var tabLinkWidth = 1 / tabbar.find('.tab-link').length * 100;
+                var highlightTranslate = (app.rtl ? - tabbar.find('.tab-link.active').index(): tabbar.find('.tab-link.active').index()) * 100;
                 tabbar.find('.tab-link-highlight')
                     .css({width: tabLinkWidth + '%'})
-                    .transform('translate3d(' + tabbar.find('.tab-link.active').index() * 100 + '%,0,0)');
+                    .transform('translate3d(' + highlightTranslate + '%,0,0)');
             }
         };
 
@@ -8439,7 +6284,8 @@
             // Animated tabs
             var isAnimatedTabs = tabs.parent().hasClass('tabs-animated-wrap');
             if (isAnimatedTabs) {
-                tabs.transform('translate3d(' + -newTab.index() * 100 + '%,0,0)');
+                var tabTranslate = (app.rtl ? newTab.index() : -newTab.index()) * 100;
+                tabs.transform('translate3d(' + tabTranslate + '%,0,0)');
             }
         
             // Remove active class from old tabs
@@ -8499,19 +6345,17 @@
                             var clientLeft = tabbar[0].clientLeft;
                         }
                         var tabLinkWidth = 1 / tabbar.find('.tab-link').length * 100;
+                        var highlightTranslate = (app.rtl ? - tabLink.index() : tabLink.index()) * 100;
                         tabbar.find('.tab-link-highlight')
                             .css({width: tabLinkWidth + '%'})
-                            .transform('translate3d(' + tabLink.index() * 100 + '%,0,0)');
+                            .transform('translate3d(' + highlightTranslate + '%,0,0)');
                     }
                 }
             }
             if (oldTabLink && oldTabLink.length > 0) oldTabLink.removeClass('active');
-        
-            app.refreshScroller();
             
             return true;
         };
-        
 
         /*===============================================================================
         ************   Accordion   ************
@@ -8544,9 +6388,6 @@
                     item.trigger('closed');
                 }
             });
-            setTimeout(function() {
-              app.refreshScroller();
-            }, 500);
             item.trigger('open');
             item.addClass('accordion-item-expanded');
         };
@@ -8574,12 +6415,8 @@
                     item.trigger('closed');
                 }
             });
-            setTimeout(function() {
-              app.refreshScroller();
-            }, 500);
             item.trigger('close');
         };
-        
 
         /*===============================================================================
         ************   Fast Clicks   ************
@@ -8719,10 +6556,17 @@
                 var needsRipple = app.params.materialRippleElements;
                 var $el = $(el);
                 if ($el.is(needsRipple)) {
+                    if ($el.hasClass('no-ripple')) {
+                        return false;
+                    }
                     return $el;
                 }
                 else if ($el.parents(needsRipple).length > 0) {
-                    return $el.parents(needsRipple).eq(0);
+                    var rippleParent = $el.parents(needsRipple).eq(0);
+                    if (rippleParent.hasClass('no-ripple')) {
+                        return false;
+                    }
+                    return rippleParent;
                 }
                 else return false;
             }
@@ -8793,6 +6637,19 @@
                 else {
                     removeRipple();   
                 }
+            }
+        
+            // Send Click
+            function sendClick(e) {
+                var touch = e.changedTouches[0];
+                var evt = document.createEvent('MouseEvents');
+                var eventType = 'click';
+                if (app.device.android && targetElement.nodeName.toLowerCase() === 'select') {
+                    eventType = 'mousedown';
+                }
+                evt.initMouseEvent(eventType, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
+                evt.forwardedTouchEvent = true;
+                targetElement.dispatchEvent(evt);
             }
         
             // Touch Handlers
@@ -8953,7 +6810,17 @@
         
                 // Trigger focus when required
                 if (targetNeedsFocus(targetElement)) {
-                    targetElement.focus();
+                    if (app.device.ios && app.device.webView) {
+                        if ((event.timeStamp - touchStartTime) > 159) {
+                            targetElement = null;
+                            return false;
+                        }
+                        targetElement.focus();
+                        return false;
+                    }
+                    else {
+                        targetElement.focus();
+                    }
                 }
         
                 // Blur active elements
@@ -8963,15 +6830,7 @@
         
                 // Send click
                 e.preventDefault();
-                var touch = e.changedTouches[0];
-                var evt = document.createEvent('MouseEvents');
-                var eventType = 'click';
-                if (app.device.android && targetElement.nodeName.toLowerCase() === 'select') {
-                    eventType = 'mousedown';
-                }
-                evt.initMouseEvent(eventType, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-                evt.forwardedTouchEvent = true;
-                targetElement.dispatchEvent(evt);
+                sendClick(e);
                 return false;
             }
             function handleTouchCancel(e) {
@@ -9064,7 +6923,7 @@
             }
             if (app.params.material && app.params.materialRipple) {
                 document.addEventListener('contextmenu', function (e) {
-                    removeActive();
+                    if (activableElement) removeActive();
                     rippleTouchEnd();
                 });
             }
@@ -9142,8 +7001,8 @@
                 
                 // Check if link is external 
                 if (isLink) {
-                    if (clicked.is(app.params.externalLinks) || !url || url.indexOf('javascript:') >= 0) {
-                        if(clicked.attr('target') === '_system') {
+                    if (clicked.is(app.params.externalLinks) || (url && url.indexOf('javascript:') >= 0)) {
+                        if(url && clicked.attr('target') === '_system') {
                             e.preventDefault();
                             window.open(url, '_system');
                         }
@@ -9477,7 +7336,7 @@
                 var tag = this.nodeName.toLowerCase();
                 if (skipTypes.indexOf(type) >= 0) return;
                 if (skipNames.indexOf(name) >= 0 || !name) return;
-                if (tag === 'select' && input.attr('multiple')) {
+                if (tag === 'select' && input.prop('multiple')) {
                     skipNames.push(name);
                     formData[name] = [];
                     form.find('select[name="' + name + '"] option').each(function () {
@@ -9526,7 +7385,7 @@
                 if (!formData[name]) return;
                 if (skipTypes.indexOf(type) >= 0) return;
                 if (skipNames.indexOf(name) >= 0 || !name) return;
-                if (tag === 'select' && input.attr('multiple')) {
+                if (tag === 'select' && input.prop('multiple')) {
                     skipNames.push(name);
                     form.find('select[name="' + name + '"] option').each(function () {
                         if (formData[name].indexOf(this.value) >= 0) this.selected = true;
@@ -9674,15 +7533,19 @@
             pageContainer = $(pageContainer);
             var textareas = pageContainer.find('textarea.resizable');
             pageContainer.find('.item-input').each(function () {
-                var i = $(this);
+                var itemInput = $(this);
                 var notInputs = ['checkbox', 'button', 'submit', 'range', 'radio', 'image'];
-                i.find('input, select, textarea').each(function () {
-                    if (notInputs.indexOf($(this).attr('type')) < 0) {
-                        i.addClass('item-input-field');
+                itemInput.find('input, select, textarea').each(function () {
+                    var input = $(this);
+                    if (notInputs.indexOf(input.attr('type')) < 0) {
+                        itemInput.addClass('item-input-field');
+                        if (input.val().trim() !== '') {
+                            input.parents('.item-input, .input-field').add(input.parents('.item-inner')).addClass('not-empty-state');
+                        }
                     }
                 });
-                if (i.parents('.input-item, .inputs-list').length > 0) return;
-                i.parents('.list-block').eq(0).addClass('inputs-list');
+                if (itemInput.parents('.input-item, .inputs-list').length > 0) return;
+                itemInput.parents('.list-block').eq(0).addClass('inputs-list');
             });
         };
         /*======================================================
@@ -10174,7 +8037,7 @@
                         if (pb.params.onClick) pb.params.onClick(swiper, e);
                     },
                     onDoubleTap: function (swiper, e) {
-                        pb.toggleZoom($(e.target).parents('.photo-browser-slide'));
+                        pb.toggleZoom(e);
                         if (pb.params.onDoubleTap) pb.params.onDoubleTap(swiper, e);
                     },
                     onTransitionStart: function (swiper) {
@@ -10281,21 +8144,73 @@
                 isScaling = false;
                 if (scale === 1) gestureSlide = undefined;
             };
-            pb.toggleZoom = function () {
+            pb.toggleZoom = function (e) {
                 if (!gestureSlide) {
                     gestureSlide = pb.swiper.slides.eq(pb.swiper.activeIndex);
                     gestureImg = gestureSlide.find('img, svg, canvas');
                     gestureImgWrap = gestureImg.parent('.photo-browser-zoom-container');
                 }
                 if (!gestureImg || gestureImg.length === 0) return;
-                gestureImgWrap.transition(300).transform('translate3d(0,0,0)');
+                
+                var touchX, touchY, offsetX, offsetY, diffX, diffY, translateX, translateY, imageWidth, imageHeight, scaledWidth, scaledHeight, translateMinX, translateMinY, translateMaxX, translateMaxY;
+        
+                if (typeof imageTouchesStart.x === 'undefined' && e) {
+                    touchX = e.type === 'touchend' ? e.changedTouches[0].pageX : e.pageX;
+                    touchY = e.type === 'touchend' ? e.changedTouches[0].pageY : e.pageY;
+                }
+                else {
+                    touchX = imageTouchesStart.x;
+                    touchY = imageTouchesStart.y;
+                }
+                
                 if (scale && scale !== 1) {
+                    // Zoom Out
                     scale = currentScale = 1;
+                    gestureImgWrap.transition(300).transform('translate3d(0,0,0)');
                     gestureImg.transition(300).transform('translate3d(0,0,0) scale(1)');
                     gestureSlide = undefined;
                 }
                 else {
+                    // Zoom In
                     scale = currentScale = pb.params.maxZoom;
+                    if (e) {
+                        offsetX = pb.container.offset().left;
+                        offsetY = pb.container.offset().top;
+                        diffX = offsetX + pb.container[0].offsetWidth/2 - touchX;
+                        diffY = offsetY + pb.container[0].offsetHeight/2 - touchY;
+        
+                        imageWidth = gestureImg[0].offsetWidth;
+                        imageHeight = gestureImg[0].offsetHeight;
+                        scaledWidth = imageWidth * scale;
+                        scaledHeight = imageHeight * scale;
+        
+                        translateMinX = Math.min((pb.swiper.width / 2 - scaledWidth / 2), 0);
+                        translateMinY = Math.min((pb.swiper.height / 2 - scaledHeight / 2), 0);
+                        translateMaxX = -translateMinX;
+                        translateMaxY = -translateMinY;
+        
+                        translateX = diffX * scale;
+                        translateY = diffY * scale;
+                        
+                        if (translateX < translateMinX) {
+                            translateX =  translateMinX;
+                        }
+                        if (translateX > translateMaxX) {
+                            translateX = translateMaxX;
+                        }
+                        
+                        if (translateY < translateMinY) {
+                            translateY =  translateMinY;
+                        }
+                        if (translateY > translateMaxY) {
+                            translateY = translateMaxY;
+                        }
+                    }
+                    else {
+                        translateX = 0;
+                        translateY = 0;
+                    }
+                    gestureImgWrap.transition(300).transform('translate3d(' + translateX + 'px, ' + translateY + 'px,0)');
                     gestureImg.transition(300).transform('translate3d(0,0,0) scale(' + scale + ')');
                 }
             };
@@ -10493,10 +8408,11 @@
             var defaults = {
                 updateValuesOnMomentum: false,
                 updateValuesOnTouchmove: true,
-                rotateEffect: false,  //不要设置为true，不然在android上卡出翔
+                rotateEffect: false,
                 momentumRatio: 7,
                 freeMode: false,
                 // Common settings
+                closeByOutsideClick: true,
                 scrollToInput: true,
                 inputReadOnly: true,
                 convertToPopover: true,
@@ -10554,6 +8470,11 @@
             // Value
             p.setValue = function (arrValues, transition) {
                 var valueIndex = 0;
+                if (p.cols.length === 0) {
+                    p.value = arrValues;
+                    p.updateValue(arrValues);
+                    return;
+                }
                 for (var i = 0; i < p.cols.length; i++) {
                     if (p.cols[i] && !p.cols[i].divider) {
                         p.cols[i].setValue(arrValues[valueIndex], transition);
@@ -10561,8 +8482,8 @@
                     }
                 }
             };
-            p.updateValue = function () {
-                var newValue = [];
+            p.updateValue = function (forceValues) {
+                var newValue = forceValues || [];
                 var newDisplayValue = [];
                 for (var i = 0; i < p.cols.length; i++) {
                     if (!p.cols[i].divider) {
@@ -10682,7 +8603,8 @@
                     col.activeIndex = activeIndex;
                     col.wrapper.find('.picker-selected').removeClass('picker-selected');
         
-                    if (p.params.rotateEffect) col.items.transition(transition);
+                    col.items.transition(transition);
+                    
                     var selectedItem = col.items.eq(activeIndex).addClass('picker-selected').transform('');
                         
                     // Set 3D rotate effect
@@ -10969,7 +8891,7 @@
                     
             }
             
-            if (!p.inline) $('html').on('click', closeOnHTMLClick);
+            if (!p.inline && p.params.closeByOutsideClick) $('html').on('click', closeOnHTMLClick);
         
             // Open
             function onPickerClose() {
@@ -11029,7 +8951,8 @@
                     
                     // Set value
                     if (!p.initialized) {
-                        if (p.params.value) {
+                        if (p.value) p.setValue(p.value, 0);
+                        else if (p.params.value) {
                             p.setValue(p.params.value, 0);
                         }
                     }
@@ -11076,13 +8999,15 @@
             if (p.inline) {
                 p.open();
             }
+            else {
+                if (!p.initialized && p.params.value) p.setValue(p.params.value);
+            }
         
             return p;
         };
         app.picker = function (params) {
             return new Picker(params);
         };
-        
 
         /*======================================================
         ************   Calendar   ************
@@ -11120,6 +9045,7 @@
                     '</div>',
                 weekHeader: true,
                 // Common settings
+                closeByOutsideClick: true,
                 scrollToInput: true,
                 inputReadOnly: true,
                 convertToPopover: true,
@@ -11470,6 +9396,7 @@
                         var col = j;
                         dayIndex ++;
                         var dayNumber = dayIndex - firstDayOfMonthIndex;
+                        var weekDayIndex = (col - 1 + p.params.firstDay > 6) ? (col - 1 - 7 + p.params.firstDay) : (col - 1 + p.params.firstDay);
                         var addClass = '';
                         if (dayNumber < 0) {
                             dayNumber = daysInPrevMonth + dayNumber + 1;
@@ -11492,7 +9419,7 @@
                         // Selected
                         if (currentValues.indexOf(dayDate) >= 0) addClass += ' picker-calendar-day-selected';
                         // Weekend
-                        if (p.params.weekendDays.indexOf(col - 1) >= 0) {
+                        if (p.params.weekendDays.indexOf(weekDayIndex) >= 0) {
                             addClass += ' picker-calendar-day-weekend';
                         }
                         // Disabled
@@ -11833,7 +9760,7 @@
                     
             }
             
-            if (!p.inline) $('html').on('click', closeOnHTMLClick);
+            if (!p.inline && p.params.closeByOutsideClick) $('html').on('click', closeOnHTMLClick);
         
             // Open
             function onPickerClose() {
@@ -12168,7 +10095,7 @@
             return prevent;
         };
         // Preprocess content by plugin
-        app.pluginProcess = function (action, data) {
+        app.pluginProcess = function (process, data) {
             var processed = data;
             for (var i = 0; i < _plugins.length; i++) {
                 if (_plugins[i].preprocess && process in _plugins[i].preprocess) {
@@ -12398,10 +10325,16 @@
                 if (typeof value === 'undefined') {
                     // Get value
                     if (this[0]) {
-                        var dataKey = this[0].getAttribute('data-' + key);
-                        if (dataKey) return dataKey;
-                        else if (this[0].dom7ElementDataStorage && (key in this[0].dom7ElementDataStorage)) return this[0].dom7ElementDataStorage[key];
-                        else return undefined;
+                        if (this[0].dom7ElementDataStorage && (key in this[0].dom7ElementDataStorage)) {
+                            return this[0].dom7ElementDataStorage[key];
+                        }
+                        else {
+                            var dataKey = this[0].getAttribute('data-' + key);    
+                            if (dataKey) {
+                                return dataKey;
+                            }
+                            else return undefined;
+                        }
                     }
                     else return undefined;
                 }
@@ -12546,9 +10479,9 @@
             once: function (eventName, targetSelector, listener, capture) {
                 var dom = this;
                 if (typeof targetSelector === 'function') {
-                    targetSelector = false;
                     listener = arguments[1];
                     capture = arguments[2];
+                    targetSelector = false;
                 }
                 function proxy(e) {
                     listener(e);
@@ -12837,6 +10770,10 @@
                 }
                 return this;
             },
+            appendTo: function (parent) {
+                $(parent).append(this);
+                return this;
+            },
             prepend: function (newChild) {
                 var i, j;
                 for (i = 0; i < this.length; i++) {
@@ -12857,6 +10794,10 @@
                         this[i].insertBefore(newChild, this[i].childNodes[0]);
                     }
                 }
+                return this;
+            },
+            prependTo: function (parent) {
+                $(parent).prepend(this);
                 return this;
             },
             insertBefore: function (selector) {
@@ -13021,9 +10962,9 @@
             var shortcuts = ('click blur focus focusin focusout keyup keydown keypress submit change mousedown mousemove mouseup mouseenter mouseleave mouseout mouseover touchstart touchend touchmove resize scroll').split(' ');
             var notTrigger = ('resize scroll').split(' ');
             function createMethod(name) {
-                Dom7.prototype[name] = function (handler) {
+                Dom7.prototype[name] = function (targetSelector, listener, capture) {
                     var i;
-                    if (typeof handler === 'undefined') {
+                    if (typeof targetSelector === 'undefined') {
                         for (i = 0; i < this.length; i++) {
                             if (notTrigger.indexOf(name) < 0) {
                                 if (name in this[i]) this[i][name]();
@@ -13035,7 +10976,7 @@
                         return this;
                     }
                     else {
-                        return this.on(name, handler);
+                        return this.on(name, targetSelector, listener, capture);
                     }
                 };
             }
@@ -13121,7 +11062,10 @@
                     // Should be key=value object
                     stringData = $.serializeObject(options.data);
                 }
-                options.url += paramsPrefix + stringData;
+                if (stringData.length) {
+                    options.url += paramsPrefix + stringData;
+                    if (paramsPrefix === '?') paramsPrefix = '&';
+                }
             }
             // JSONP
             if (options.dataType === 'json' && options.url.indexOf('callback=') >= 0) {
@@ -13262,7 +11206,8 @@
                         }
                     }
                     else {
-                        fireAjaxCallback('ajaxSuccess', {xhr: xhr}, 'success', xhr.responseText, xhr.status, xhr);
+                        responseData = xhr.responseType === 'text' || xhr.responseType === '' ? xhr.responseText : xhr.response;
+                        fireAjaxCallback('ajaxSuccess', {xhr: xhr}, 'success', responseData, xhr.status, xhr);
                     }
                 }
                 else {
@@ -13362,27 +11307,50 @@
             }
             return unique;
         };
-        $.serializeObject = function (obj) {
+        $.serializeObject = function (obj, parents) {
             if (typeof obj === 'string') return obj;
             var resultArray = [];
             var separator = '&';
+            parents = parents || [];
+            function var_name(name) {
+                if (parents.length > 0) {
+                    var _parents = '';
+                    for (var j = 0; j < parents.length; j++) {
+                        if (j === 0) _parents += parents[j];
+                        else _parents += '[' + encodeURIComponent(parents[j]) + ']';
+                    }
+                    return _parents + '[' + encodeURIComponent(name) + ']';
+                }
+                else {
+                    return encodeURIComponent(name);
+                }
+            }
+            function var_value(value) {
+                return encodeURIComponent(value);
+            }
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
+                    var toPush;
                     if ($.isArray(obj[prop])) {
-                        var toPush = [];
+                        toPush = [];
                         for (var i = 0; i < obj[prop].length; i ++) {
-                            toPush.push(encodeURIComponent(prop) + '=' + encodeURIComponent(obj[prop][i]));
+                            toPush.push(var_name(prop) + '[]=' + var_value(obj[prop][i]));
                         }
                         if (toPush.length > 0) resultArray.push(toPush.join(separator));
                     }
-                    else {
-                        // Should be string
-                        resultArray.push(encodeURIComponent(prop) + '=' + encodeURIComponent(obj[prop]));
+                    else if (typeof obj[prop] === 'object') {
+                        // Object, convert to named array
+                        var _newParents = parents.slice();
+                        _newParents.push(prop);
+                        toPush = $.serializeObject(obj[prop], _newParents);
+                        if (toPush !== '') resultArray.push(toPush);
+                    }
+                    else if (typeof obj[prop] !== 'undefined' && obj[prop] !== '') {
+                        // Should be string or plain value
+                        resultArray.push(var_name(prop) + '=' + var_value(obj[prop]));
                     }
                 }
-                    
             }
-        
             return resultArray.join(separator);
         };
         $.toCamelCase = function (string) {
@@ -14169,6 +12137,9 @@
                 // autoplay
                 autoplay: false,
                 autoplayDisableOnInteraction: true,
+                // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+                iOSEdgeSwipeDetection: false,
+                iOSEdgeSwipeThreshold: 20,
                 // Free mode
                 freeMode: false,
                 freeModeMomentum: true,
@@ -14209,6 +12180,7 @@
                 mousewheelReleaseOnEdges: false,
                 mousewheelInvert: false,
                 mousewheelForceToAxis: false,
+                mousewheelSensitivity: 1,
                 // Hash Navigation
                 hashnav: false,
                 // Slides grid
@@ -14851,8 +12823,8 @@
                 if (s.slides.length === 0) return;
                 if (typeof s.slides[0].swiperSlideOffset === 'undefined') s.updateSlidesOffset();
             
-                var offsetCenter = s.params.centeredSlides ? -translate + s.size / 2 : -translate;
-                if (s.rtl) offsetCenter = s.params.centeredSlides ? translate - s.size / 2 : translate;
+                var offsetCenter = -translate;
+                if (s.rtl) offsetCenter = translate;
             
                 // Visible Slides
                 var containerBox = s.container[0].getBoundingClientRect();
@@ -14861,10 +12833,9 @@
                 s.slides.removeClass(s.params.slideVisibleClass);
                 for (var i = 0; i < s.slides.length; i++) {
                     var slide = s.slides[i];
-                    var slideCenterOffset = (s.params.centeredSlides === true) ? slide.swiperSlideSize / 2 : 0;
-                    var slideProgress = (offsetCenter - slide.swiperSlideOffset - slideCenterOffset) / (slide.swiperSlideSize + s.params.spaceBetween);
+                    var slideProgress = (offsetCenter - slide.swiperSlideOffset) / (slide.swiperSlideSize + s.params.spaceBetween);
                     if (s.params.watchSlidesVisibility) {
-                        var slideBefore = -(offsetCenter - slide.swiperSlideOffset - slideCenterOffset);
+                        var slideBefore = -(offsetCenter - slide.swiperSlideOffset);
                         var slideAfter = slideBefore + s.slidesSizesGrid[i];
                         var isVisible =
                             (slideBefore >= 0 && slideBefore < s.size) ||
@@ -15317,12 +13288,21 @@
                 if (s.params.swipeHandler) {
                     if (!findElementInEvent(e, s.params.swipeHandler)) return;
                 }
+            
+                var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
+                var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+                
+                // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+                if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold) {
+                    return;
+                }
+            
                 isTouched = true;
                 isMoved = false;
                 isScrolling = undefined;
                 startMoving = undefined;
-                s.touches.startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
-                s.touches.startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+                s.touches.startX = startX;
+                s.touches.startY = startY;
                 touchStartTime = Date.now();
                 s.allowClick = true;
                 s.updateContainerSize();
@@ -15760,14 +13740,6 @@
                 if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
             
                 var translate = - s.snapGrid[s.snapIndex];
-                
-                // Directions locks
-                if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
-                    return false;
-                }
-                if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
-                    return false;
-                }
             
                 // Stop autoplay
                 if (s.params.autoplay && s.autoplaying) {
@@ -15787,6 +13759,16 @@
                         slideIndex = i;
                     }
                 }
+            
+                // Directions locks
+                if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
+                    return false;
+                }
+                if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
+                    if ((s.activeIndex || 0) !== slideIndex ) return false;
+                }
+            
+                // Update Index
                 if (typeof speed === 'undefined') speed = s.params.speed;
                 s.previousIndex = s.activeIndex || 0;
                 s.activeIndex = slideIndex;
@@ -16030,6 +14012,9 @@
                 s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
             
                 var slides = s.wrapper.children('.' + s.params.slideClass);
+            
+                if(s.params.slidesPerView === 'auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
+            
                 s.loopedSlides = parseInt(s.params.loopedSlides || s.params.slidesPerView, 10);
                 s.loopedSlides = s.loopedSlides + s.params.loopAdditionalSlides;
                 if (s.loopedSlides > slides.length) {
