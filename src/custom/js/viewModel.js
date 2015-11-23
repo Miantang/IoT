@@ -34,7 +34,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 }
 
             }).fail(function () {
-                f7.alert('未请求到设备信息，请检查网络', '智能物联');
+                f7.alert('未请求到设备信息，请检查IP', '智能物联');
             });
         };
         self.switchChanged = function(id){
@@ -61,7 +61,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     else
                         f7.alert('关闭成功', '智能物联');
                 }).fail(function () {
-                    f7.alert('不能更新设备信息，请检查网络', '智能物联');
+                    f7.alert('不能更新设备信息，请检查IP', '智能物联');
                 });
             };
         };

@@ -45,6 +45,9 @@ var updateDevice = function (req, res) {
             } else {
                 res.status(404);
                 res.end();
+                if(config.mqttServer) {
+                    client.publish('d'+req.params.id, mqttValue);
+                }
             }
         } else {
             res.send('post success!');

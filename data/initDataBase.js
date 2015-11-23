@@ -203,4 +203,17 @@ DeviceModel.findOne({id: 14}, function (err, dv) {
     }
 });
 
+DeviceModel.findOne({id: 15}, function (err, dv) {
+    if (dv === null) {
+        var device = new DeviceModel({
+            id: 14,
+            type: 'switch',
+            name: 'logoled',
+            value: '0',
+            description: 'LOGO灯'
+        });
+        device.save();
+    }
+});
+
 mongoose.disconnect();

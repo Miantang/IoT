@@ -19,7 +19,10 @@ define(['jquery'], function($){
                 f7.alert('Error 412 用户名或密码错误！', '智能物联');
             },
             404: function () {
-                f7.alert('Error 404 系统没有对应服务接口！', '智能物联');
+                //f7.alert('Error 404 系统没有对应服务接口！', '智能物联');
+                if(console && console.log) {
+                    console.log('Error 404 系统没有对应服务接口！', '智能物联');
+                }
             },
             417: function () {
                 f7.alert('Error 417 系统没有对应谓词接口！', '智能物联');

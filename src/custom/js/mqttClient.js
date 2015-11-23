@@ -1,7 +1,7 @@
 define(['f7', 'knockout', 'ip'], function(f7, ko, IP){
     // MQTT
     var ip = IP.ip;
-    var blood = ko.observable('0.00');
+    var blood = ko.observable('0.0');
     ko.applyBindings({
         blood: blood
     }, document.getElementById('blood'));

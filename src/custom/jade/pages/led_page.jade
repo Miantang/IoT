@@ -8,21 +8,20 @@ include ../mixins/utils
     .page-content
       .list-block
         ul.u2-u2
-          +switchListBar('客厅开关', 'icon-form-toggle')
+          +switchListBar('大厅开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3
               input(type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}")
               label
-
-          +switchListBar('书房开关', 'icon-form-toggle')
+          +switchListBar('LOGO灯开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3
-              input(type='checkbox')
+              input(type='checkbox' data-bind="checked:($root.switchValue[15]), event:{ change: $root.switchChanged(15)}")
               label
 
-          +switchListBar('大厅开关', 'icon-form-toggle')
+          +switchListBar('客厅开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3

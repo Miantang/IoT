@@ -18,6 +18,9 @@ define(['knockout', 'f7'], function(ko, f7){
     }
 
     ko.applyBindings({
+        ip: ip,
+        camIp: camIp,
+
         setLocal: function() {
             localStorage.setItem('ip', 'http://192.168.1.116:8080');
             localStorage.setItem('camIp', 'http://192.168.1.111:8081');

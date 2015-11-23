@@ -102,6 +102,10 @@ body {
 .button.button-fill.camera-btn {
   background-color: #FFFFFF;
   border-radius: 1.2em;
+  display: block;
+  width: 7rem;
+  text-align: center;
+  margin: auto;
 }
 .camera-icon {
   line-height: 1.4;
@@ -539,7 +543,7 @@ table {
 .container {
   text-align: center;
   position: relative;
-  margin-top: 0px;
+  margin-top: 0;
   width: 100%;
   top: 10%;
 }
@@ -804,7 +808,6 @@ table {
   font-size: 100pt;
   color: #fffdfd;
   position: relative;
-  top: 16%;
   left: 12%;
   text-align: center;
   font-weight: bold;

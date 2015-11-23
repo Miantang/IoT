@@ -14,7 +14,7 @@ require(['f7', 'viewModel', 'mqttClient', 'ip', 'knockout', 'rangeSlider'], func
 
     f7.onPageInit("led", function(page){
         console.log(page);
-        var led = new viewModel.SwitchViewModel(1);
+        var led = new viewModel.SwitchViewModel([1, 15]);
         setTimeout(led.loadData, 200);
         ko.applyBindings(led, page.container );
     });
