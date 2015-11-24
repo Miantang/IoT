@@ -183,9 +183,9 @@ DeviceModel.findOne({id: 13}, function (err, dv) {
         var device = new DeviceModel({
             id: 13,
             type: 'switch',
-            name: 'led2',
+            name: 'logoled',
             value: '0',
-            description: '照明灯'
+            description: 'LOGO灯'
         });
         device.save();
     }

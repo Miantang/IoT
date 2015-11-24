@@ -9,12 +9,14 @@ include ../mixins/utils
       .projector-img-block(data-bind="click: $root.controllerChanged2(5)")
         .content-block.projector-content
           .row
-            .col-50
+            .col-33
               a.a-projector-icon.button.button-raised(data-code="1")
                 i.fa.fa-bars.fa-2x
-            .col-50
+            .col-33
               a.a-projector-icon.button.button-raised(data-code="0")
                 i.fa.fa-power-off.fa-2x.color-red
+            .col-33
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="9") 信号
         .content-block.projector-content
           .row
             .col-100

@@ -663,7 +663,7 @@ table {
   height: 4em;
   display: block;
   padding: 0;
-  margin: .5em auto;
+  margin: 2.5em auto;
   border-radius: 2em;
   font-size: 1.25em;
   position: relative;
@@ -732,8 +732,8 @@ table {
   background: linear-gradient(#1981d0, #1b9efa);
 }
 .page-content-led2 .a-projector-icon.color-gray {
-  background: -webkit-gradient(linear, left top, left bottom, from(#d8d8d8), to(#ffffff));
-  background: linear-gradient(#d8d8d8, #ffffff);
+  background: -webkit-gradient(linear, left top, left bottom, from(#d8d8d8), to(#968e8e));
+  background: linear-gradient(#d8d8d8, #968e8e);
 }
 .page-content-led2 .a-text-icon {
   line-height: 3.5em;
@@ -785,10 +785,34 @@ table {
   margin: auto;
   min-width: 372px;
   box-shadow: inset 0.1em 0.1em 0 #fffdfd, inset -0.1em -0.1em 0 #ffffff;
+  /* #btn-air-1 {
+    width: 2rem;
+    height: 2rem;
+    top: 9rem;
+    left: -6%;
+  }
+  #btn-air-2 {
+    width: 2rem;
+    height: 2rem;
+    top: 9rem;
+    right: -6%;
+  }
+  #btn-air-3 {
+    width: 4rem;
+    height: 4rem;
+    top: 2rem;
+    left: -6%;
+  }
+  #btn-air-4 {
+    width: 4rem;
+    height: 4rem;
+    top: 2rem;
+    right: -6%;
+  }*/
 }
 .page-content-blood .a-content-air-block-icon {
   width: 4rem;
-  height: 4rem;
+  height: 3rem;
   margin: .5em auto;
   display: block;
   border-radius: 3em;
@@ -820,14 +844,17 @@ table {
   background: url(../img/xiaohui.jpg) center 0 no-repeat;
   background-size: cover;
   margin: auto;
-  height: 15em;
-  width: 15em;
+  margin-top: 20px;
+  height: 10em;
+  width: 10em;
   box-shadow: inset -0.2em 0.2em 0 #060606, inset 0.2em -0.2em 0 #060606;
 }
 .page-content-blood .row-air3 {
   font-size: 20pt;
-  position: relative;
-  top: 4rem;
   color: #fffdfd;
+  /*position: absolute;
+    bottom:8%;
+    left: 24%;*/
   text-align: center;
+  margin: auto;
 }
