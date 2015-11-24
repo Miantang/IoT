@@ -1,19 +1,19 @@
 include ../mixins/utils
-+navbar('智能窗帘')
++navbar('智能窗户')
 
 .pages
-  .page(data-page="curtain")
+  .page(data-page="window")
     .page-content.curtain-background
       .content-block-zong
-        .content-block-title 窗帘列表
+        .content-block-title 窗户列表
         .list-block.curtain
-          ul.curtain-opacity
+          ul.curtain-opacity(data-bind="click: $root.controllerChanged(14)")
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
-                  .item-title 1号窗帘
+                  .item-title 1号窗户
               .accordion-item-content
-                .content-block(data-bind="click: $root.controllerChanged(10)")
+                .content-block
                   .row
                     .col-33
                       a#btn1.button.button-large.button-plain.button-border.button-box
@@ -27,7 +27,7 @@ include ../mixins/utils
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
-                  .item-title 2号窗帘
+                  .item-title 2号窗户
               .accordion-item-content
                 .content-block
                   .row
@@ -43,7 +43,7 @@ include ../mixins/utils
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
-                  .item-title 3号窗帘
+                  .item-title 3号窗户
               .accordion-item-content
                 .content-block
                   .row
