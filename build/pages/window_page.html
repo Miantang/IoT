@@ -3,33 +3,60 @@
 <div class="navbar">
   <div class="navbar-inner">
     <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
-    <div class="center sliding">窗户</div>
+    <div class="center sliding">智能窗户</div>
     <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
   </div>
 </div>
 <div class="pages">
-  <!-- Page, data-page contains page name-->
-  <div data-page="curtain" class="page">
-    <div class="page-content-window">
-      <div class="content-block-screen-image-block1">
-        <div class="container">
-          <div class="toggle">
-            <input type="button" data-code="1" data-bind="click: $root.controllerChanged3(10)"/><span class="jj"></span><span class="label"><i class="fa fa-arrow-left"></i></span>
-          </div>
-        </div>
-      </div>
-      <div class="content-block-screen-image-block2">
-        <div data-code="2" class="container">
-          <div class="toggle">
-            <input type="button" data-code="2" data-bind="click: $root.controllerChanged3(10)"/><span class="jj"></span><span class="label"><i class="fa fa-stop"></i></span>
-          </div>
-        </div>
-      </div>
-      <div class="content-block-screen-image-block3">
-        <div data-code="3" class="container">
-          <div class="toggle">
-            <input type="button" data-code="3" data-bind="click: $root.controllerChanged3(10)"/><span class="jj"></span><span class="label"><i class="fa fa-arrow-right"></i></span>
-          </div>
+  <div data-page="window" class="page">
+    <div class="page-content curtain-background">
+      <div class="content-block-zong">
+        <div class="content-block-title">窗户列表</div>
+        <div class="list-block curtain">
+          <ul data-bind="click: $root.controllerChanged(14)" class="curtain-opacity">
+            <li class="accordion-item"><a href="#" class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">1号窗户</div>
+                </div></a>
+              <div class="accordion-item-content">
+                <div class="content-block">
+                  <div class="row">
+                    <div class="col-33"><a id="btn1" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-left"></i></a></div>
+                    <div class="col-33"><a id="btn3" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-square"></i></a></div>
+                    <div class="col-33"><a id="btn2" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-right"></i></a></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="accordion-item"><a href="#" class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">2号窗户</div>
+                </div></a>
+              <div class="accordion-item-content">
+                <div class="content-block">
+                  <div class="row">
+                    <div class="col-33"><a id="btn4" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-left"></i></a></div>
+                    <div class="col-33"><a id="btn5" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-square"></i></a></div>
+                    <div class="col-33"><a id="btn6" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-right"></i></a></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="accordion-item"><a href="#" class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">3号窗户</div>
+                </div></a>
+              <div class="accordion-item-content">
+                <div class="content-block">
+                  <div class="row">
+                    <div class="col-33"><a id="btn7" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-left"></i></a></div>
+                    <div class="col-33"><a id="btn8" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-square"></i></a></div>
+                    <div class="col-33"><a id="btn9" class="button button-large button-plain button-border button-box"><i class="curtain-icon fa-2x fa fa-arrow-right"></i></a></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
