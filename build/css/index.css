@@ -382,7 +382,7 @@ body {
 .volume-img-block .a-content-block-volume-icon {
   width: 4em;
   height: 4em;
-  margin: .5em auto;
+  margin: 2.5em auto;
   border-radius: .8em;
   background-color: #CCC;
   display: block;
@@ -663,7 +663,7 @@ table {
   height: 4em;
   display: block;
   padding: 0;
-  margin: 2.5em auto;
+  margin: .5em auto;
   border-radius: 2em;
   font-size: 1.25em;
   position: relative;
@@ -701,7 +701,7 @@ table {
   right: -5%;
 }
 .page-content-window {
-  background: url(../img/window.jpg) center 0 no-repeat;
+  background: url(../img/window_background.jpg) center 0 no-repeat;
   height: 100%;
   width: 100%;
   background-size: cover;
