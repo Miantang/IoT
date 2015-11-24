@@ -5,23 +5,26 @@ var config = require('./config');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-
+var cors = require('cors');
 app.set('port', process.env.PORT || 8080);
-app.set('views', path.join(__dirname, 'views/jade'));
-app.set('view engine', 'jade');
+//app.set('views', path.join(__dirname, 'views/jade'));
+//app.set('view engine', 'jade');
 
 function defaultContentTypeMiddleware(req, res, next) {
     req.headers['content-type'] = req.headers['content-type'] || 'application/json';
     next();
 }
-app.use(defaultContentTypeMiddleware);
+
+//app.use(defaultContentTypeMiddleware);
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));  // for  parsing application/x-www-form-urlencoded
 app.use(cookieParser());
-app.use(session({
-    secret: 'iot-cloud'
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(session());
+app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'build')));
+//app.use(express.static(path.dirname(require.resolve("mosca")) + "/build"));
+
 
 // 准备数据库
 String.prototype.startWith = function (str) {
@@ -35,7 +38,7 @@ var mongoose = require('mongoose');
 mongoose.connect(config.mongo);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function callback() {
+db.once('open', function () {
     console.log("Database open ok!!");
 });
 
@@ -55,5 +58,7 @@ UserModel.findOne({ uid: "admin" }, function (err, u) {
 });
 
 require('./routes')(app);
+
+//app.use(express.static(path.dirname(require.resolve("mosca")) + "/public"));
 
 module.exports = app;

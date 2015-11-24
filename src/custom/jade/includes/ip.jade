@@ -1,0 +1,25 @@
+.view.tab#tab2
+  .navbar
+    .navbar-inner
+      .center.sliding IP设定
+      .right
+        a(href="#").link.icon-only.open-panel
+          i.icon.icon-bars
+  .pages.navbar-through.toolbar-through
+    .page(data-page="ip")#ip-area
+      .page-content
+        div(class="container" )
+          div(class="toggle")
+            input(type="button" data-code="1" data-bind="click: $root.setLocal")
+            span(class="jj")
+            span(class="label") 内网
+        div(class="container" data-code="2")
+          div(class="toggle")
+            input(type="button" data-code="2" data-bind="click: $root.setZero")
+            span(class="jj")
+            span(class="label") 外网
+        div(class="container" data-code="3")
+          div(class="toggle")
+            input(type="button" data-code="3" data-bind="click: $root.setSelf")
+            span(class="jj")
+            span(class="label") 自定

@@ -1,0 +1,26 @@
+
+<!-- 小标题栏-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="center sliding">摄像监控</div>
+    <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
+  </div>
+</div>
+<div class="pages">
+  <div data-page="camera" class="page">
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <div id="camera-view">
+        <iframe src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }"></iframe>
+      </div>
+      <div data-bind="click: $root.controllerChanged2(6)" class="content-block-title">
+        <h2 id="camera-title">云台控制</h2>
+        <div class="row">
+          <div class="col-50"><a href="#" data-code="1" class="button button-big button-fill camera-btn"><i class="fa fa-play fa-2x camera-icon"></i></a></div>
+          <div class="col-50"><a href="#" data-code="2" class="button button-big button-fill camera-btn"><i class="fa fa-stop fa-2x camera-icon"></i></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

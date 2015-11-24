@@ -1,0 +1,101 @@
+body {
+  font-family: -apple-system, SF UI Text, "Droid Sans Fallback", "Droid Sans", Helvetica Neue, Helvetica, Arial, sans-serif!important;
+}
+
+@media screen and (min-width: 768px){
+  #device-list {
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    li {
+      display: inline-block;
+      width: 30%;
+      margin: 1% 0.6%;
+      text-align: center;
+      transition: all .2s ease;
+      position: relative;
+      padding: 0;
+      border-color: #9fa6ff;
+      box-sizing: border-box;
+      .item-title.index-title {
+        position: absolute;
+        top: 50%;
+        margin-left: 2em;
+        margin-top: -0.69em;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px){
+  #device-list {
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    li {
+      display: inline-block;
+      width: 30%;
+      margin: 1% 0.6%;
+      text-align: center;
+      transition: all .2s ease;
+      position: relative;
+      padding: 0;
+      border-color: #9fa6ff;
+      box-sizing: border-box;
+      .item-content {
+        text-align: center;
+        display: block;
+        padding-left: 0;
+        .index-img{
+          margin: auto;
+        }
+        .item-inner {
+          text-align: center;
+          background-size: 0;
+          margin-left: 0;
+          padding-right: 0;
+          .index-title {
+            margin: auto;
+          }
+          &:after {
+            height: 0;
+          }
+        }
+
+      }
+    }
+
+  }
+}
+
+.content-image {
+  width: 100%;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
+}
+.content-block-title {
+  margin-top: 15px;
+}
+.item-content .index-img {
+  width: 6em;
+  height: 6em;
+  background-color: #3B9ACA;
+  border-radius: 20%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.list-block .item-subtitle {
+  color: #777777;
+}
+

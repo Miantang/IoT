@@ -1,0 +1,109 @@
+include ../mixins/utils
++navbar('智能电视')
+.pages
+  // Page, data-page contains page name
+  .page(data-page="tv")
+    // Scrollable page content
+    .page-content.page-content-tv
+      .tv-img-block
+        .content-block
+          .buttons-row
+            a.tab-link.active.button(href='#tab-tv') 电视
+            a.tab-link.button(href='#tab-xiaomi') 小米盒子
+        .tabs(data-bind="click: $root.controllerChanged2(9)")
+          .tab.active#tab-tv
+            .content-block.tv-content
+              .row.padding-25px
+                .col-33
+                  a#btn-setting.a-tv-icon.button.button-raised(data-code="11")
+                    i.fa.fa-tasks.fa-2x
+                .col-33
+                  a#btn-power.a-tv-icon.button.button-raised(data-code="0")
+                    i.fa.fa-power-off.fa-2x.color-red
+                .col-33
+                  a#btn-tv-av.a-tv-icon.button.button-raised(data-code="16") TV/AV
+
+              .row
+                .col-50
+                  a.a-tv-icon.tv-channel.button.button-raised(data-code="12")
+                    i.fa.fa-plus.fa-2x
+                .col-50
+                  a.a-tv-icon.tv-channel.button.button-raised(data-code="14")
+                    i.fa.fa-volume-up.fa-2x
+              .row
+                .col-50
+                  a.a-tv-icon.tv-channel.button.button-raised(data-code="13")
+                    i.fa.fa-minus.fa-2x
+                .col-50
+                  a.a-tv-icon.tv-channel.button.button-raised(data-code="15")
+                    i.fa.fa-volume-down.fa-2x
+
+              .row
+                .col-100
+                  a#btn-up.a-tv-icon.button.button-raised(data-code="17")
+                    i.fa.fa-angle-up.fa-3x
+              .row
+                .col-33
+                  a#btn-left.a-tv-icon.button.button-raised(data-code="19")
+                    i.fa.fa-angle-left.fa-3x
+                .col-33
+                  a#btn-ok.a-tv-icon.button.button-raised(data-code="21") OK
+                .col-33
+                  a#btn-right.a-tv-icon.button.button-raised(data-code="20")
+                    i.fa.fa-angle-right.fa-3x
+              .row
+                .col-100
+                  a#btn-down.a-tv-icon.button.button-raised(data-code="18")
+                    i.fa.fa-angle-down.fa-3x
+
+              .row
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="1") 1
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="2") 2
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="3") 3
+              .row
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="4") 4
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="5") 5
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="6") 6
+              .row
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="7") 7
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="8") 8
+                .col-33
+                  a.tv-number-btn.a-tv-icon.button.button-raised(data-code="9") 9
+          .tab#tab-xiaomi
+            .content-block.tv-content
+              .row.padding-25px
+                .col-33
+                  a#btn-setting-2.a-tv-icon.button.button-raised(data-code="22")
+                    i.fa.fa-bars.fa-2x
+                .col-33
+                  a#btn-power-2.a-tv-icon.button.button-raised(data-code="23")
+                    i.fa.fa-power-off.fa-2x.color-red
+                .col-33
+                  a#btn-tv-av-2.a-tv-icon.button.button-raised(data-code="24")
+                    i.fa.fa-undo.fa-2x
+
+              .row
+                .col-100
+                  a#btn-up.a-tv-icon.button.button-raised(data-code="25")
+                    i.fa.fa-angle-up.fa-3x
+              .row
+                .col-33
+                  a#btn-left.a-tv-icon.button.button-raised(data-code="26")
+                    i.fa.fa-angle-left.fa-3x
+                .col-33
+                  a#btn-ok.a-tv-icon.button.button-raised(data-code="27") OK
+                .col-33
+                  a#btn-right.a-tv-icon.button.button-raised(data-code="28")
+                    i.fa.fa-angle-right.fa-3x
+              .row
+                .col-100
+                  a#btn-down.a-tv-icon.button.button-raised(data-code="29")
+                    i.fa.fa-angle-down.fa-3x

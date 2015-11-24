@@ -1,0 +1,42 @@
+include ../mixins/utils
+
++navbar('LED灯带')
+.pages
+  // Page, data-page contains page name
+  .page(data-page="led2")
+    // Scrollable page content
+    .page-content.page-content-led2.page-content-projector
+      .projector-img-block(data-bind="click: $root.controllerChanged2(7)")
+        .content-block.projector-content
+          .row
+            .col-100
+              a.a-projector-icon.button.button-raised(data-code="9")
+                i.fa.fa-caret-up.fa-2x.color-blue
+          .row
+            .col-33
+              a.a-projector-icon.button.button-raised(data-code="0")
+                i.fa.fa-power-off.fa-2x.color-green
+            .col-33
+              a.a-projector-icon.button.button-raised(data-code="10")
+                i.fa.fa-caret-down.fa-2x.color-blue
+            .col-33
+              a.a-projector-icon.button.button-raised(data-code="1")
+                i.fa.fa-power-off.fa-2x.color-red
+          .row
+            .col-100
+              a.a-projector-icon.a-text-icon.button.button-raised.color-green(data-code="2")
+          .row
+            .col-50
+              a.a-projector-icon.a-text-icon.button.button-raised.color-red(data-code="3")
+            .col-50
+              a.a-projector-icon.a-text-icon.button.button-raised.color-blue(data-code="4")
+          .row
+            .col-100
+              a.a-projector-icon.a-text-icon.button.button-raised.color-gray(data-code="5")
+          .row
+            .col-33
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="6") 闪烁
+            .col-33
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="7") 渐隐
+            .col-33
+              a.a-projector-icon.a-text-icon.button.button-raised(data-code="8") 变化

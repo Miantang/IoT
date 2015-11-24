@@ -1,0 +1,27 @@
+include ../mixins/utils
++navbar('投影幕布')
+.pages
+  // Page, data-page contains page name
+  .page(data-page="screen")
+    .page-content-screen
+      .content-block-screen-image-block1
+        div(class="container" )
+          div(class="toggle")
+            input(type="button" data-code="1" data-bind="click: $root.controllerChanged3(11)")
+            span(class="jj")
+            span(class="label")
+              i(class="fa fa-arrow-up")
+      .content-block-screen-image-block2
+        div(class="container" data-code="3")
+          div(class="toggle")
+            input(type="button" data-code="3" data-bind="click: $root.controllerChanged3(11)")
+            span(class="jj")
+            span(class="label")
+              i(class="fa fa-stop")
+      .content-block-screen-image-block3
+        div(class="container" data-code="2")
+          div(class="toggle")
+            input(type="button" data-code="2" data-bind="click: $root.controllerChanged3(11)")
+            span(class="jj")
+            span(class="label")
+              i(class="fa fa-arrow-down")

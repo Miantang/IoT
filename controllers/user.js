@@ -1,6 +1,6 @@
 var UserModel = require('../models/user');
 
-exports.isAdmin = function (req, res, next) {
+var isAdmin = function (req, res, next) {
     UserModel.findOne({ uid: "admin" }, function (err, admin) {
         if (err) {
             if (!config.production) {
@@ -18,10 +18,10 @@ exports.isAdmin = function (req, res, next) {
         }
     });
 };
-exports.getUser = function (req, res) {
+var getUser = function (req, res) {
     res.json({'method': 'get'});
 };
-exports.postUser = function (req, res) {
+var postUser = function (req, res) {
     var user = req.body;
     var uid = user.uid;
     var pwd = user.pwd;
@@ -32,14 +32,14 @@ exports.postUser = function (req, res) {
         }
     })
 };
-exports.signup = function (req, res) {
+var signup = function (req, res) {
     var _user = req.body.user;
     var user = new UserModel(_user);
     user.save();
     res.redirect('/');
 };
 
-exports.login = function (req, res) {
+var login = function (req, res) {
     var user = req.body;
     var uid = user.username;
     var pwd = user.pwd;
@@ -48,17 +48,7 @@ exports.login = function (req, res) {
         if(!u) {
             return res.redirect('/');
         }
-        //u.comparePassword(pwd, function (err, isMatch) {
-        //    if (err) console.log(err);
-        //    if (isMatch ) {
-        //        //req.session.user = u;
-        //        console.log("login succeed!");
-        //        return res.redirect('/right');
-        //    } else {
-        //        console.log("cant login");
-        //        return res.redirect('/wrong');
-        //    }
-        //});
+        
         if(u.isRight(pwd)) {
             req.session.user = u;
             console.log("login succeed!");
@@ -68,12 +58,12 @@ exports.login = function (req, res) {
         }
     });
 };
-exports.logout = function (req, res) {
+var logout = function (req, res) {
     delete req.session.user;
     res.redirect('/');
 };
 // middleware for user
-exports.loginRequired = function(req, res, next) {
+var loginRequired = function(req, res, next) {
     var user = req.session.user;
 
     if (!user) {
@@ -83,7 +73,7 @@ exports.loginRequired = function(req, res, next) {
     next();
 };
 
-exports.adminRequired = function(req, res, next) {
+var adminRequired = function(req, res, next) {
     var user = req.session.user;
 
     if (user !== 'admin') {
@@ -91,4 +81,12 @@ exports.adminRequired = function(req, res, next) {
     }
 
     next();
+};
+
+module.exports = {
+    getUser: getUser,
+    postUser: postUser,
+    signup: signup,
+    logout: logout,
+    login: login
 };

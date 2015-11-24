@@ -1,0 +1,66 @@
+
+<!-- 小标题栏-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="center sliding">智能照明</div>
+    <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
+  </div>
+</div>
+<div class="pages">
+  <!-- Page, data-page contains page name-->
+  <div data-page="led" class="page">
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <div class="list-block">
+        <ul class="u2-u2">
+          <li class="switchListBar-li">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">大厅开关</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="switch"></div>
+            <div class="switch demo3">
+              <input type="checkbox" data-bind="checked:($root.switchValue[1]), event:{ change: $root.switchChanged(1)}"/>
+              <label></label>
+            </div>
+          </li>
+          <li class="switchListBar-li">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">LOGO灯开关</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="switch"></div>
+            <div class="switch demo3">
+              <input type="checkbox" data-bind="checked:($root.switchValue[13]), event:{ change: $root.switchChanged(13)}"/>
+              <label></label>
+            </div>
+          </li>
+          <li class="switchListBar-li">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">客厅开关</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="switch"></div>
+            <div class="switch demo3">
+              <input type="checkbox"/>
+              <label></label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

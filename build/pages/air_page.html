@@ -1,0 +1,46 @@
+
+<!-- 小标题栏-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="center sliding">智能空调</div>
+    <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
+  </div>
+</div>
+<div class="pages">
+  <div data-page="air" class="page">
+    <div class="page-content page-content-air">
+      <div class="content-block-air-title">
+        <div class="li">
+          <div data-bind="text: $root.controller" class="air"></div>
+        </div>
+        <div class="row">
+          <div class="col-33">
+            <select id="air-mode" data-bind="options: $root.options, optionsText: 'name',optionsValue: 'value' " class="button-raised mushi"></select>
+          </div>
+          <div class="col-33"><a data-code="9" data-bind="click: $root.powerOff" class="air-btn button button-raised"><i class="fa fa-power-off fa-2x color-red"></i></a></div>
+          <div class="col-33"><a data-code="9" class="air-btn button button-raised">风速</a></div>
+        </div>
+        <div class="row">
+          <div class="col-33"><a data-code="0" data-bind="click: $root.windChange" class="air-btn button button-raised">高风</a></div>
+          <div class="col-33"><a data-code="1" data-bind="click: $root.windChange" class="air-btn button button-raised">中风</a></div>
+          <div class="col-33"><a data-code="2" data-bind="click: $root.windChange" class="air-btn button button-raised">低风</a></div>
+        </div>
+        <div class="item-air-title label slider-title">温度</div>
+        <div class="item-input">
+          <div class="air-range-slider range-slider">
+            <input type="range" min="17" max="30" value="24" step="1" data-bind="value: $root.controller, event:{ change: $root.sliderChange}"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-50"><a data-code="9" class="air-btn button button-raised">风向</a></div>
+          <div class="col-50"><a data-code="9" class="air-btn button button-raised">加水</a></div>
+        </div>
+        <div class="row">
+          <div class="col-50"><a data-code="9" class="air-btn button button-raised">加湿</a></div>
+          <div class="col-50"><a data-code="9" class="air-btn button button-raised">电辅热</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

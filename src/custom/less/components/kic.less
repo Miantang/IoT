@@ -1,0 +1,76 @@
+@import 'Switches/switch';
+
+/* DEMO 1 */
+
+.switch.demo1 {
+  width: 100px;
+  height: 100px;
+}
+
+.switch.demo1 label {
+  border-radius: 50%;
+  background: #eaeaea;
+  box-shadow:
+  0 3px 5px rgba(0,0,0,0.25),
+  inset 0 1px 0 rgba(255,255,255,0.3),
+  inset 0 -5px 5px rgba(100,100,100,0.1),
+  inset 0 5px 5px rgba(255,255,255,0.3);
+}
+
+.switch.demo1 label:after {
+  content: "";
+  position: absolute;
+  top: -8%; right: -8%; bottom: -8%; left: -8%;
+  z-index: -1;
+  border-radius: inherit;
+  background: #ddd;
+  background: -moz-linear-gradient(#ccc, #fff);
+  background: -ms-linear-gradient(#ccc, #fff);
+  background: -o-linear-gradient(#ccc, #fff);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#ccc), to(#fff));
+  background: -webkit-linear-gradient(#ccc, #fff);
+  background: linear-gradient(#ccc, #fff);
+  box-shadow:
+  inset 0 2px 1px rgba(0,0,0,0.15),
+  0 2px 5px rgba(200,200,200,0.1);
+}
+
+.switch.demo1 label:before {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border-radius: inherit;
+  left: 40%;
+  top: 40%;
+  background: #969696;
+  background: radial-gradient(40% 35%, #ccc, #969696 60%);
+  box-shadow:
+  inset 0 2px 4px 1px rgba(0,0,0,0.3),
+  0 1px 0 rgba(255,255,255,1),
+  inset 0 1px 0 white;
+}
+
+.switch.demo1 input:checked ~ label {
+  background: #dedede;
+  background: -moz-linear-gradient(#dedede, #fdfdfd);
+  background: -ms-linear-gradient(#dedede, #fdfdfd);
+  background: -o-linear-gradient(#dedede, #fdfdfd);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#dedede), to(#fdfdfd));
+  background: -webkit-linear-gradient(#dedede, #fdfdfd);
+  background: linear-gradient(#dedede, #fdfdfd);
+}
+
+.switch.demo1 input:checked ~ label:before {
+  background: #25d025;
+  background: radial-gradient(40% 35%, #ff8142, #ff8a3a 60%);
+  box-shadow:
+  inset 0 3px 5px 1px rgba(0,0,0,0.1),
+  0 1px 0 rgba(255,255,255,0.4),
+  0 0 10px 2px rgba(0, 210, 0, 0.5);
+}
+.list-block .ul-ul {
+  background: url(../img/kic_background.jpg) center 0 repeat-y;
+  background-size: 100% 100%;
+  height: 100%;
+}

@@ -4,7 +4,7 @@ var config = require('../config');
 var client = require('./mqttClient');
 
 //U-ApiKey
-exports.isAuthenticated = function (req, res, next) {
+var isAuthenticated = function (req, res, next) {
     var userkey = req.get('U-ApiKey');
     UserModel.findOne({ ukey: userkey }, function (err, u) {
         if (u !== null) {
@@ -16,13 +16,13 @@ exports.isAuthenticated = function (req, res, next) {
         }
     });
 };
-exports.getAllDevices = function (req, res) {
+var getAllDevices = function (req, res) {
     DeviceModel.find({}, function (err, devices) {
         res.json(devices);
     });
 };
 
-exports.updateDevice = function (req, res) {
+var updateDevice = function (req, res) {
     var value, mqttValue;
     if(req.body.type === 'switch') {
         value = req.param('value');
@@ -45,6 +45,9 @@ exports.updateDevice = function (req, res) {
             } else {
                 res.status(404);
                 res.end();
+                if(config.mqttServer) {
+                    client.publish('d'+req.params.id, mqttValue);
+                }
             }
         } else {
             res.send('post success!');
@@ -55,7 +58,7 @@ exports.updateDevice = function (req, res) {
         }
     });
 };
-exports.getDevice = function (req, res) {
+var getDevice = function (req, res) {
     DeviceModel.findOne({ id: req.params.id}, function (err, dv) {
         if(err) {
             if (!config.production) {
@@ -76,7 +79,7 @@ exports.getDevice = function (req, res) {
         }
     })
 };
-exports.getDeviceValue = function (req, res) {
+var getDeviceValue = function (req, res) {
     DeviceModel.findOne({id: req.params.id}, function (err, dv) {
         if(err) {
             if (!config.production) {
@@ -98,4 +101,12 @@ exports.getDeviceValue = function (req, res) {
             }
         }
     })
+};
+
+module.exports = {
+    isAuthenticated: isAuthenticated,
+    getAllDevices: getAllDevices,
+    updateDevice: updateDevice,
+    getDevice: getDevice,
+    getDeviceValue: getDeviceValue
 };

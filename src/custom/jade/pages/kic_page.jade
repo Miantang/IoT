@@ -1,0 +1,21 @@
+include ../mixins/utils
++navbar('智能厨房')
+
+.pages
+  .page(data-page="kic")
+    .page-content
+      .list-block
+        ul.ul-ul
+          +switchListBar('煤气', 'icon-form-toggle')
+          li
+            .switch
+            .switch.demo1
+              input(type="checkbox" data-bind="checked:($root.switchValue[3]), event:{ change: $root.switchChanged(3)}")
+              label
+
+          +switchListBar('自来水', 'icon-form-toggle')
+          li
+            .switch
+            .switch.demo1
+              input(type="checkbox" data-bind="checked:($root.switchValue[4]), event:{ change: $root.switchChanged(4)}")
+              label

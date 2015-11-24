@@ -1,8 +1,0 @@
-<div id="airModel"><div class="switch am-fr"><input id="air-8" type="checkbox" value="tv" data-bind="checked:$root.switchValue(), event:{ change: $root.togSwitched}" class="cmn-toggle cmn-toggle-round"/><label for="air-8"></label></div><ul data-bind="foreach: { data: airButtonGroup, as: 'dv' }" class="inner-boxes airboxes am-thumbnails"><li data-bind="text:dv.name,attr: {id: 'airbutton-' + dv.id, value : dv.name }, click: $root.controlChanged" data-am-button="data-am-button" class="inner-box airbox am-thumbnail am-btn"></li></ul></div><script>var airVM = new airViewModel();
-setTimeout(airVM.loaddata, 200);
-ko.applyBindings(airVM, document.getElementById("airModel"));
-mainmodel.showback(true);
-$(function () {
-  var $innerbox = $(".inner-box");
-  $innerbox.css("height", $innerbox.width()*0.618);
-});</script>
