@@ -6,7 +6,7 @@ include ../mixins/utils
     // Scrollable page content
     .page-content
       #camera-view
-      iframe#camera-iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
+        iframe#camera-iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
       .content-block-title(data-bind="click: $root.controllerChanged2(6)")
         h2#camera-title 云台控制
         .row
@@ -23,8 +23,8 @@ include ../mixins/utils
         .row
           .col-50
             a(href="#" data-code="1").button.button-big.button-fill.camera-btn
-              i.fa.fa-power-off.fa-2x.color-green
+              i.fa.fa-power-off.fa-2x.color-green.camera-icon
           .col-50
             a(href="#" data-code="2").button.button-big.button-fill.camera-btn
-              i.fa.fa-power-off.fa-2x.color-red
+              i.fa.fa-power-off.fa-2x.color-red.camera-icon
 

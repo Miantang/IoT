@@ -93,9 +93,6 @@ body {
 .list-block .item-subtitle {
   color: #777777;
 }
-.fa.fa-camera-retro.fa-camera {
-  color: #0000ed;
-}
 #camera-title {
   margin-bottom: 1em;
 }
@@ -103,31 +100,30 @@ body {
   background-color: #FFFFFF;
   border-radius: 1.2em;
   display: block;
-  width: 7rem;
+  width: 5.5rem;
   text-align: center;
   margin: auto;
+  padding: 0;
 }
 .camera-icon {
   line-height: 1.4;
   background: #FFFFFF;
-  color: #009688;
 }
 #camera-view {
-  /*margin-top: 2em;
+  /* &:before {
+    content:" ";
+    display:block;
+    padding-bottom:75%;
+    width:0;
+    height:0;
+  }*/
   padding: 2% 0;
   width: 90%;
+  margin-top: 2em;
   margin-left: auto;
-  margin-right: auto;*/
-  width: 100%;
-  height: auto;
+  margin-right: auto;
+  height: 60%;
   position: relative;
-}
-#camera-view:before {
-  content: " ";
-  display: block;
-  padding-bottom: 75%;
-  width: 0;
-  height: 0;
 }
 #camera-view img,
 #camera-view iframe {
@@ -135,24 +131,6 @@ body {
   border: 0;
   height: 100%;
 }
-/*
-#camera-iframe {
-  &:before {
-    content:" ";
-    display:block;
-    padding-bottom:75%;
-    width:0;
-    height:0;
-  }
-  width: 100%;
-  height:auto;
-  position:relative;
-  img {
-    width: 100%;
-    border: 0;
-    height: 100%;
-  }
-}*/
 .switch {
   margin: 50px auto;
   position: relative;
