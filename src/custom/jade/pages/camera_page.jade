@@ -6,21 +6,25 @@ include ../mixins/utils
     // Scrollable page content
     .page-content
       #camera-view
-        iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
+      iframe#camera-iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
       .content-block-title(data-bind="click: $root.controllerChanged2(6)")
         h2#camera-title 云台控制
         .row
-          .col-50
+          .col-33
             a(href="#" data-code="3").button.button-big.button-fill.camera-btn
-              i.fa.fa-play.fa-2x.camera-icon
-          .col-50
+              i.fa.fa-chevron-left.fa-2x.camera-icon
+          .col-33
             a(href="#" data-code="4").button.button-big.button-fill.camera-btn
               i.fa.fa-stop.fa-2x.camera-icon
+          .col-33
+            a(href="#" data-code="5").button.button-big.button-fill.camera-btn
+              i.fa.fa-chevron-right.fa-2x.camera-icon
+        h2#camera-title 摄像头开关
         .row
           .col-50
             a(href="#" data-code="1").button.button-big.button-fill.camera-btn
-              i.fa.fa-play.fa-2x.camera-icon
+              i.fa.fa-power-off.fa-2x.color-green
           .col-50
             a(href="#" data-code="2").button.button-big.button-fill.camera-btn
-              i.fa.fa-stop.fa-2x.camera-icon
+              i.fa.fa-power-off.fa-2x.color-red
 

@@ -166,7 +166,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     self.controller[code](Number(devValue.controller));
                 }
             }).fail(function () {
-                f7.alert('未请求到设备信息，请检查网络', '智能物联');
+             //   f7.alert('未请求到设备信息，请检查网络', '智能物联');
             });
         };
         self.switchChanged = function(id) {
@@ -409,10 +409,90 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
         };
     }
 
+    function CamViewModel(code, group) {
+        var self = this;
+        // make the variables observable
+        self.switchValue ={}; self.switch = {}; self.controller = {};
+        if(Object.prototype.toString.call(code) === "[object Array]") {
+            for(var i in code) {
+                self.switchValue[code[i]] = ko.observable(false);
+                self.controller[code[i]] = ko.observable(0);
+            }
+        } else {
+            self.switchValue[code] = ko.observable(false);
+            self.controller[code] = ko.observable(0);
+        }
+        console.log("init Cam: ", ip(), camIp());
+
+        self.loadData = function () {
+            $.ajax({
+                url: ip() + "/devices"
+            }).done(function (data) {
+                var index; var devValue;
+                if(Object.prototype.toString.call(code) === "[object Array]") {
+                    for(var i in code) {
+                        index = (Number(code[i])-1);
+                        devValue = JSON.parse(data[index].value);
+                        self.switch[code[i]] =  Number(devValue.switch) ;
+                        self.switchValue[code[i]](Boolean(self.switch[code[i]]));
+                        self.controller[code[i]](Number(devValue.controller));
+                    }
+                } else {
+                    index = (Number(code)-1);
+                    devValue = JSON.parse(data[index].value);
+                    console.log(data);
+                    self.switch[code] =  Number(devValue.switch) ;
+                    self.switchValue[code](Boolean(self.switch[code]));
+                    self.controller[code](Number(devValue.controller));
+                }
+            }).fail(function () {
+                //f7.alert('未请求到摄像头信息，请检查网络', '智能物联');
+            });
+        };
+
+        self.controllerChanged2 = function (id) {
+            return function (dv, e) {
+                var togSwitch  = self.switch[id];
+                if(1) {
+                    e = e || window.event;
+                    var target = e.target || e.srcElement;
+                    var nodeName = target.nodeName.toLocaleLowerCase();
+                    var targetId;
+                    if(nodeName == "i" ) {
+                        if(target.parentNode.nodeName.toLocaleLowerCase() == "a")
+                            targetId = target.parentNode.dataset["code"];
+                        else
+                            return;
+                    } else if(nodeName == "a") {
+                        targetId = target.dataset["code"];
+                    } else {
+                        return;
+                    }
+                    self.controller[id](Number(targetId));
+                    console.log("DEBUG: targetId ", targetId);
+
+                    var controllerNumber = self.controller[id]();
+                    var controllerData = '{"type":"step","switch":' + Number(1) +',"controller":'+controllerNumber +'}';
+                    console.log("DEBUG: targetId ", togSwitch);
+                    $.ajax({
+                        type: "POST",
+                        url: ip() + "/devices/" + id,
+                        data: JSON.parse(controllerData)
+                    }).done(function(){
+                        //f7.alert('更新成功', '智能物联');
+                        console.log("UPDATE: ", target.nodeName, controllerData);
+                    }).fail(function () {
+                        f7.alert('不能更新摄像头信息，请检查网络', '智能物联');
+                    });
+                }
+            };
+        };
+    }
     return {
         SwitchViewModel: SwitchViewModel,
         StepViewModel: StepViewModel,
         Step2ViewModel: Step2ViewModel,
-        AirViewModel: AirViewModel
+        AirViewModel: AirViewModel,
+        CamViewModel: CamViewModel
     };
 });

@@ -41,7 +41,7 @@ require(['f7', 'viewModel', 'mqttClient', 'ip', 'knockout', 'rangeSlider'], func
     });
     f7.onPageInit("camera", function(page) {
         console.log(page);
-        var screen = new viewModel.Step2ViewModel(6);
+        var screen = new viewModel.CamViewModel(6);
         screen.camIp = camIp;
         console.log('cam: ', ip(), screen.camIp());
         setTimeout(screen.loadData, 200);
