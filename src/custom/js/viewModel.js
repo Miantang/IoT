@@ -34,7 +34,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 }
 
             }).fail(function () {
-                f7.alert('未请求到设备信息，请检查IP', '智能物联');
+                f7.alert('未请求到设备信息，请检查IP或者网络', '智能物联');
             });
         };
         self.switchChanged = function(id){
@@ -61,7 +61,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     else
                         f7.alert('关闭成功', '智能物联');
                 }).fail(function () {
-                    f7.alert('不能更新设备信息，请检查IP', '智能物联');
+                  //  f7.alert('不能更新设备信息，请检查IP', '智能物联');
                 });
             };
         };
@@ -166,7 +166,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     self.controller[code](Number(devValue.controller));
                 }
             }).fail(function () {
-             //   f7.alert('未请求到设备信息，请检查网络', '智能物联');
+                f7.alert('未请求到设备信息，请检查IP或者网络', '智能物联');
             });
         };
         self.switchChanged = function(id) {
@@ -347,7 +347,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
             }).done(function () {
                 console.log("更新到设备Air：self.controller()", self.controller());
             }).fail(function () {
-                f7.alert('未成功连接设备', '系统消息');
+              //  f7.alert('未成功连接设备', '系统消息');
             });
         };
         self.windChange = function (dv, e) {
@@ -381,7 +381,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 }).done(function(){
                     console.log("UPDATE: ", target.nodeName, controllerData);
                 }).fail(function () {
-                    f7.alert('不能更新设备信息，请检查网络', '智能物联');
+                  //  f7.alert('不能更新设备信息，请检查网络', '智能物联');
                 });
             }
         };
@@ -402,7 +402,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
             }).done(function(){
                 console.log("UPDATE: ", controllerData);
             }).fail(function () {
-                f7.alert('不能更新设备信息，请检查网络', '智能物联');
+               // f7.alert('不能更新设备信息，请检查网络', '智能物联');
             });
         };
     }
@@ -480,7 +480,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                         //f7.alert('更新成功', '智能物联');
                         console.log("UPDATE: ", target.nodeName, controllerData);
                     }).fail(function () {
-                        f7.alert('不能更新摄像头信息，请检查网络', '智能物联');
+                      //  f7.alert('不能更新摄像头信息，请检查网络', '智能物联');
                     });
                 }
             };
