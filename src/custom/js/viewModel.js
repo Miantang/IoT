@@ -320,7 +320,6 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
             $.ajax({
                 url: ip() + "/devices/" + id
             }).done(function (data) {
-                var index = (Number(id) - 1);
                 var devValue = JSON.parse(data.value);
                 self.switch = Number(devValue.switch);
                 self.controller(Number(devValue.controller));
@@ -369,13 +368,12 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     return;
                 }
                 if(Number(targetId) == 0 || Number(targetId) == 1 || Number(targetId) == 2) {
-                    self.controller(Number(targetId));
+                   // self.controller(Number(targetId));
                 } else {
                     return;
                 }
-                console.log("DEBUG: targetId ", targetId);
 
-                var controllerData = '{"type":"step","switch":' + self.switch  +',"controller":'+ self.controller() +'}';
+                var controllerData = '{"type":"step","switch":' + self.switch  +',"controller":'+ targetId +'}';
                 $.ajax({
                     type: "POST",
                     url: ip() + "/devices/" + id,
