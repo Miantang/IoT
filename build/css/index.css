@@ -93,6 +93,15 @@ body {
 .list-block .item-subtitle {
   color: #777777;
 }
+#ip-area h3 {
+  text-align: center;
+}
+#ip-area .container {
+  top: 0;
+}
+#ip-area li {
+  color: #6d6d72;
+}
 #camera-title {
   margin-bottom: 1em;
 }

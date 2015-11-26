@@ -2,24 +2,48 @@
   .navbar
     .navbar-inner
       .center.sliding IP设定
-      .right
-        a(href="#").link.icon-only.open-panel
-          i.icon.icon-bars
   .pages.navbar-through.toolbar-through
     .page(data-page="ip")#ip-area
       .page-content
-        div(class="container" )
-          div(class="toggle")
-            input(type="button" data-code="1" data-bind="click: $root.setLocal")
-            span(class="jj")
-            span(class="label") 内网
-        div(class="container" data-code="2")
-          div(class="toggle")
-            input(type="button" data-code="2" data-bind="click: $root.setZero")
-            span(class="jj")
-            span(class="label") 外网
-        div(class="container" data-code="3")
-          div(class="toggle")
-            input(type="button" data-code="3" data-bind="click: $root.setSelf")
-            span(class="jj")
-            span(class="label") 自定
+        .content-block-title 当前IP
+        .list-block
+          ul
+            li.item-content
+              .item-inner
+                .item-title(data-bind='text: $root.ip')
+        .content-block-title 设定IP
+        .list-block
+          ul
+            li
+              a.item-content.item-link(data-code="1" data-bind="click: $root.setLocal")
+                .item-media
+                  i.fa.fa-info-circle.fa-2x
+                .item-inner
+                  .item-title 内网
+            li
+              a.item-content.item-link(data-code="2" data-bind="click: $root.setZero")
+                .item-media
+                  i.fa.fa-info-circle.fa-2x
+                .item-inner
+                  .item-title 外网
+            li
+              a.item-content.item-link(data-code="3" data-bind="click: $root.setSelf")
+                .item-media
+                  i.fa.fa-info-circle.fa-2x
+                .item-inner
+                  .item-title 自定义
+        //div(class="container" )
+        //  div(class="toggle")
+        //    input(type="button" data-code="1" data-bind="click: $root.setLocal")
+        //    span(class="jj")
+        //    span(class="label") 内网
+        //div(class="container" data-code="2")
+        //  div(class="toggle")
+        //    input(type="button" data-code="2" data-bind="click: $root.setZero")
+        //    span(class="jj")
+        //    span(class="label") 外网
+        //div(class="container" data-code="3")
+        //  div(class="toggle")
+        //    input(type="button" data-code="3" data-bind="click: $root.setSelf")
+        //    span(class="jj")
+        //    span(class="label") 自定
