@@ -162,27 +162,56 @@
         <div class="navbar">
           <div class="navbar-inner">
             <div class="center sliding">IP设定</div>
-            <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
           </div>
         </div>
         <div class="pages navbar-through toolbar-through">
           <div data-page="ip" id="ip-area" class="page">
             <div class="page-content">
-              <div class="container">
-                <div class="toggle">
-                  <input type="button" data-code="1" data-bind="click: $root.setLocal"><span class="jj"></span><span class="label">内网</span>
-                </div>
+              <div class="content-block-title">当前IP</div>
+              <div class="list-block">
+                <ul>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div data-bind="text: $root.ip" class="item-title"></div>
+                    </div>
+                  </li>
+                </ul>
               </div>
-              <div data-code="2" class="container">
-                <div class="toggle">
-                  <input type="button" data-code="2" data-bind="click: $root.setZero"><span class="jj"></span><span class="label">外网</span>
-                </div>
+              <div class="content-block-title">设定IP</div>
+              <div class="list-block">
+                <ul>
+                  <li><a data-code="1" data-bind="click: $root.setLocal" class="item-content item-link">
+                      <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">内网</div>
+                      </div></a></li>
+                  <li><a data-code="2" data-bind="click: $root.setZero" class="item-content item-link">
+                      <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">外网</div>
+                      </div></a></li>
+                  <li><a data-code="3" data-bind="click: $root.setSelf" class="item-content item-link">
+                      <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">自定义</div>
+                      </div></a></li>
+                </ul>
               </div>
-              <div data-code="3" class="container">
-                <div class="toggle">
-                  <input type="button" data-code="3" data-bind="click: $root.setSelf"><span class="jj"></span><span class="label">自定</span>
-                </div>
-              </div>
+              <!--div(class="container" )-->
+              <!--  div(class="toggle")-->
+              <!--    input(type="button" data-code="1" data-bind="click: $root.setLocal")-->
+              <!--    span(class="jj")-->
+              <!--    span(class="label") 内网-->
+              <!--div(class="container" data-code="2")-->
+              <!--  div(class="toggle")-->
+              <!--    input(type="button" data-code="2" data-bind="click: $root.setZero")-->
+              <!--    span(class="jj")-->
+              <!--    span(class="label") 外网-->
+              <!--div(class="container" data-code="3")-->
+              <!--  div(class="toggle")-->
+              <!--    input(type="button" data-code="3" data-bind="click: $root.setSelf")-->
+              <!--    span(class="jj")-->
+              <!--    span(class="label") 自定-->
             </div>
           </div>
         </div>
@@ -191,7 +220,6 @@
         <div class="navbar">
           <div class="navbar-inner">
             <div class="center sliding">血糖仪</div>
-            <div class="right"><a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a></div>
           </div>
         </div>
         <div class="pages">

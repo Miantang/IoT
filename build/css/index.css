@@ -93,6 +93,15 @@ body {
 .list-block .item-subtitle {
   color: #777777;
 }
+#ip-area h3 {
+  text-align: center;
+}
+#ip-area .container {
+  top: 0;
+}
+#ip-area li {
+  color: #6d6d72;
+}
 #camera-title {
   margin-bottom: 1em;
 }
@@ -108,6 +117,9 @@ body {
 .camera-icon {
   line-height: 1.4;
   background: #FFFFFF;
+}
+.color-gray {
+  color: #666;
 }
 #camera-view {
   /* &:before {
@@ -755,8 +767,8 @@ table {
   line-height: 3rem;
   -webkit-border-radius: .5em;
   -moz-border-radius: .5em;
-  border-radius: .5em;
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.49)), to(gainsboro));
+  border-radius: 1em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(gainsboro));
   background: linear-gradient(top, white, gainsboro);
 }
 .air-range-slider {
