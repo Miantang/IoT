@@ -1,7 +1,7 @@
 define(['knockout', 'f7'], function(ko, f7){
     // Init Here
-    var innerIp = "192.168.1.100";
-    var innerCamIp = "192.168.1.111";
+    var innerIp = "192.168.1.116";
+    var innerCamIp = "192.168.1.112";
     var ip = ko.observable('http://' + innerIp +'+:8080');
     var camIp = ko.observable('http://' + innerCamIp +'+:8081');
 
@@ -12,8 +12,8 @@ define(['knockout', 'f7'], function(ko, f7){
     if(!localStorage.getItem('ip') && !localStorage.getItem('camIp')) {
         localStorage.setItem('ip', 'http://' + innerIp +'+:8080');
         localStorage.setItem('camIp', 'http://' + innerCamIp +'+:8081');
-        ip('http://192.168.1.100:8080');
-        camIp('http://192.168.1.111:8081');
+        ip('http://192.168.1.116:8080');
+        camIp('http://192.168.1.112:8081');
     } else {
         ip(localStorage.getItem('ip'));
         camIp(localStorage.getItem('camIp'));
@@ -24,10 +24,10 @@ define(['knockout', 'f7'], function(ko, f7){
         camIp: camIp,
 
         setLocal: function() {
-            localStorage.setItem('ip', 'http://192.168.1.100:8080');
-            localStorage.setItem('camIp', 'http://192.168.1.111:8081');
-            ip('http://192.168.1.100:8080');
-            camIp('http://192.168.1.111:8081');
+            localStorage.setItem('ip', 'http://192.168.1.116:8080');
+            localStorage.setItem('camIp', 'http://192.168.1.112:8081');
+            ip('http://192.168.1.116:8080');
+            camIp('http://192.168.1.112:8081');
             console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
         },
         setZero: function() {
