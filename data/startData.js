@@ -1,7 +1,7 @@
 
 var DeviceModel = require('../models/device');
 var UserModel = require('../models/user');
-
+var IpModel = require('../models/ip');
 //创建一个管理员
 var userArray = [{
     uid: 'admin',
@@ -10,7 +10,15 @@ var userArray = [{
     email: 'admin@admin.com',
     qq: 'admin'
 }];
-
+var IpArray = [{
+    type: 'inner',
+    ip: 'http://192.168.1.100:8080',
+    camIp: 'http://192.168.1.111:8080'
+    }, {
+        type: 'outer',
+        ip: 'http://shuzitongxin.oicp.net:25214',
+        camIp: 'http://shuzitongxin.oicp.net:25501'
+    }];
 //初始化设备列表
 var deviceArray = [ {
     id: 1,
@@ -104,6 +112,22 @@ var deviceArray = [ {
     description: 'LOGO灯'
 }
 ];
+function createIps () {
+    var ipObj;
+    for(var i = 0; i < IpArray.length; i++) {
+        ipObj = IpArray[i];
+        (function(ipObj) {
+            IpModel.findOne({type: ipObj.type }, function (err, u) {
+                if (u === null) {
+                    var ip = new IpModel(ipObj);
+                    ip.save();
+                    console.log('add new Ip: ' + ipObj.type);
+                }
+            });
+        })(ipObj);
+    }
+}
+
 function createUsers () {
     var userObj;
     for(var i = 0; i < userArray.length; i++) {
@@ -119,6 +143,7 @@ function createUsers () {
         })(userObj);
     }
 }
+
 function createDevices () {
     var deviceObj;
     for(var i = 0; i < deviceArray.length; i++) {
@@ -137,11 +162,13 @@ function createDevices () {
 
 function init (){
     createUsers();
+    createIps();
     createDevices();
 }
 
 module.exports = {
     createUsers: createUsers,
     createDevices: createDevices,
+    createIps: createIps,
     init: init
 };
