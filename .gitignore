@@ -30,8 +30,8 @@ node_modules
 
 data/devices
 data/users
-
+data/ips
 devices
 users
-
+ips
 dist
