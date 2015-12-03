@@ -99,9 +99,9 @@ var deviceArray = [ {
 }, {
     id: 15,
     type: 'switch',
-    name: 'logoled',
+    name: 'access2',
     value: '0',
-    description: 'LOGO灯'
+    description: '门禁开关2'
 }
 ];
 function createUsers () {

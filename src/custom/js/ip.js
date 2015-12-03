@@ -1,4 +1,4 @@
-define(['knockout', 'f7'], function(ko, f7){
+define(['knockout', 'f7'], function(ko, f7) {
     // Init Here
     var innerIp = "192.168.1.100";
     var innerCamIp = "192.168.1.111";
