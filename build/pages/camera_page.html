@@ -15,6 +15,7 @@
     <div class="page-content">
       <div id="camera-view">
         <iframe id="camera-iframe" src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }"></iframe>
+        <!--img#camera-iframe(src="http://192.168.1.117:8081/" data-bind="attr: { src: $root.camIp() + '' }")-->
       </div>
       <div data-bind="click: $root.controllerChanged2(6)" class="content-block-title">
         <h2 id="camera-title">云台控制</h2>
