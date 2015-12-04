@@ -1,15 +1,27 @@
-define(['knockout', 'f7'], function(ko, f7){
+define(['knockout', 'f7'], function(ko, f7) {
     // Init Here
+<<<<<<< HEAD
     var ip = ko.observable('http://192.168.1.100:8080');
     var camIp = ko.observable('http://192.168.1.111:8081');
+=======
+    var innerIp = "192.168.1.100";
+    var innerCamIp = "192.168.1.111";
+    var ip = ko.observable('http://' + innerIp +':8080');
+    var camIp = ko.observable('http://' + innerCamIp +':8081');
+>>>>>>> dev
 
 //var ip = function(){
 //    return localStorage.getItem('ip');
 //};
 
     if(!localStorage.getItem('ip') && !localStorage.getItem('camIp')) {
+<<<<<<< HEAD
         localStorage.setItem('ip', 'http://192.168.1.100:8080');
         localStorage.setItem('camIp', 'http://192.168.1.111:8081');
+=======
+        localStorage.setItem('ip', 'http://' + innerIp +':8080');
+        localStorage.setItem('camIp', 'http://' + innerCamIp +':8081');
+>>>>>>> dev
         ip('http://192.168.1.100:8080');
         camIp('http://192.168.1.111:8081');
     } else {

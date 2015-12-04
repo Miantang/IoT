@@ -8,7 +8,7 @@ include ../mixins/utils
     .page-content
       .list-block
         ul.u2-u2
-          +switchListBar('大厅开关', 'icon-form-toggle')
+          +switchListBar('吊灯开关', 'icon-form-toggle')
           li
             .switch
             .switch.demo3
@@ -19,11 +19,4 @@ include ../mixins/utils
             .switch
             .switch.demo3
               input(type='checkbox' data-bind="checked:($root.switchValue[13]), event:{ change: $root.switchChanged(13)}")
-              label
-
-          +switchListBar('客厅开关', 'icon-form-toggle')
-          li
-            .switch
-            .switch.demo3
-              input(type='checkbox')
               label

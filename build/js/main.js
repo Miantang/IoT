@@ -21,7 +21,7 @@ require(['f7', 'viewModel', 'mqttClient', 'ip', 'knockout', 'rangeSlider'], func
 
     f7.onPageInit("door", function(page){
         console.log(page);
-        var door = new viewModel.SwitchViewModel(2);
+        var door = new viewModel.SwitchViewModel([2, 15]);
         setTimeout(door.loadData, 200);
         ko.applyBindings(door, page.container );
     });

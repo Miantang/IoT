@@ -1,5 +1,5 @@
 define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
-    // Init Here
+     // Init Here
     var ip = ko.observable('http://192.168.1.100:8080');
     var camIp = ko.observable('http://192.168.1.111:8081');
 

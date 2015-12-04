@@ -7,6 +7,7 @@ include ../mixins/utils
     .page-content
       #camera-view
         iframe#camera-iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
+        //img#camera-iframe(src="http://192.168.1.117:8081/" data-bind="attr: { src: $root.camIp() + '' }")
       .content-block-title(data-bind="click: $root.controllerChanged2(6)")
         h2#camera-title 云台控制
         .row
