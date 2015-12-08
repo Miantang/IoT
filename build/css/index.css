@@ -524,6 +524,13 @@ body {
   position: relative;
   line-height: 4.5em;
 }
+.curtain-opacity .curtain-arrow {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 .list-block.curtain {
   position: relative;
   margin-top: 2em;

@@ -7,7 +7,7 @@ include ../mixins/utils
       .content-block-zong
         .content-block-title 窗帘列表
         .list-block.curtain
-          ul.curtain-opacity(data-bind="click: $root.controllerChanged(10)")
+          ul.curtain-opacity(data-bind="click: $root.controllerChanged2(10)")
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
@@ -16,14 +16,14 @@ include ../mixins/utils
                 .content-block
                   .row
                     .col-33
-                      a#btn1.button.button-large.button-plain.button-border.button-box
-                        i.curtain-icon.fa-2x(class="fa fa-arrow-left")
+                      a#btn1.button.button-large.button-plain.button-border.button-box(data-code="5")
+                        i.curtain-icon.curtain-arrow.fa-2x(class="fa fa-expand")
                     .col-33
-                      a#btn2.button.button-large.button-plain.button-border.button-box
+                      a#btn2.button.button-large.button-plain.button-border.button-box(data-code="6")
                         i.curtain-icon.fa-2x(class="fa fa-square")
                     .col-33
-                      a#btn3.button.button-large.button-plain.button-border.button-box
-                        i.curtain-icon.fa-2x(class="fa fa-arrow-right")
+                      a#btn3.button.button-large.button-plain.button-border.button-box(data-code="4")
+                        i.curtain-icon.curtain-arrow.fa-2x(class="fa fa-compress")
             li.accordion-item
               a(href="#").item-content.item-link
                 div(class="item-inner")
@@ -32,11 +32,11 @@ include ../mixins/utils
                 .content-block
                   .row
                     .col-33
-                      a#btn4.button.button-large.button-plain.button-border.button-box
-                        i.curtain-icon.fa-2x(class="fa fa-arrow-left")
+                      a#btn4.button.button-large.button-plain.button-border.button-box(data-code="1")
+                        i.curtain-icon.curtain-arrow.fa-2x(class="fa fa-expand")
                     .col-33
-                      a#btn5.button.button-large.button-plain.button-border.button-box
+                      a#btn5.button.button-large.button-plain.button-border.button-box(data-code="3")
                         i.curtain-icon.fa-2x(class="fa fa-square")
                     .col-33
-                      a#btn6.button.button-large.button-plain.button-border.button-box
-                        i.curtain-icon.fa-2x(class="fa fa-arrow-right")
+                      a#btn6.button.button-large.button-plain.button-border.button-box(data-code="2")
+                        i.curtain-icon.curtain-arrow.fa-2x(class="fa fa-compress")

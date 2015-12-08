@@ -306,10 +306,19 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 } else {
                     return;
                 }
-                if(Number(targetId) == 0 || Number(targetId) == 1 || Number(targetId) == 2) {
-                   // self.controller(Number(targetId));
-                } else {
-                    return;
+
+                switch(Number(targetId)) {
+                    case 0:
+                        self.controller('高风');
+                        break;
+                    case 1:
+                        self.controller('中风');
+                        break;
+                    case 2:
+                        self.controller('低风');
+                        break;
+                    default :
+                        return;
                 }
 
                 var controllerData = '{"type":"step","switch":' + self.switch  +',"controller":'+ targetId +'}';
