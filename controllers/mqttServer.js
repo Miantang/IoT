@@ -33,7 +33,7 @@ mqttServer.on('clientConnected', function (cli) {
     console.log('client connected : ', cli.id);
 });
 mqttServer.on('published', function (packet, client) {
-    console.log( 'Published : ', packet.payload);
+    console.log( 'Published : ', packet.payload.toString());
 });
 // fired when a client subscribes to a topic
 mqttServer.on('subscribed', function (topic, client) {

@@ -2,11 +2,12 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
 
     var ip = IP.ip, camIp = IP.camIp;
 
+
     function SwitchViewModel(code) {
         var self = this;
         // make the variables observable
         self.switchValue ={}; self.switch = {};
-        if(Object.prototype.toString.call(code) === "[object Array]") {
+        if(Dom7.isArray(code)) {
             for(var i in code) {
                 self.switchValue[code[i]] = ko.observable(false);
             }
@@ -19,7 +20,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 url: ip() + "/devices"
             }).done(function (data) {
                 var index; var devValue;
-                if(Object.prototype.toString.call(code) === "[object Array]") {
+                if(Dom7.isArray(code)) {
                     for(var i in code) {
                         index = (Number(code[i])-1);
                         devValue = data[index].value;
@@ -67,73 +68,11 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
         };
     }
 
-    function StepViewModel(id) {
-        var self = this;
-        // make the variables observable
-        self.switch = 0;
-        self.controller = ko.observable(0);
-        self.switchValue = ko.observable(false);
-
-        self.loadData = function () {
-            $.ajax({
-                url: ip + "/devices/" + id
-            }).done(function (data) {
-                var index = (Number(id) - 1);
-                var devValue = JSON.parse(data.value);
-                self.switch = Number(devValue.switch);
-                self.switchValue(Boolean(self.switch));
-                self.controller(Number(devValue.controller));
-            }).fail(function () {
-                f7.alert('未接入网络', '系统消息');
-            });
-        };
-        self.switchChanged = function () {
-            if (self.switch) {
-                self.switch = 0;
-                self.switchValue(false);
-            } else {
-                self.switch = 1;
-                self.switchValue(true);
-            }
-
-            var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
-            $.ajax({
-                type: "POST",
-                url: ip + "/devices/" + id,
-                data: JSON.parse(switchData)
-            }).done(function () {
-                if (self.switch)
-                    f7.alert('开启成功', '系统消息');
-                else
-                    f7.alert('关闭成功', '系统消息');
-            }).fail(function () {
-                f7.alert('未成功连接设备', '系统消息');
-            });
-        };
-        self.controllerChanged = function () {
-            if(self.switch) {
-                console.log("调整值：self.controller()", self.controller());
-                var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
-                $.ajax({
-                    type: "POST",
-                    url: ip + "/devices/" + id,
-                    data: JSON.parse(switchData)
-                }).done(function () {
-                    console.log("更新到设备：self.controller()", self.controller());
-                }).fail(function () {
-                    f7.alert('未成功连接设备', '系统消息');
-                });
-            }
-        };
-        self.sliderChange = function () {
-
-        };
-    }
     function Step2ViewModel(code, group) {
         var self = this;
         // make the variables observable
         self.switchValue ={}; self.switch = {}; self.controller = {};
-        if(Object.prototype.toString.call(code) === "[object Array]") {
+        if(Dom7.isArray(code)) {
             for(var i in code) {
                 self.switchValue[code[i]] = ko.observable(false);
                 self.controller[code[i]] = ko.observable(0);
@@ -149,7 +88,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 url: ip() + "/devices"
             }).done(function (data) {
                 var index; var devValue;
-                if(Object.prototype.toString.call(code) === "[object Array]") {
+                if(Dom7.isArray(code)) {
                     for(var i in code) {
                         index = (Number(code[i])-1);
                         devValue = JSON.parse(data[index].value);
@@ -411,7 +350,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
         var self = this;
         // make the variables observable
         self.switchValue ={}; self.switch = {}; self.controller = {};
-        if(Object.prototype.toString.call(code) === "[object Array]") {
+        if(Dom7.isArray(code)) {
             for(var i in code) {
                 self.switchValue[code[i]] = ko.observable(false);
                 self.controller[code[i]] = ko.observable(0);
@@ -427,7 +366,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 url: ip() + "/devices"
             }).done(function (data) {
                 var index; var devValue;
-                if(Object.prototype.toString.call(code) === "[object Array]") {
+                if(Dom7.isArray(code)) {
                     for(var i in code) {
                         index = (Number(code[i])-1);
                         devValue = JSON.parse(data[index].value);
@@ -498,7 +437,6 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
     }
     return {
         SwitchViewModel: SwitchViewModel,
-        StepViewModel: StepViewModel,
         Step2ViewModel: Step2ViewModel,
         AirViewModel: AirViewModel,
         CamViewModel: CamViewModel
