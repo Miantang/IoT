@@ -1,10 +1,18 @@
 define(['jquery'], function($){
 
-    var f7 = new Framework7();
+    var f7 = new Framework7( {
+            cacheDuration: 60000*60 , // 页面缓存时间：60分钟
+            fastClicks: true,
+            activeStateElemets: 'a, button, label, span, input',
+            activeStateElements: 'a, button, label, span, input', // 参照文档，可能是上面的拼写出了问题，所以重写一个
+            animatePages: false ,// 禁用页面切换动画
+            swipeBackPageAnimateOpacity:false // 关闭切换的半透明效果，提升性能
+        });
 
     var mainView = f7.addView('.view-main', {
         dynamicNavbar: true
     });
+
 
     $.support.cors = true;
 

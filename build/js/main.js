@@ -99,4 +99,5 @@ require(['f7', 'viewModel', 'mqttClient', 'ip', 'knockout', 'rangeSlider'], func
     window.client = client;
     //alert(client.connected);
     window.IP = IP;
+    window.f7 = f7;
 });
