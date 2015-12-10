@@ -444,6 +444,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
             };
         };
     }
+
     return {
         SwitchViewModel: SwitchViewModel,
         Step2ViewModel: Step2ViewModel,
