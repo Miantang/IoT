@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Excuted file for starting the nodejs platform via foreverjs, worked on the Raspberry PI.
+# Date: 2015/08/22
+
+pm2 kill
+
+rm /home/pi/IoT/data/devices
+
+node /home/pi/IoT/data/initDataBase.js
+
+pm2 start /home/pi/IoT/bin/www

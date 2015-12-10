@@ -1,0 +1,11 @@
+#!/bin/sh /etc/rc.common  
+# /init.d/startCamera  
+START=50  
+start()  
+{  
+/home/pi/mjpg_streamer -i "/home/pi/mjpg_streamer/input_uvc.so -d /dev/video0 -y -n" -o "/home/pi/mjpg_streamer/output_http.so -p 8081 -w /home/pi/mjpg_streamer/www"
+}  
+stop()  
+{  
+killall startCamera  
+}  

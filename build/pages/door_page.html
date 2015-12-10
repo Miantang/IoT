@@ -1,0 +1,51 @@
+
+<!-- 小标题栏-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>返回</span></a></div>
+    <div class="center sliding">门禁</div>
+    <!--.right-->
+    <!--  a(href="#").link.icon-only.open-panel-->
+    <!--    i.icon.icon-bars-->
+  </div>
+</div>
+<div class="pages">
+  <div data-page="door" class="page">
+    <div class="page-content">
+      <div class="list-block">
+        <ul id="door-ul">
+          <li class="switchListBar-li">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-password"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">前门</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="switch"></div>
+            <div class="switch demo2">
+              <input type="checkbox" data-bind="checked:($root.switchValue[2]), event:{ change: $root.switchChanged(2)}"/>
+              <label></label>
+            </div>
+          </li>
+          <li class="switchListBar-li">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-password"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">后门</div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="switch"></div>
+            <div class="switch demo2">
+              <input type="checkbox" data-bind="checked:($root.switchValue[15]), event:{ change: $root.switchChanged(15)}"/>
+              <label></label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
