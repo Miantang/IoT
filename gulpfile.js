@@ -7,6 +7,7 @@
         jade = require('gulp-jade'),
         rename = require('gulp-rename'),
         //header = require('gulp-header'),
+        ghPages = require('gulp-gh-pages'),
         path = require('path'),
         uglify = require('gulp-uglify'),
         sourcemaps = require('gulp-sourcemaps'),
@@ -379,7 +380,31 @@
         });
         return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:3000/build/'}));
     });
-    
+
+    gulp.task('deploy', ['build'], function () {
+        gulp.src('build/**/*')
+            .pipe(gulp.dest('./.publish/build'));
+        gulp.src('bin/**/*')
+            .pipe(gulp.dest('./.publish/bin'));
+        gulp.src('controllers/**/*')
+            .pipe(gulp.dest('./.publish/controllers'));
+        gulp.src('data/**/*')
+            .pipe(gulp.dest('./.publish/data'));
+        gulp.src('models/**/*')
+            .pipe(gulp.dest('./.publish/models'));
+        gulp.src('routes/**/*')
+            .pipe(gulp.dest('./.publish/routes'));
+
+        return gulp.src(['config.js', '.gitignore', 'routes.js', 'app.js', 'gulpfile.js'])
+            .pipe(gulp.dest('./.publish'))
+            .pipe(ghPages({
+                branch: 'deploy',
+                remote: 'iot',
+                remoteUrl: 'git@github.com:Miantang/IoT.git'
+            }));
+    });
+
+
     gulp.task('default', ['build', 'watch'], function () {
         var app = require('./app');
         //var express = require('express');

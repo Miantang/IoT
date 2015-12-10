@@ -1,2 +1,0 @@
-#!/bin/bash  
-/home/pi/mjpg-streamer/mjpg_streamer -i "/home/pi/mjpg-streamer/input_uvc.so -d /dev/video0 -y -n" -o "/home/pi/mjpg-streamer/output_http.so -p 8081 -w /home/pi/mjpg-streamer/www"

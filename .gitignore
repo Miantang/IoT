@@ -27,6 +27,7 @@ build/Release
 node_modules
 
 .idea
+.publish
 
 data/devices
 data/users
