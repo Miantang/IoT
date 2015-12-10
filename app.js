@@ -22,7 +22,7 @@ app.use(cookieParser());
 // app.use(session());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'dist')));
 //app.use(express.static(path.dirname(require.resolve("mosca")) + "/build"));
 
 
