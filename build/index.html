@@ -7,12 +7,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!--meta(http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src ws://127.0.0.1:8080 ws://192.168.1.116:8080")-->
     <title>智能物联</title>
+    <!--if !locals.dist-->
+    <!--link(rel="stylesheet", href="css/rangeslider.css")-->
     <link rel="stylesheet" href="css/framework7.ios.css">
     <link rel="stylesheet" href="css/framework7.ios.colors.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!--link(rel="stylesheet", href="css/rangeslider.css")-->
     <link rel="stylesheet" href="css/index.css">
+    <!--else-->
+    <!--  link(rel="stylesheet", href="css/main.css")-->
   </head>
   <body>
     <!-- Status bar overlay for fullscreen mode-->
@@ -230,9 +233,9 @@
     <!--script(type="text/javascript",src="js/knockout-3.2.0.js")-->
     <!--script(type="text/javascript",src="js/knockout.validation.min.js")-->
     <!--script(type="text/javascript",src="js/knockout.validation.zh-CN.js")-->
+    <!--script(type="text/javascript",src="js/rangeslider.min.js")-->
     <script type="text/javascript" src="js/framework7.js"></script>
     <script type="text/javascript" src="js/browserMqtt.js"></script>
-    <!--script(type="text/javascript",src="js/rangeslider.min.js")-->
     <script data-main="js/main" src="js/require.js"></script>
   </body>
 </html>

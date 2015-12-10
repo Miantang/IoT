@@ -267,8 +267,8 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
             });
         };
         self.options = [
-            { name: '制冷', value: 1},
             { name: '制热', value: 2},
+            { name: '制冷', value: 1},
             { name: '送风', value: 3}
         ];
 
@@ -285,8 +285,6 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                 data: JSON.parse(switchData)
             }).done(function () {
                 console.log("更新到设备Air：self.controller()", self.controller());
-            }).fail(function () {
-              //  f7.alert('未成功连接设备', '系统消息');
             });
         };
         self.windChange = function (dv, e) {

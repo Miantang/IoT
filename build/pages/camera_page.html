@@ -12,7 +12,11 @@
 <div class="pages">
   <div data-page="camera" class="page">
     <!-- Scrollable page content-->
-    <div class="page-content">
+    <div class="page-content pull-to-refresh-content">
+      <div class="pull-to-refresh-layer">
+        <div class="preloader"></div>
+        <div class="pull-to-refresh-arrow"></div>
+      </div>
       <div id="camera-view"><img id="camera-iframe" src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }"/>
         <!--img#camera-iframe(src="http://192.168.1.117:8081/" data-bind="attr: { src: $root.camIp() + '' }")-->
       </div>

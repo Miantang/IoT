@@ -4,9 +4,12 @@ meta(name='apple-mobile-web-app-capable', content='yes')
 meta(name="apple-mobile-web-app-status-bar-style", content="black")
 //meta(http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src ws://127.0.0.1:8080 ws://192.168.1.116:8080")
 title 智能物联
+//if !locals.dist
+//link(rel="stylesheet", href="css/rangeslider.css")
 link(rel="stylesheet", href="css/#{stylesheetFilename}.css")
 link(rel="stylesheet", href="css/#{stylesheetColorsFilename}.css")
 link(rel="stylesheet", href="css/buttons.css")
 link(rel="stylesheet", href="css/font-awesome.min.css")
-//link(rel="stylesheet", href="css/rangeslider.css")
 link(rel="stylesheet", href="css/index.css")
+//else
+//  link(rel="stylesheet", href="css/main.css")
