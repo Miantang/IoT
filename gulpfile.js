@@ -360,7 +360,7 @@
                     paths.build.styles + 'index.css'
                 ];
                 gulp.src(minifiedCSS)
-                    .pipe(concat('main.css'))
+                    //.pipe(concat('main.css'))
                     //.pipe(uncss({
                     //    html: [paths.dist.root + 'index.html', paths.dist.root + 'pages/**/*.html']
                     //}))
@@ -406,8 +406,8 @@
             .pipe(gulp.dest('./.publish'))
             .pipe(ghPages({
                 branch: 'deploy',
-                remote: 'iot',
-                remoteUrl: 'git@github.com:Miantang/IoT.git'
+                remoteUrl: 'git@github.com:Miantang/IoT.git',
+                remote: 'iot'
             }));
     });
 
