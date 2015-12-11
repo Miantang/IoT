@@ -335,6 +335,8 @@
                             jquery: paths.build.scripts + 'jquery.min',
                             rangeSlider: paths.build.scripts + 'rangeslider.min',
                             f7: paths.build.scripts + 'f7',
+                            ip: paths.build.scripts + 'ip',
+                            mqttClient: paths.build.scripts + 'mqttClient',
                             viewModel:  paths.build.scripts + 'viewModel'
                         }
                     }))
@@ -411,7 +413,7 @@
             }));
     });
 
-    gulp.task('server', ['build', 'dist', 'watch'], function () {
+    gulp.task('server',function () {
         var app = require('./app');
         //var express = require('express');
         //app.use(express.static(path.join(__dirname, 'build')));
@@ -421,14 +423,6 @@
         return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:8080/'}));
     });
 
-    gulp.task('default', ['dist', 'watch'], function () {
-        var app = require('./app');
-        //var express = require('express');
-        //app.use(express.static(path.join(__dirname, 'build')));
-        var server = app.listen(8080, '0.0.0.0');
-        require('./controllers/mqttServer').attachHttpServer(server);
-        console.log('Server running at http://127.0.0.1:8080/');
-        return gulp.src('./build/index.html').pipe(open({ uri: 'http://127.0.0.1:8080/'}));
-    });
+    gulp.task('default', ['scripts', 'styles-' + themeName, 'myApp', 'dist', 'watch', 'server']);
 
 })();
