@@ -16,7 +16,8 @@
       <!--.pull-to-refresh-layer-->
       <!--  .preloader-->
       <!--  .pull-to-refresh-arrow-->
-      <div id="camera-view"><img id="camera-iframe" src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }"/>
+      <div id="camera-view">
+        <div class="block-for-height"></div><img id="camera-iframe" src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }"/>
         <!--img#camera-iframe(src="http://192.168.1.117:8081/" data-bind="attr: { src: $root.camIp() + '' }")-->
       </div>
       <div data-bind="click: $root.controllerChanged2(6)" class="content-block-title">
