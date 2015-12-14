@@ -75,7 +75,7 @@
                       </div></a>
                     <div class="sortable-handler"></div>
                   </li>
-                  <li><a href="pages/camera_page.html" class="item-link">
+                  <li><a href="pages/camera_page.html" data-ignore-cache="true" class="item-link">
                       <div class="item-content">
                         <div class="item-media index-img"><img src="img/icons/camera.svg"></div>
                         <div class="item-inner">
@@ -164,23 +164,23 @@
       <div id="tab2" class="view tab">
         <div class="navbar">
           <div class="navbar-inner">
-            <div class="center sliding">IP设定</div>
+            <div class="center sliding">网络设定</div>
           </div>
         </div>
         <div class="pages navbar-through toolbar-through">
           <div data-page="ip" id="ip-area" class="page">
             <div class="page-content">
-              <div class="content-block-title">当前IP</div>
+              <div class="content-block-title">当前网络环境</div>
               <div class="list-block">
                 <ul>
                   <li class="item-content">
                     <div class="item-inner">
-                      <div data-bind="text: $root.ip" class="item-title"></div>
+                      <div data-bind="text: $root.mode" class="item-title"></div>
                     </div>
                   </li>
                 </ul>
               </div>
-              <div class="content-block-title">设定IP</div>
+              <div class="content-block-title">设定网络</div>
               <div class="list-block">
                 <ul>
                   <li><a data-code="1" data-bind="click: $root.setLocal" class="item-content item-link">
@@ -188,10 +188,15 @@
                       <div class="item-inner">
                         <div class="item-title">内网</div>
                       </div></a></li>
-                  <li><a data-code="2" data-bind="click: $root.setZero" class="item-content item-link">
+                  <li><a data-code="4" data-bind="click: $root.setZero" class="item-content item-link">
                       <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>
                       <div class="item-inner">
-                        <div class="item-title">外网</div>
+                        <div class="item-title">外网一(推荐)</div>
+                      </div></a></li>
+                  <li><a data-code="2" data-bind="click: $root.setZero2" class="item-content item-link">
+                      <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">外网二</div>
                       </div></a></li>
                   <li><a data-code="3" data-bind="click: $root.setSelf" class="item-content item-link">
                       <div class="item-media"><i class="fa fa-info-circle fa-2x"></i></div>

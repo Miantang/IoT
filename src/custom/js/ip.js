@@ -2,20 +2,47 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
      // Init Here
     var ip = ko.observable('http://192.168.1.100:8080');
     var camIp = ko.observable('http://192.168.1.111:8081');
-
+    var mode = ko.observable('内网');
 //var ip = function(){
 //    return localStorage.getItem('ip');
 //};
     function IpConfig () {
         this.ip = ip;
         this.camIp = camIp;
+        this.mode = mode;
     }
-    IpConfig.prototype.setLocal = function() {
-        localStorage.setItem('ip', 'http://192.168.1.100:8080');
-        localStorage.setItem('camIp', 'http://192.168.1.111:8081');
-        ip('http://192.168.1.100:8080');
-        camIp('http://192.168.1.111:8081');
+
+    function setIp(myIp) {
+        localStorage.setItem('ip', myIp.ip);
+        localStorage.setItem('camIp', myIp.camIp);
+        ip(myIp.ip);
+        camIp(myIp.camIp);
+        mode(myIp.mode);
         console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
+    }
+
+    IpConfig.prototype.setZero = function() {
+        setIp({
+            ip: 'http://218.75.26.41:8082',
+            camIp: 'http://218.75.26.41:8081',
+            mode: '外网一'
+        });
+    };
+
+    IpConfig.prototype.setZero2 = function() {
+        setIp({
+            ip: 'http://shuzitongxin.oicp.net:25214',
+            camIp: 'http://shuzitongxin.oicp.net:25501',
+            mode: '外网二'
+        });
+    };
+
+    IpConfig.prototype.setLocal = function() {
+        setIp({
+            ip: 'http://192.168.1.100:8080',
+            camIp: 'http://192.168.1.111:8081',
+            mode: '内网'
+        });
     };
 
     IpConfig.prototype.setSelf = function() {
@@ -41,23 +68,19 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
                 console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
             }
             else {
-                localStorage.setItem('ip', mainIp);
-                localStorage.setItem('camIp', cameraIp);
-                ip(mainIp);
-                camIp(cameraIp);
+                var myIp = {
+                    ip: mainIp,
+                    camIp: cameraIp,
+                    mode: '自定义：' + mainIp
+                };
+                setIp(myIp);
+
                 f7.alert('设置成功"' + mainIp + '" ！');
-                console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
             }
         });
     };
 
-    IpConfig.prototype.setZero = function() {
-        localStorage.setItem('ip', 'http://shuzitongxin.oicp.net:25214');
-        localStorage.setItem('camIp', 'http://shuzitongxin.oicp.net:25501');
-        this.ip('http://shuzitongxin.oicp.net:25214');
-        this.camIp('http://shuzitongxin.oicp.net:25501');
-        console.log("localStorage.getItem('ip'): ", localStorage.getItem('ip'));
-    };
+
     if(!localStorage.getItem('ip') && !localStorage.getItem('camIp')) {
         //$.ajax({
         //    url: '/ip'

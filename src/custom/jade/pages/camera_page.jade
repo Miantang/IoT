@@ -5,10 +5,11 @@ include ../mixins/utils
   .page(data-page="camera")
     // Scrollable page content
     .page-content.pull-to-refresh-content
-      .pull-to-refresh-layer
-        .preloader
-        .pull-to-refresh-arrow
+      //.pull-to-refresh-layer
+      //  .preloader
+      //  .pull-to-refresh-arrow
       #camera-view
+        .block-for-height
         img#camera-iframe(src="http://192.168.1.111:8081/javascript_simple.html" data-bind="attr: { src: $root.camIp() + '/javascript_simple.html' }")
         //img#camera-iframe(src="http://192.168.1.117:8081/" data-bind="attr: { src: $root.camIp() + '' }")
       .content-block-title(data-bind="click: $root.controllerChanged2(6)")

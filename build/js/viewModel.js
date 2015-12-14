@@ -354,6 +354,7 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
     }
 
     function CamViewModel(code, group) {
+        var timeForStop;
         var self = this;
         // make the variables observable
         self.switchValue ={}; self.switch = {}; self.controller = {};
@@ -425,8 +426,10 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                     }).done(function(){
                         //f7.alert('更新成功', '智能物联');
                         console.log("UPDATE: ", target.nodeName, controllerData);
-                        if(controllerNumber != 4) {
-                            setTimeout(function(){
+                        if(controllerNumber == 3 || controllerNumber == 5) {
+                            if(timeForStop)
+                                clearTimeout(timeForStop);
+                            timeForStop = setTimeout(function(){
                                 controllerNumber = 4;// 代表停止
                                 $.ajax({
                                     type: 'POST',
@@ -434,6 +437,9 @@ define(['jquery', 'knockout', 'f7', 'ip'], function($, ko, f7, IP){
                                     data: JSON.parse('{"type":"step","switch":' + Number(1) + ',"controller":' + controllerNumber + '}')
                                 });
                             }, 20000);
+                        } else if (controllerNumber == 4) {
+                            if(timeForStop)
+                                clearTimeout(timeForStop);
                         }
                     }).fail(function () {
                       //  f7.alert('不能更新摄像头信息，请检查网络', '智能物联');

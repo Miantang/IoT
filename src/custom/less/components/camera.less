@@ -25,15 +25,39 @@
     width:0;
     height:0;
   }*/
-  padding: 2% 0;
-  width: 90%;
-  margin: 2em auto 0;
-  height:60%;
+
   position:relative;
+  overflow: hidden;
+  padding: 2% 0;
+  margin: 2em auto 0;
+  width:95%;
+  max-width: 700px;
 }
+
+@media screen and (min-width: 768px) {
+  #camera-view {
+    width: 700px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #camera-view {
+    width:95%;
+  }
+}
+
+.block-for-height{
+  margin-top: 75%;
+}
+
 #camera-view img , #camera-view iframe{
   display: block;
   width: 100%;
   border: 0;
   height: 100%;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom: 0;
 }

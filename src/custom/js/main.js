@@ -5,7 +5,9 @@ require.config({
         jquery: './jquery.min',
         rangeSlider: './rangeslider.min',
         f7: './f7',
-        viewModel: './viewModel'
+        viewModel: './viewModel',
+        ip: './ip',
+        mqttClient: './mqttClient'
     }
 });
 

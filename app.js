@@ -22,7 +22,9 @@ app.use(cookieParser());
 // app.use(session());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'dist')));
+var displayFolder = config.production ? 'dist': 'build';
+
+app.use(express.static(path.join(__dirname, displayFolder)));
 //app.use(express.static(path.dirname(require.resolve("mosca")) + "/build"));
 
 
