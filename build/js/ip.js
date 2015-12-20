@@ -26,7 +26,7 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
         setIp({
             ip: 'http://218.75.26.41:8082',
             camIp: 'http://218.75.26.41:8081',
-            mode: '温州外网'
+            mode: '外地外网'
         });
     };
 
@@ -34,7 +34,7 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
         setIp({
             ip: 'http://zhinengwulian.imwork.net:19877',
             camIp: 'http://zhinengwulian.imwork.net:11649',
-            mode: '本地外网'
+            mode: '实验室外网'
         });
     };
 
