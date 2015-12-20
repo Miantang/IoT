@@ -3,7 +3,7 @@
     //mongo : 'mongodb://localhost/iot',
     mongo : 'tingodb://' + __dirname + '/data',
     cross : false,//Can I cross Domain
-    production: true,
+    production: false,
     mqttServer: true,
     mqttPort: 1883,
     ip: "192.168.1.116",

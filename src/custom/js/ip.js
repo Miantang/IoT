@@ -1,8 +1,8 @@
 
 define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
      // Init Here
-    var ip = ko.observable('http://192.168.1.100:8080');
-    var camIp = ko.observable('http://192.168.1.111:8081');
+    var ip = ko.observable('http://192.168.1.116:8080');
+    var camIp = ko.observable('http://192.168.1.112:8081');
     var mode = ko.observable('内网');
 //var ip = function(){
 //    return localStorage.getItem('ip');
@@ -26,22 +26,22 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
         setIp({
             ip: 'http://218.75.26.41:8082',
             camIp: 'http://218.75.26.41:8081',
-            mode: '外网一'
+            mode: '外地外网'
         });
     };
 
     IpConfig.prototype.setZero2 = function() {
         setIp({
-            ip: 'http://shuzitongxin.oicp.net:25214',
-            camIp: 'http://shuzitongxin.oicp.net:25501',
-            mode: '外网二'
+            ip: 'http://zhinengwulian.imwork.net:19877',
+            camIp: 'http://zhinengwulian.imwork.net:11649',
+            mode: '实验室外网'
         });
     };
 
     IpConfig.prototype.setLocal = function() {
         setIp({
-            ip: 'http://192.168.1.100:8080',
-            camIp: 'http://192.168.1.111:8081',
+            ip: 'http://192.168.1.116:8080',
+            camIp: 'http://192.168.1.112:8081',
             mode: '内网'
         });
     };
@@ -87,10 +87,10 @@ define(['knockout', 'jquery', 'f7'], function(ko, $, f7){
         //$.ajax({
         //    url: '/ip'
         //})
-        localStorage.setItem('ip', 'http://192.168.1.100:8080');
-        localStorage.setItem('camIp', 'http://192.168.1.111:8081');
-        ip('http://192.168.1.100:8080');
-        camIp('http://192.168.1.111:8081');
+        localStorage.setItem('ip', 'http://192.168.1.116:8080');
+        localStorage.setItem('camIp', 'http://192.168.1.112:8081');
+        ip('http://192.168.1.116:8080');
+        camIp('http://192.168.1.112:8081');
     } else {
         ip(localStorage.getItem('ip'));
         camIp(localStorage.getItem('camIp'));
