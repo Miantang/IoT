@@ -1,17 +1,17 @@
 .view.tab#tab2
   .navbar
     .navbar-inner
-      .center.sliding IP设定
+      .center.sliding 网络设定
   .pages.navbar-through.toolbar-through
     .page(data-page="ip")#ip-area
       .page-content
-        .content-block-title 当前IP
+        .content-block-title 当前网络环境
         .list-block
           ul
             li.item-content
               .item-inner
-                .item-title(data-bind='text: $root.ip')
-        .content-block-title 设定IP
+                .item-title(data-bind='text: $root.mode')
+        .content-block-title 设定网络
         .list-block
           ul
             li
@@ -21,11 +21,17 @@
                 .item-inner
                   .item-title 内网
             li
-              a.item-content.item-link(data-code="2" data-bind="click: $root.setZero")
+              a.item-content.item-link(data-code="4" data-bind="click: $root.setZero")
                 .item-media
                   i.fa.fa-info-circle.fa-2x
                 .item-inner
-                  .item-title 外网
+                  .item-title 外网一(推荐)
+            li
+              a.item-content.item-link(data-code="2" data-bind="click: $root.setZero2")
+                .item-media
+                  i.fa.fa-info-circle.fa-2x
+                .item-inner
+                  .item-title 外网二
             li
               a.item-content.item-link(data-code="3" data-bind="click: $root.setSelf")
                 .item-media

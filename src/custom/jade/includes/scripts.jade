@@ -2,7 +2,11 @@
 //script(type="text/javascript",src="js/knockout-3.2.0.js")
 //script(type="text/javascript",src="js/knockout.validation.min.js")
 //script(type="text/javascript",src="js/knockout.validation.zh-CN.js")
-script(type="text/javascript", src="js/#{scriptFilename}.js")
-script(type="text/javascript",src="js/browserMqtt.js")
 //script(type="text/javascript",src="js/rangeslider.min.js")
-script(data-main="js/main" src="js/require.js")
+if !locals.dist
+  script(type="text/javascript", src="js/#{scriptFilename}.js")
+  script(type="text/javascript",src="js/browserMqtt.js")
+  script(data-main="js/main" src="js/require.js")
+else
+  script(type="text/javascript",src="js/m.js")
+  script(data-main="js/index" src="js/require.js")
